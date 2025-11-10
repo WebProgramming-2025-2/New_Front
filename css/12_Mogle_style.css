@@ -1,0 +1,457 @@
+/* ==================== 폰트 ==================== */
+@font-face {
+    font-family: 'NoonnuBasicGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noon-2410@1.0/NoonnuBasicGothicRegular.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* ==================== CSS 변수 설정 ==================== */
+:root {
+    /* 색상 팔레트 */
+    --star-blue: #CEF5F3;
+    --star-blue-light: rgba(206, 245, 243, 0.5);
+    --clover-green: #D1E5C1;
+    --clover-green-light: rgba(209, 229, 193, 0.5);
+    --sparkle-pink: #FFD9F1;
+    --sparkle-pink-light: rgba(255, 217, 241, 0.5);
+    --background: #FEFEFE;
+    --shadow-gray: #D9D9D9;
+    --warning: #DD7576;
+    --blue-text: #9FD2D0;
+    
+    /* 그라데이션 */
+    --gradient-soda: linear-gradient(to bottom, #DAFFFD, #EEFFE1);
+    --gradient-cloud: linear-gradient(to bottom, #EEFFE1, #FFE5F5);
+    
+    /* 폰트 패밀리 */
+    --font-main: 'NoonnuBasicGothic', sans-serif;
+    
+    /* 폰트 크기 */
+    --font-super-large: 130px;
+    --font-very-large: 50px;
+    --font-large: 45px;
+    --font-medium-large: 40px;
+    --font-medium: 35px;
+    --font-medium-small: 30px;
+    --font-small: 25px;
+    --font-very-small: 20px;
+    --font-tiny: 15px;
+    --font-super-tiny: 12px;
+    
+    /* 그림자 */
+    --text-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+    --box-shadow: 0 4px 4px 0 var(--shadow-gray);
+}
+
+/* ==================== 기본 스타일 ==================== */
+html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--background);
+    position: relative;
+    overflow: hidden;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/* ==================== 배경 효과 (수정) ==================== */
+
+.background-decorations {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-star {
+    position: absolute;
+    width: 60%; 
+    height: 60%;
+    
+    left: 56%; 
+    top: -11%; 
+    
+    transform: rotate(-15deg);
+    opacity: 1; 
+    background-image: url("../content/12_배경별.png"); 
+    background-repeat: no-repeat; 
+    background-size: contain;
+}
+
+.bg-clover {
+    position: absolute;
+    width: 50%; 
+    height: 80%;
+    
+    left: 0%; 
+    top: 30%; 
+    
+    opacity: 1; 
+    background-image: url("../content/12_배경클로버.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.bg-sparkle {
+    position: absolute;
+    width: 40%; 
+    height: 60%;
+    
+    left: 71%; 
+    top: 40%; 
+    
+    opacity: 1;
+    background-image: url("../content/12_배경반짝별.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+
+/* ==================== 텍스트 스타일 ==================== */
+.text-shadow {
+    text-shadow: var(--text-shadow);
+}
+
+.text-super-large { font-size: var(--font-super-large); }
+.text-very-large { font-size: var(--font-very-large); }
+.text-large { font-size: var(--font-large); }
+.text-medium-large { font-size: var(--font-medium-large); }
+.text-medium { font-size: var(--font-medium); }
+.text-medium-small { font-size: var(--font-medium-small); }
+.text-small { font-size: var(--font-small); }
+.text-very-small { font-size: var(--font-very-small); }
+.text-tiny { font-size: var(--font-tiny); }
+.text-super-tiny { font-size: var(--font-super-tiny); }
+
+.text-fill-star-blue {
+    -webkit-text-fill-color: var(--star-blue);
+}
+
+.text-fill-clover-green {
+    -webkit-text-fill-color: var(--clover-green);
+}
+
+.text-fill-sparkle-pink {
+    -webkit-text-fill-color: var(--sparkle-pink);
+}
+
+.text-fill-blue-text {
+    -webkit-text-fill-color: var(--blue-text);
+}
+
+.big-title, .section-title {
+    font-family: "NoonnuBasicGothic", sans-serif;
+    font-size: var(--font-medium-large); 
+    text-align: left;
+    margin: 0; 
+    padding: 0; 
+    margin-bottom:15px;
+}
+
+.underline {
+    text-decoration: underline wavy;
+    text-decoration-thickness: 15%;
+    text-underline-offset: 20%;
+}
+/* ==================== 기본 입력 창 ==================== */
+.input-basic {
+    width: 451px;
+    height: 70px;
+    border-radius: 30px;
+    background-color: var(--background);
+    box-shadow: var(--box-shadow);
+    border: none;
+    padding: 0 25px;
+    font-family: var(--font-main);
+    font-size: var(--font-very-small);
+}
+
+.input-basic::placeholder {
+    color: var(--shadow-gray);
+}
+
+/* ==================== 버튼 스타일 ==================== */
+.btn-gradient {
+    width: 466px;
+    height: 85px;
+    border-radius: 40px;
+    background-color: var(--background);
+    box-shadow: var(--box-shadow);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: var(--background) 0.3s ease;
+}
+
+.btn-gradient.soda:hover {
+    background: var(--gradient-soda);
+}
+
+.btn-gradient.cloud:hover {
+    background: var(--gradient-cloud);
+}
+
+/* ==================== 색상 클래스 ==================== */
+/* 텍스트 색상 */
+.color-star-blue { color: var(--star-blue); }
+.color-clover-green { color: var(--clover-green); }
+.color-sparkle-pink { color: var(--sparkle-pink); }
+.color-blue-text { color: var(--blue-text); }
+.color-warning { color: var(--warning); }
+
+/* 배경 색상 */
+.bg-star-blue { background-color: var(--star-blue); }
+.bg-star-blue-light { background-color: var(--star-blue-light); }
+.bg-clover-green { background-color: var(--clover-green); }
+.bg-clover-green-light { background-color: var(--clover-green-light); }
+.bg-sparkle-pink { background-color: var(--sparkle-pink); }
+.bg-sparkle-pink-light { background-color: var(--sparkle-pink-light); }
+.bg-gradient-soda { background: var(--gradient-soda); }
+.bg-gradient-cloud { background: var(--gradient-cloud); }
+
+/* ==================== Navigation Bar ==================== */
+.nav {
+    display: flex;
+    justify-content: center; /* 모든 요소를 일단 중앙에 배치 */
+    align-items: center;
+    height: 93px;
+    padding: 0 78px;
+    box-sizing: border-box;
+    border-bottom: 5px solid var(--journey-mint, #64c5b6);
+    font-family: "NoonnuBasicGothic", sans-serif;
+    position: relative; /* right_profile을 절대 위치로 잡기 위해 relative 설정 */
+}
+
+.nav h2, .nav p, .nav img {
+    margin: 0;
+}
+
+/* 로고 그룹 (일월달 문구 포함) */
+.center_menu {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 로고와 텍스트 사이 간격 */
+}
+
+.center_menu .logo {
+    width: 50px; /* 로고 크기 조정 */
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 7px;
+}
+
+.center_menu p {
+    font-size: var(--font-medium);
+}
+
+/* 우측 프로필: nav 컨테이너를 기준으로 오른쪽 끝에 절대 위치로 배치 */
+.right_profile {
+    position: absolute; /* nav를 기준으로 위치 지정 */
+    right: 78px; /* nav의 오른쪽 padding 값과 동일하게 설정 */
+}
+
+.right_profile img.profile_image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 기존 middle_menu 관련 CSS는 모두 삭제 또는 주석 처리되어야 합니다. */
+
+.multi-profile {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.multi-profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative;
+}
+
+.multi-profile img:first-child {
+    z-index: 2;
+}
+
+.multi-profile img:nth-child(2) {
+    z-index: 1;
+    margin-left: -25px;
+}
+
+/* ==================== 미디어 쿼리 ==================== */
+@media (max-width: 1000px) {
+    .middle_menu {
+        gap: 60px;
+    }
+}
+
+@media (max-width: 778px) {
+    .middle_menu {
+        display: none;
+    }
+}
+
+@media (max-width: 960px) {
+    .add-button.btn-gradient,
+    .search-box-container {
+        display: none;
+    }
+}
+
+
+/* ==================== 버튼 스타일 활용 ==================== */
+
+.add-button.btn-gradient {
+    width: 60px; 
+    height: 60px;
+    border-radius: 50%; 
+    padding: 0;
+    margin-right: 20px;
+    font-size: var(--font-medium); 
+    line-height: 60px; 
+    text-align: center;
+    
+}
+
+.search-box-container {
+    position: relative;
+    width: 451px; 
+}
+
+.search-input {
+    width: 100%; 
+    box-sizing: border-box; 
+    padding-right: 60px; 
+}
+
+.search-box-container::after {
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    font-size: var(--font-very-small);
+    color: var(--shadow-gray);
+    pointer-events: none; 
+}
+
+
+.search-area {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 130px;
+    right: 78px;
+    z-index: 10;
+    max-width: calc(100vw - 156px);
+}
+/* ==================== 별 아이콘 ==================== */
+
+.star-icon {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    width: 28px;
+    height: 28px;
+    display: block;
+    cursor: pointer;
+}
+
+.star-icon span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: filter 0.3s ease;
+}
+
+.star-filled span {
+    background-image: url("../content/12_별.png");
+}
+
+.star-empty span {
+    background-image: url("../content/12_빈 별.png");
+}
+
+.star-icon:hover span {
+    filter: brightness(1.1);
+}
+
+/* ==================== 메인 컨텐츠 그리드 배치 ==================== */
+.main-content-grid {
+    padding: 30px 78px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 30px;
+    overflow-x: hidden;  
+    overflow-y: auto;
+    min-height: calc(100vh - 96px); 
+}
+
+
+/* ==================== 스크롤 버튼 스타일 ==================== */
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--background);
+    box-shadow: var(--box-shadow);
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-medium);
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--blue-text);
+    transition: var(--background) 0.2s;
+    z-index: 5;
+}
+.scroll-button:hover {
+    background-color: var(--star-blue);
+    color: white;
+}
+
+.horizontal-scroll-section {
+    position: relative;
+    padding-right: 50px;
+    width: 100%;  
+    max-width: calc(100vw - 78px * 2 - 50px);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.bookshelf-row {
+    display: flex;
+    gap: 35px; 
+    position: relative;
+    left: 0;
+    transition: left 0.3s ease-out;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: max-content; 
+}

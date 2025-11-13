@@ -1,0 +1,199 @@
+@font-face {
+    font-family: 'NoonnuBasicGothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noon-2410@1.0/NoonnuBasicGothicRegular.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #ffffff;
+    background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 54px;
+    height: 100vh;
+    background: linear-gradient(180deg, #7c5cdb 0%, #9d75ff 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0;
+    gap: 30px;
+    z-index: 100;
+    box-shadow: 2px 0 10px rgba(124, 92, 219, 0.2);
+}
+
+.sidebar-icon-wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sidebar-icon-wrapper:hover {
+    background-color: #9d75ff;
+}
+
+.sidebar-icon-wrapper:hover .sidebar-icon {
+    color: #b6a1f6;
+}
+
+.sidebar-tooltip {
+    position: absolute;
+    left: 60px;
+    background-color: rgba(157, 117, 255, 0.95);
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 101;
+    box-shadow: 0 4px 12px rgba(124, 92, 219, 0.3);
+}
+
+.sidebar-icon-wrapper:hover .sidebar-tooltip {
+    opacity: 1;
+}
+
+.sidebar-logo-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 54px;
+    right: 0;
+    height: 68px;
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(248, 249, 255, 0.9) 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-bottom: 1px solid rgba(157, 117, 255, 0.15);
+    z-index: 99;
+    box-shadow: 0 2px 8px rgba(157, 117, 255, 0.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.logo-icon {
+    padding-right: 10px;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.logo span {
+    background: linear-gradient(135deg, #7c5cdb 0%, #9d75ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.share-btn {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    color: #9d75ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.share-btn:hover {
+    background-color: rgba(157, 117, 255, 0.1);
+    color: #7c5cdb;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 4px 8px 4px 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-btn:hover {
+    background-color: rgba(157, 117, 255, 0.1);
+    border-color: rgba(157, 117, 255, 0.2);
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.chevron {
+    color: #9d75ff;
+    transition: transform 0.2s;
+}
+
+.profile-btn:hover .chevron {
+    color: #7c5cdb;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 54px;
+    margin-top: 70px;
+    padding: 30px 235px;
+    min-height: calc(100vh - 110px);
+}

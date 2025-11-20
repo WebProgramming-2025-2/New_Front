@@ -25,8 +25,7 @@
             background: #0a0a1a;
         }
 
-        /* Hero Section */
-        .hero-section {
+        .DMD-section {
             position: relative;
             width: 100vw;
             height: 100vh;
@@ -37,7 +36,6 @@
             overflow: hidden;
         }
 
-        /* Animated Stars Background */
         .stars {
             position: absolute;
             top: 0;
@@ -61,8 +59,7 @@
             50% { opacity: 1; }
         }
 
-        /* Moon Orbit Path */
-        .moon-orbit {
+        .moon-orbit {   /*moon orbit path*/
             position: fixed;
             top: 0;
             left: 0;
@@ -77,7 +74,7 @@
             width: 120px;
             height: 120px;
             transition: all 0.3s ease-out;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+            filter: drop-shadow(0 0 20px rgba(216, 151, 238, 0.5));
         }
 
         .moon-phase img {
@@ -86,8 +83,7 @@
             object-fit: contain;
         }
 
-        /* Content Container */
-        .hero-content {
+        .DMD-content {
             position: relative;
             z-index: 10;
             text-align: center;
@@ -118,25 +114,24 @@
             animation: fadeInDown 1s ease-out 0.4s both;
         }
 
-        /* Diary Emphasis */
-        .diary-highlight {
+        .diary-highlight {  /*당신만의 다이어리*/
             display: inline-flex;
             align-items: center;
             gap: 15px;
             font-size: 28px;
             font-weight: 400;
             color: #ffffff;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             padding: 20px 40px;
             background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
             border-radius: 50px;
             border: 2px solid rgba(157, 117, 255, 0.4);
-            animation: fadeIn 1s ease-out 0.7s both, pulse 2s ease-in-out infinite;
+            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
         }
 
         .diary-icon {
             font-size: 32px;
-            animation: bookFlip 3s ease-in-out infinite;
+            animation: bookFlip 5s ease-in-out infinite;
         }
 
         @keyframes bookFlip {
@@ -153,8 +148,7 @@
             }
         }
 
-        /* CTA Buttons */
-        .cta-buttons {
+        .row-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
@@ -162,7 +156,7 @@
             animation: fadeInUp 1s ease-out 0.8s both;
         }
 
-        .cta-btn {
+        .row-btn {
             padding: 18px 40px;
             border: none;
             border-radius: 50px;
@@ -177,24 +171,24 @@
             text-decoration: none;
         }
 
-        .cta-btn.primary {
+        .row-btn.primary {
             background: linear-gradient(135deg, #9d75ff, #a9a6fa);
             color: white;
             box-shadow: 0 8px 24px rgba(157, 117, 255, 0.4);
         }
 
-        .cta-btn.primary:hover {
+        .row-btn.primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 32px rgba(157, 117, 255, 0.6);
         }
 
-        .cta-btn.secondary {
+        .row-btn.secondary {
             background: transparent;
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
-        .cta-btn.secondary:hover {
+        .row-btn.secondary:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.5);
             transform: translateY(-3px);
@@ -231,10 +225,9 @@
             }
         }
 
-        /* Scroll Indicator */
-        .scroll-indicator {
+        .scroll-indicator { /*아래 페이지로 내려가는 버튼*/
             position: absolute;
-            bottom: 40px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             animation: bounce 2s infinite;
@@ -260,7 +253,7 @@
             }
         }
 
-        /* Second Section */
+        /*아래 페이지*/
         .second-section {
             width: 100vw;
             min-height: 100vh;
@@ -303,7 +296,8 @@
             }
         }
 
-        /* Responsive Design */
+        /*반응형*/
+        /*TODO: 반응형 웹 불필요한지 물어볼 것!*/
         @media screen and (max-width: 768px) {
             .main-title {
                 font-size: 36px;
@@ -327,11 +321,11 @@
                 font-size: 24px;
             }
 
-            .cta-buttons {
+            .row-buttons {
                 flex-direction: column;
             }
 
-            .cta-btn {
+            .row-btn {
                 width: 100%;
                 justify-content: center;
             }
@@ -359,11 +353,10 @@
     </style>
 </head>
 <body>
-    <section class="hero-section" id="heroSection">
+    <section class="DMD-section" id="DMDSection">
         <!-- Animated Stars -->
         <div class="stars" id="starsContainer"></div>
 
-        <!-- Moon Orbit -->
         <div class="moon-orbit" id="moonOrbit">
             <div class="moon-phase" id="moonPhase">
                 <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg" alt="Moon Phase" id="moonImage">
@@ -377,7 +370,7 @@
         <div class="floating-element book" style="bottom: 20%; right: 15%;">📔</div>
 
         <!-- Content -->
-        <div class="hero-content">
+        <div class="DMD-content">
             <h1 class="main-title">Day<br>Month<br>Diary</h1>
             <p class="subtitle">매일 매달 남기는 나만의 기록</p>
 
@@ -386,14 +379,14 @@
                 <span>당신만의 다이어리</span>
             </div>
 
-            <div class="cta-buttons">
-                <button class="cta-btn primary" onclick="startJourney()">
+            <div class="row-buttons">
+                <button class="row-btn primary" onclick="startJourney()">
                     <span>여정 시작하기</span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
-                <button class="cta-btn secondary" onclick="learnMore()">
+                <button class="row-btn secondary" onclick="learnMore()">
                     <span>더 알아보기</span>
                 </button>
             </div>
@@ -414,30 +407,28 @@
     </section>
 
     <script>
-        // Moon phases emoji/unicode (12 phases representing 12 months)
         const moonPhases = [
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑 New Moon
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒 Waxing Crescent
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓 First Quarter
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔 Waxing Gibbous
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f315.svg', // 🌕 Full Moon
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f316.svg', // 🌖 Waning Gibbous
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f317.svg', // 🌗 Last Quarter
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f318.svg', // 🌘 Waning Crescent
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑 New Moon
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒 Waxing Crescent
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓 First Quarter
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔 Waxing Gibbous
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f315.svg', // 🌕
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f316.svg', // 🌖
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f317.svg', // 🌗
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f318.svg', // 🌘
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓
+            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔
         ];
 
         let currentScrollPosition = 0;
         const moonPhase = document.getElementById('moonPhase');
         const moonImage = document.getElementById('moonImage');
 
-        // Generate stars for both sections
         function createStars(containerId) {
             const starsContainer = document.getElementById(containerId);
-            const starCount = 150;
+            const starCount = 250;
 
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -450,37 +441,28 @@
             }
         }
 
-        // Update moon position and phase based on scroll
         function updateMoonPosition() {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
-            const maxScroll = windowHeight; // Only track first section scroll
+            const maxScroll = windowHeight;
             
-            // Calculate progress (0 to 1) through the first section
             const progress = Math.min(scrollY / maxScroll, 1);
             
-            // Moon moves in a semi-circle from left to right
-            const startX = 50; // Start at 50px from left
-            const endX = window.innerWidth - 150; // End at 150px from right
+            const startX = 50;
+            const endX = window.innerWidth - 150;
             const centerY = windowHeight / 2;
             
-            // Calculate x position (linear)
             const x = startX + (endX - startX) * progress;
             
-            // Calculate y position (arc/semicircle)
-            // Using sine for smooth arc: at progress=0, y=centerY; at progress=0.5, y=top; at progress=1, y=centerY
-            const arcHeight = windowHeight * 0.3; // Height of the arc
+            const arcHeight = windowHeight * 0.3;
             const y = centerY - Math.sin(progress * Math.PI) * arcHeight;
             
-            // Update moon position
             moonPhase.style.left = x + 'px';
             moonPhase.style.top = y + 'px';
             
-            // Update moon phase image
-            const phaseIndex = Math.floor(progress * 11); // 0-11 for 12 phases
+            const phaseIndex = Math.floor(progress * 11);
             moonImage.src = moonPhases[phaseIndex];
             
-            // Fade out moon when entering second section
             if (scrollY > maxScroll * 0.8) {
                 const fadeProgress = (scrollY - maxScroll * 0.8) / (maxScroll * 0.2);
                 moonPhase.style.opacity = 1 - fadeProgress;
@@ -489,30 +471,25 @@
             }
         }
 
-        // Scroll event listener
         window.addEventListener('scroll', updateMoonPosition);
 
-        // Scroll to next section
         function scrollToNext() {
             const secondSection = document.getElementById('secondSection');
             secondSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Button actions
         function startJourney() {
-            window.location.href = 'home.html';
+            window.location.href = './pages/12_Orbit_home.html';
         }
 
         function learnMore() {
             scrollToNext();
         }
 
-        // Initialize
         createStars('starsContainer');
         createStars('starsContainer2');
-        updateMoonPosition(); // Set initial position
+        updateMoonPosition();
 
-        // Add smooth transitions on load
         window.addEventListener('load', () => {
             document.body.style.opacity = '1';
         });

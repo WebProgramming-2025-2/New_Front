@@ -92,7 +92,7 @@
         }
 
         .main-title {
-            font-size: 80px;
+            font-size: 90px;
             font-family: 'Sansation', sans-serif;
             font-weight: 300;
             font-style: italic;
@@ -114,7 +114,7 @@
             animation: fadeInDown 1s ease-out 0.4s both;
         }
 
-        .diary-highlight {  /*당신만의 다이어리*/
+        /* .diary-highlight {
             display: inline-flex;
             align-items: center;
             gap: 15px;
@@ -146,7 +146,7 @@
             50% {
                 box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
             }
-        }
+        } */
 
         .row-buttons {
             display: flex;
@@ -157,11 +157,11 @@
         }
 
         .row-btn {
-            padding: 18px 40px;
+            padding: 15px 40px;
             border: none;
             border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 200;
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif sans-serif;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -171,18 +171,42 @@
             text-decoration: none;
         }
 
-        .row-btn.primary {
-            background: linear-gradient(135deg, #9d75ff, #a9a6fa);
-            color: white;
-            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.4);
+        .row-btn.journey-start {
+            font-weight: 300;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
+            color: #ffffff;
+            border: 2px solid rgba(157, 117, 255, 0.4);
+            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
         }
 
-        .row-btn.primary:hover {
+        .row-btn.journey-start:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(157, 117, 255, 0.6);
+            box-shadow: 0 0 50px rgba(157, 117, 255, 0.7);
+        }
+
+        .journey-icon {
+            font-size: 24px;
+            animation: bookFlip 5s ease-in-out infinite;
+        }
+
+        @keyframes bookFlip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
+            }
         }
 
         .row-btn.secondary {
+            font-size: 20px;
+            font-weight: 100;
             background: transparent;
             color: white;
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -194,7 +218,6 @@
             transform: translateY(-3px);
         }
 
-        /* Floating Elements */
         .floating-element {
             position: absolute;
             pointer-events: none;
@@ -225,9 +248,9 @@
             }
         }
 
-        .scroll-indicator { /*아래 페이지로 내려가는 버튼*/
+        .scroll-indicator {
             position: absolute;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             animation: bounce 2s infinite;
@@ -236,8 +259,8 @@
         }
 
         .scroll-indicator svg {
-            width: 30px;
-            height: 30px;
+            width: 45px;
+            height: 40px;
             color: rgba(255, 255, 255, 0.6);
         }
 
@@ -253,7 +276,7 @@
             }
         }
 
-        /*아래 페이지*/
+        /* Second Section */
         .second-section {
             width: 100vw;
             min-height: 100vh;
@@ -264,7 +287,28 @@
             position: relative;
         }
 
-        /* Animations */
+        /* Third Section */
+        .third-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Fourth Section */
+        .fourth-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -296,8 +340,7 @@
             }
         }
 
-        /*반응형*/
-        /*TODO: 반응형 웹 불필요한지 물어볼 것!*/
+        /* 반응형 */
         @media screen and (max-width: 768px) {
             .main-title {
                 font-size: 36px;
@@ -312,12 +355,12 @@
                 font-size: 16px;
             }
 
-            .diary-highlight {
+            .row-btn.journey-start {
                 font-size: 20px;
                 padding: 15px 30px;
             }
 
-            .diary-icon {
+            .journey-icon {
                 font-size: 24px;
             }
 
@@ -363,28 +406,26 @@
             </div>
         </div>
 
-        <!-- Floating Elements -->
         <div class="floating-element book" style="top: 20%; left: 15%;">📖</div>
         <div class="floating-element pen" style="top: 30%; right: 20%;">✒️</div>
         <div class="floating-element star" style="bottom: 25%; left: 10%;">✨</div>
         <div class="floating-element book" style="bottom: 20%; right: 15%;">📔</div>
 
-        <!-- Content -->
         <div class="DMD-content">
             <h1 class="main-title">Day<br>Month<br>Diary</h1>
-            <p class="subtitle">매일 매달 남기는 나만의 기록</p>
+            <p class="subtitle">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
 
+            <!-- 당신만의 다이어리 버튼
             <div class="diary-highlight">
                 <span class="diary-icon">📔</span>
                 <span>당신만의 다이어리</span>
             </div>
+            -->
 
             <div class="row-buttons">
-                <button class="row-btn primary" onclick="startJourney()">
-                    <span>여정 시작하기</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <button class="row-btn journey-start" onclick="startJourney()">
+                    <span class="journey-icon">📔</span>
+                    <span>시작하기</span>
                 </button>
                 <button class="row-btn secondary" onclick="learnMore()">
                     <span>더 알아보기</span>
@@ -392,7 +433,6 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
         <div class="scroll-indicator" onclick="scrollToNext()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -400,99 +440,21 @@
         </div>
     </section>
 
-    <!-- Second Section (Empty for now) -->
     <section class="second-section" id="secondSection">
         <div class="stars" id="starsContainer2"></div>
         <!-- Content will be added here later -->
     </section>
 
-    <script>
-        const moonPhases = [
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f315.svg', // 🌕
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f316.svg', // 🌖
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f317.svg', // 🌗
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f318.svg', // 🌘
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg', // 🌑
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg', // 🌒
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg', // 🌓
-            'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔
-        ];
+    <section class="third-section" id="thirdSection">
+        <div class="stars" id="starsContainer3"></div>
+        <!-- Content will be added here later -->
+    </section>
 
-        let currentScrollPosition = 0;
-        const moonPhase = document.getElementById('moonPhase');
-        const moonImage = document.getElementById('moonImage');
+    <section class="fourth-section" id="fourthSection">
+        <div class="stars" id="starsContainer4"></div>
+        <!-- Login/Signup form will be added here later -->
+    </section>
 
-        function createStars(containerId) {
-            const starsContainer = document.getElementById(containerId);
-            const starCount = 250;
-
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                star.style.opacity = Math.random() * 0.7 + 0.3;
-                starsContainer.appendChild(star);
-            }
-        }
-
-        function updateMoonPosition() {
-            const scrollY = window.scrollY;
-            const windowHeight = window.innerHeight;
-            const maxScroll = windowHeight;
-            
-            const progress = Math.min(scrollY / maxScroll, 1);
-            
-            const startX = 50;
-            const endX = window.innerWidth - 150;
-            const centerY = windowHeight / 2;
-            
-            const x = startX + (endX - startX) * progress;
-            
-            const arcHeight = windowHeight * 0.3;
-            const y = centerY - Math.sin(progress * Math.PI) * arcHeight;
-            
-            moonPhase.style.left = x + 'px';
-            moonPhase.style.top = y + 'px';
-            
-            const phaseIndex = Math.floor(progress * 11);
-            moonImage.src = moonPhases[phaseIndex];
-            
-            if (scrollY > maxScroll * 0.8) {
-                const fadeProgress = (scrollY - maxScroll * 0.8) / (maxScroll * 0.2);
-                moonPhase.style.opacity = 1 - fadeProgress;
-            } else {
-                moonPhase.style.opacity = 1;
-            }
-        }
-
-        window.addEventListener('scroll', updateMoonPosition);
-
-        function scrollToNext() {
-            const secondSection = document.getElementById('secondSection');
-            secondSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function startJourney() {
-            window.location.href = './pages/12_Orbit_home.html';
-        }
-
-        function learnMore() {
-            scrollToNext();
-        }
-
-        createStars('starsContainer');
-        createStars('starsContainer2');
-        updateMoonPosition();
-
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
-        });
-    </script>
+    <script src="./JS/12_DMD_startpage.js"></script>
 </body>
 </html>

@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    <title>Journey - Timeline</title>
+
+    <style>
+        @font-face {
+            font-family: 'NoonnuBasicGothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noon-2410@1.0/NoonnuBasicGothicRegular.woff2') format('woff2');
+            font-weight: normal;
+            font-display: swap;
+            
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: #ffffff;
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 54px;
+            height: 100vh;
+            background: linear-gradient(180deg, #7c5cdb 0%, #9d75ff 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 0;
+            gap: 30px;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(124, 92, 219, 0.2);
+        }
+
+        .sidebar-icon-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sidebar-icon-wrapper:hover {
+            background-color: #9d75ff;
+        }
+
+        .sidebar-icon {
+            background-color: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .sidebar-icon-wrapper:hover .sidebar-icon {
+            color: #b6a1f6;
+        }
+
+        .sidebar-tooltip {
+            position: absolute;
+            left: 60px;
+            background-color: rgba(157, 117, 255, 0.95);
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 101;
+            box-shadow: 0 4px 12px rgba(124, 92, 219, 0.3);
+        }
+
+        .sidebar-icon-wrapper:hover .sidebar-tooltip {
+            opacity: 1;
+        }
+
+        .sidebar-logo-icon {
+            width: 32px;
+            height: 32px;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 54px;
+            right: 0;
+            height: 68px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(248, 249, 255, 0.9) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(157, 117, 255, 0.15);
+            z-index: 99;
+            box-shadow: 0 2px 8px rgba(157, 117, 255, 0.08);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #7c5cdb 0%, #9d75ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: none;
+            border-radius: 10px;
+            color: #9d75ff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover {
+            background-color: rgba(157, 117, 255, 0.1);
+            color: #7c5cdb;
+        }
+
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background-color: transparent;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            padding: 4px 8px 4px 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(157, 117, 255, 0.1);
+            border-color: rgba(157, 117, 255, 0.2);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .chevron {
+            color: #9d75ff;
+            transition: transform 0.2s;
+        }
+
+        .profile-btn:hover .chevron {
+            color: #7c5cdb;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 54px;
+            margin-top: 70px;
+            padding: 30px 235px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .section-title, .activities-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #7c5cdb 0%, #9d75ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Story Carousel */
+        .story-carousel {
+            position: relative;
+            height: 280px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .story-card {
+            position: absolute;
+            width: 340px;
+            height: 230px;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.25);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .story-card.center {
+            transform: scale(1.05) translateX(0);
+            z-index: 3;
+            opacity: 1;
+        }
+
+        .story-card.left-1 {
+            transform: scale(0.88) translateX(-380px);
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .story-card.left-2 {
+            transform: scale(0.75) translateX(-720px);
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .story-card.right-1 {
+            transform: scale(0.88) translateX(380px);
+            z-index: 2;
+            opacity: 0.7;
+        }
+
+        .story-card.right-2 {
+            transform: scale(0.75) translateX(720px);
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .story-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            color: #ffffff;
+        }
+
+        .story-description {
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+            color: #ffffff;
+        }
+
+        .cta-button {
+            background-color: #ffffff;
+            color: #9d75ff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button:hover {
+            background-color: #f0f2ff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(157, 117, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background-color: #9d75ff;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .indicator-dot:hover {
+            background-color: #9d75ff;
+        }
+
+        /* Activities Section */
+        .activities-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .activities-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 38px;
+            height: 38px;
+            background-color: transparent;
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 10px;
+            color: #9d75ff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background-color: rgba(157, 117, 255, 0.1);
+            border-color: #9d75ff;
+            color: #7c5cdb;
+        }
+
+        /* Book Cards Section */
+        .horizontal-scroll-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .bookshelf-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 40px;
+        }
+
+        .book-card {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(157, 117, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(157, 117, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(157, 117, 255, 0.25);
+        }
+
+        .book-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .book-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 16px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #3f4048;
+            z-index: 2;
+            text-shadow: 0 2px 8px rgba(131 104 245 / 68%);
+        }
+
+        /* Diary Info Popup */
+        .diary-info-popup {
+            position: absolute;
+            top: 12px;
+            right: -8px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(157, 117, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            min-width: 200px;
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.3);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .book-card.show-popup .diary-info-popup {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .diary-info-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #7c5cdb;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(157, 117, 255, 0.15);
+        }
+
+        .diary-info-item {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .diary-info-item svg {
+            width: 14px;
+            height: 14px;
+            color: #9d75ff;
+        }
+
+        .diary-action-btn {
+            width: 100%;
+            padding: 8px;
+            margin-top: 8px;
+            background: transparent;
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #7c5cdb;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .diary-action-btn:hover {
+            background: rgba(157, 117, 255, 0.1);
+            border-color: #9d75ff;
+        }
+
+        .diary-action-btn.delete {
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .diary-action-btn.delete:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: #ff6b6b;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(157, 117, 255, 0.4);
+        }
+
+        .modal-btn.delete {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .modal-btn.delete:hover {
+            background: #ff5252;
+        }
+
+        /* Toast Message */
+        .toast-message {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.4);
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .toast-message.active {
+            opacity: 1;
+        }
+
+        /* Move Mode Highlight */
+        .move-mode .story-card {
+            cursor: pointer;
+            
+        }
+
+        .move-mode .story-card:hover {
+            
+            box-shadow: 0 12px 32px rgba(157, 117, 255, 0.4);
+        }
+
+        /* Add Button */
+        .add-button {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 18px 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 90;
+        }
+
+        .add-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.5);
+        }
+
+        .plus-icon {
+            font-size: 20px;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="../content/icon-logo.png" alt="Logo" class="sidebar-logo-icon">
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Columns.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">책장</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Calendar.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">캘린더</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Layers.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">아카이브</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="../content/logo.png" alt="Journey Logo" class="logo-icon">
+                <span>The Orbit of Midnight Oil</span>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <button class="share-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+            </button>
+            <div class="profile-btn">
+                <div class="profile-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2 class="section-title">Monthly bookshelf</h2>
+        
+        <!-- Story Carousel -->
+        <div class="story-carousel" id="carousel">
+            <div class="carousel-container">
+                <div class="story-card center" data-position="0" data-cover="2">
+                    <div class="story-title">Halloween Sale 🎃 50% Off</div>
+                    <div class="story-description">
+                        This Halloween, enjoy up to 50% off annual subscriptions today. Use code HALLOWEEN25 and start saving today!
+                    </div>
+                    <button class="cta-button">
+                        <span>USE CODE</span>
+                    </button>
+                </div>
+
+                <div class="story-card left-1" data-position="-1" data-cover="1">
+                    <div class="story-title">Summer Collection ☀️</div>
+                    <div class="story-description">Discover our new summer collection with exclusive designs and vibrant colors.</div>
+                </div>
+
+                <div class="story-card left-2" data-position="-2" data-cover="3">
+                    <div class="story-title">Black Friday 🛍️</div>
+                    <div class="story-description">Biggest sale of the year coming soon! Get ready for amazing deals.</div>
+                </div>
+
+                <div class="story-card right-1" data-position="1" data-cover="4">
+                    <div class="story-title">New Features ✨</div>
+                    <div class="story-description">Check out the latest updates and improvements to enhance your experience.</div>
+                </div>
+
+                <div class="story-card right-2" data-position="2" data-cover="5">
+                    <div class="story-title">Premium Plan 👑</div>
+                    <div class="story-description">Unlock all features with our premium subscription and get exclusive benefits.</div>
+                </div>
+            </div>
+
+            <div class="carousel-indicators">
+                <div class="indicator-dot active" data-index="0" onclick="goToSlide(0)"></div>
+                <div class="indicator-dot" data-index="1" onclick="goToSlide(1)"></div>
+                <div class="indicator-dot" data-index="2" onclick="goToSlide(2)"></div>
+                <div class="indicator-dot" data-index="3" onclick="goToSlide(3)"></div>
+                <div class="indicator-dot" data-index="4" onclick="goToSlide(4)"></div>
+            </div>
+        </div>
+
+        <!-- Activities Section -->
+        <div class="activities-header">
+            <h2 class="activities-title">Diary</h2>
+            <div class="activities-controls">
+                <button class="control-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="1 4 1 10 7 10"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                </button>
+                <button class="control-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="6" x2="20" y2="6"/>
+                        <line x1="4" y1="12" x2="20" y2="12"/>
+                        <line x1="4" y1="18" x2="20" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="horizontal-scroll-section" id="diarySection">
+            <div class="bookshelf-row" id="diaryGrid">
+                <!-- Diaries will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Button -->
+    <button class="add-button">
+        <span class="plus-icon">+</span>
+        <span>새로운</span>
+    </button>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-title" id="modalTitle">확인</div>
+            <div class="modal-message" id="modalMessage">메시지</div>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="modalCancel">취소</button>
+                <button class="modal-btn confirm" id="modalConfirm">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Message -->
+    <div class="toast-message" id="toastMessage">이동할 달을 선택해주세요</div>
+<script src="home_carousel.js"></script>
+</body>
+</html>

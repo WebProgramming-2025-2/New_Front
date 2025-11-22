@@ -107,6 +107,95 @@ function learnMore() {
     scrollToNext();
 }
 
+/**
+ * Toggle between login and signup forms
+ */
+function toggleAuthForm() {
+    const authForms = document.getElementById('authForms');
+    authForms.classList.toggle('show-signup');
+}
+
+/**
+ * Handle login form submission
+ */
+function handleLogin(event) {
+    event.preventDefault();
+    // TODO: Implement login logic
+    console.log('Login submitted');
+    alert('로그인 기능은 곧 구현될 예정입니다.');
+}
+
+/**
+ * Handle signup form submission
+ */
+function handleSignup(event) {
+    event.preventDefault();
+    // TODO: Implement signup logic
+    console.log('Signup submitted');
+    alert('회원가입 기능은 곧 구현될 예정입니다.');
+}
+
+let currentSlideIndex = 0;
+
+function initCustomSlider() {
+    const track = document.getElementById('sliderTrack');
+    const slides = document.querySelectorAll('.dmd-slide');
+    const slideCount = slides.length;
+    
+    if(slideCount === 0) return;
+
+    function updateSlidePosition() {
+        const track = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.dmd-slide');
+        const viewportWidth = document.querySelector('.dmd-slider-viewport').offsetWidth;
+        
+        // 슬라이드 크기와 간격 계산 (CSS와 일치해야 함)
+        // PC 기준 flex: 0 0 40%, gap: 30px
+        // 정확한 중앙 정렬을 위해 계산
+        const slideWidth = slides[0].offsetWidth;
+        const gap = 30; 
+        
+        // 중앙 정렬을 위한 오프셋 계산
+        // (뷰포트 절반) - (슬라이드 절반) - (이전 슬라이드들의 너비와 간격)
+        const centerOffset = (viewportWidth / 2) - (slideWidth / 2);
+        const moveAmount = (slideWidth + gap) * currentSlideIndex;
+        const finalTranslate = centerOffset - moveAmount;
+
+        track.style.transform = `translateX(${finalTranslate}px)`;
+
+        // Active 클래스 갱신
+        slides.forEach((slide, index) => {
+            if (index === currentSlideIndex) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+    }
+
+    // Global 함수로 등록 (HTML onclick에서 접근 가능하도록)
+    window.nextSlide = function() {
+        currentSlideIndex = (currentSlideIndex + 1) % slideCount;
+        updateSlidePosition();
+    };
+
+    window.prevSlide = function() {
+        currentSlideIndex = (currentSlideIndex - 1 + slideCount) % slideCount;
+        updateSlidePosition();
+    };
+
+    // 초기 실행 및 리사이즈 대응
+    updateSlidePosition();
+    window.addEventListener('resize', updateSlidePosition);
+    
+    // 자동 슬라이드 (옵션)
+    setInterval(() => {
+        // 사용자가 마우스를 올리지 않았을 때만 넘어가게 하려면 추가 로직 필요
+        // 여기서는 간단히 자동 넘김
+       // window.nextSlide(); 
+    }, 5000); 
+}
+
 // Event Listeners
 window.addEventListener('scroll', updateMoonPosition);
 
@@ -118,6 +207,7 @@ window.addEventListener('load', () => {
     createStars('starsContainer4');
     
     updateMoonPosition();
+    initCustomSlider();
     
     document.body.style.opacity = '1';
 });

@@ -8,11 +8,11 @@
 
         /*calender*/
         .main-container {
-            display: flex; /* 자식 요소들을 가로(기본값)로 배치 */
+            display: flex;
             position: relative;
-            margin-top: -5px; /* 헤더 아래로 여백 (필요에 따라 조정) */
+            margin-top: -5px; 
             left: -200px;
-            width: 1500px; /* 두 캘린더의 폭 합계 + 여백을 고려하여 조정 */
+            width: 1500px;
             height: 765px;
         }
 
@@ -26,9 +26,9 @@
 
         /* 미니 캘린더 스타일 */
         .mini-calendar-container {
-            width: 280px; /* 미니 캘린더의 폭 */
+            width: 280px; 
             height: 764px;
-            background-color: #ffffff8b; /* 배경색 */
+            background-color: #ffffff8b;
             padding: 15px;
         }
 
@@ -42,14 +42,14 @@
 
         .mini-month-year {
             display: flex;
-            flex-direction: column; /* 월과 년도를 수직으로 배치 */
+            flex-direction: column;
             align-items: flex-start;
             padding-left: 10px;
         }
 
         /* 월 라벨 (크게) */
         #miniMonthLabel {
-            font-size: 2.5em; /* DEC/12처럼 보이도록 크게 */
+            font-size: 2.5em;
             font-weight: 300;
             line-height: 1;
             color: #333;
@@ -60,7 +60,7 @@
             font-size: 0.9em;
             font-weight: 500;
             color: #777;
-            margin-top: -5px; /* 월 라벨에 가깝게 붙이기 */
+            margin-top: -5px;
         }
 
         /* 월 이동 버튼 */
@@ -114,10 +114,10 @@
         }
 
         .mini-today {
-            background-color: #7c5cdb; /* 오늘 날짜 배경 */
-            color: #ffffff !important; /* 글자색 흰색으로 */
+            background-color: #7c5cdb;
+            color: #ffffff !important;
             font-weight: bold;
-            border-radius: 50%; /* 원형으로 강조 */
+            border-radius: 50%;
         }
 
         .mini-calendar-container .calendar-container {
@@ -164,50 +164,50 @@
         }
 
         .calendar-content {
-            flex-grow: 1; /* 남은 가로 공간을 모두 차지 */
-            padding-left: 10px; /* 헤더와의 간격 */
+            flex-grow: 1;
+            padding-left: 10px; 
         }
 
         /* 요일 (Weekdays) 스타일 */
         .calendar-weekdays {
             display: grid;
             width: 980px;
-            grid-template-columns: repeat(7, 1fr); /* 7개 열 균등 분할 */
+            grid-template-columns: repeat(7, 1fr);
             text-align: center;
             font-weight: bold;
             color: #777;
             padding: 10px;
-            border-bottom: 2px solid #7c5cdb; /* 요일과 날짜 구분선 */
+            border-bottom: 2px solid #7c5cdb;
         }
 
         /* 날짜 그리드 (Days) 스타일 */
         .calendar-days {
             display: grid;
             width: 980px;
-            grid-template-columns: repeat(7, 1fr); /* 7개 열 균등 분할 */
-            gap: 0px; /* 날짜 셀 사이의 간격 */
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0px;
             border-top: 1px solid #7c5cdb; 
         }
 
         .day {
-            min-height: 120px; /* 날짜 셀의 높이 확보 (일정 메모 공간) */
+            min-height: 120px;
             padding: 5px;
             text-align: left;
-            border: 1px solid #e6d6ff; /* 다이어리 칸처럼 보이는 테두리 */
+            border: 1px solid #e6d6ff;
             font-size: 0.9em;
             color: #333;
             transition: background-color 0.2s;
-            cursor: pointer; /* 클릭 가능한 느낌 */
+            cursor: pointer;
         }
 
         /* 주말 색상 강조 (다이어리 캘린더에서 흔히 사용) */
-        .calendar-weekdays div:first-child, /* 일요일 */
-        .day:nth-child(7n+1) { /* 날짜 셀의 일요일 */
+        .calendar-weekdays div:first-child,
+        .day:nth-child(7n+1) { 
             color: rgb(255, 117, 117);
         }
 
-        .calendar-weekdays div:last-child, /* 토요일 */
-        .day:nth-child(7n) { /* 날짜 셀의 토요일 */
+        .calendar-weekdays div:last-child, 
+        .day:nth-child(7n) {
             color: #7c5cdb;
         }
 
@@ -219,36 +219,36 @@
 
         /* 오늘 날짜 강조 */
         .today {
-            background-color: #ffe4e1; /* 연한 핑크 또는 원하는 하이라이트 색상 */
+            background-color: #ffe4e1;
             font-weight: bold;
             border: 2px solid #ffb6c1;
         }
 
         /* 호버 효과 (선택 가능한 느낌) */
         .day:hover:not(.prev-month):not(.next-month) {
-            background-color: #f0f8ff; /* 연한 하늘색 등으로 호버 효과 */
+            background-color: #f0f8ff;
         }
 
         /*메모공간*/
         .memo-area {
             position: relative;
-            width: 1450px; /* 달력 너비와 맞춤 */
+            width: 1450px; 
             left: -200px;
             margin: 20px auto;
             padding: 10px;
-            border-top: 2px solid #ccc; /* 달력과 메모 영역을 구분하는 선 */
+            border-top: 2px solid #ccc; 
         }
 
-        /* ⭐ 포커스 시(클릭 시) 스타일 변경 - 색상 변경 적용 ⭐ */
+        /* 포커스 시(클릭 시) 스타일 변경 - 색상 변경 적용 */
         .memo-area textarea:focus {
             outline: none; 
-            border: 1px solid #7c5cdb; /* 보라색 계열로 테두리 변경 */
-            box-shadow: 0 0 5px rgba(124, 92, 219, 0.5); /* 그림자 효과 추가 */
+            border: 1px solid #7c5cdb; 
+            box-shadow: 0 0 5px rgba(124, 92, 219, 0.5);
         }
 
         /* 제목(label) 스타일 */
         .memo-area label {
-            display: block; /* 줄 바꿈 */
+            display: block;
             font-size: 25px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -264,7 +264,7 @@
             border-radius: 5px;
             font-size: 20px;
             font-family: 'NoonnuBasicGothic';
-            line-height: 1.6; /* 줄 간격 추가 */
+            line-height: 1.6;
             resize: vertical;
         }
 
@@ -365,7 +365,6 @@
     </div>
     <script src="../javascript/home_carousel.js"></script>
     <script>
-        // 1. DOM 요소 변수 선언
         const calendarDays = document.getElementById('calendarDays');
         const prevButton = document.getElementById('prevMonth');
         const nextButton = document.getElementById('nextMonth');
@@ -376,58 +375,46 @@
         const miniPrevButton = document.getElementById('miniPrevMonth');
         const miniNextButton = document.getElementById('miniNextMonth');
 
-        // 2. 날짜 변수 초기화
         let currentDate = new Date(); 
         let miniCurrentDate = new Date(currentDate);
 
-        // 3. ⭐ 월별 메모 변수 및 함수 정의 (캘린더 함수보다 먼저 선언) ⭐
-        // localStorage에서 메모 데이터를 불러오거나, 없으면 빈 객체로 초기화
         let monthlyNotes = JSON.parse(localStorage.getItem('monthlyCalendarNotes')) || {}; 
         const memoTextArea = document.getElementById('monthly-note');
 
-        // 메모 키 생성 함수 (년도-월 형태: "2025-11")
         function getNoteKey(date) {
             const year = date.getFullYear();
             const month = date.getMonth() + 1;
             return `${year}-${month}`;
         }
 
-        // 메모 저장 함수 (사용자가 입력할 때마다 호출)
         function saveNote() {
             const key = getNoteKey(currentDate);
             monthlyNotes[key] = memoTextArea.value;
             localStorage.setItem('monthlyCalendarNotes', JSON.stringify(monthlyNotes));
         }
 
-        // 메모 불러오기 함수 (월 변경 시 호출)
         function loadNote(date) {
             const key = getNoteKey(date);
             const note = monthlyNotes[key] || '';
             memoTextArea.value = note;
         }
-        // ⭐ 메모 변수/함수 정의 끝 ⭐
 
-        // 4. 캘린더 렌더링 함수 정의
         function renderCalendar(date) {
             calendarDays.innerHTML = ''; 
 
             const year = date.getFullYear();
             const month = date.getMonth(); 
 
-            // 1. 레이블 업데이트 (예: 2025년 11월)
             YearLabel.textContent = `${year}년`;
             MonthLabel.textContent = `${month + 1}월`;
 
-            // 2. 해당 월의 첫 날과 마지막 날 계산
             const firstDayOfMonth = new Date(year, month, 1).getDay(); 
             const lastDateOfMonth = new Date(year, month + 1, 0).getDate(); 
 
-            // 오늘 날짜 정보
             const today = new Date();
             const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
             const todayDate = today.getDate();
 
-            // 3. 지난 달 날짜 채우기 (달력 시작 공백)
             for (let i = 0; i < firstDayOfMonth; i++) {
                 const prevMonthLastDate = new Date(year, month, 0).getDate();
                 const day = prevMonthLastDate - (firstDayOfMonth - 1 - i);
@@ -438,7 +425,6 @@
                 calendarDays.appendChild(prevDayDiv);
             }
 
-            // 4. 현재 월의 날짜 채우기
             for (let dateNum = 1; dateNum <= lastDateOfMonth; dateNum++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.classList.add('day');
@@ -455,7 +441,6 @@
                 calendarDays.appendChild(dayDiv);
             }
 
-            // 5. 다음 달 날짜 채우기 (공백 채우기)
             const totalCells = calendarDays.children.length;
             const remainingCells = 42 - totalCells; 
 
@@ -466,7 +451,6 @@
                 calendarDays.appendChild(nextDayDiv);
             }
 
-            // ⭐ 6. 메모 로드 로직 추가 ⭐
             loadNote(date); 
         }
 
@@ -475,19 +459,16 @@
             
             const year = date.getFullYear();
             const month = date.getMonth(); 
-            
-            // 1. 레이블 업데이트 (월, 년도)
+
             miniMonthLabel.textContent = month + 1;
             miniYearLabel.textContent = year;
-            
-            // 2. 날짜 계산 (큰 캘린더 로직과 동일)
+
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
             const today = new Date();
             const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
             const todayDate = today.getDate();
-            
-            // 3. 지난 달 날짜 채우기 (공백)
+
             for (let i = 0; i < firstDayOfMonth; i++) {
                 const prevMonthLastDate = new Date(year, month, 0).getDate();
                 const day = prevMonthLastDate - (firstDayOfMonth - 1 - i);
@@ -496,8 +477,7 @@
                 dayDiv.textContent = day;
                 miniCalendarDays.appendChild(dayDiv);
             }
-        
-            // 4. 현재 월의 날짜 채우기
+
             for (let dateNum = 1; dateNum <= lastDateOfMonth; dateNum++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.classList.add('mini-day');
@@ -506,19 +486,17 @@
                 if (isCurrentMonth && dateNum === todayDate) {
                     dayDiv.classList.add('mini-today');
                 }
-            
-                // 미니 캘린더 클릭 시 메인 캘린더로 이동하는 로직
+
                 dayDiv.addEventListener('click', () => {
                     currentDate.setFullYear(year, month, dateNum);
-                    renderCalendar(currentDate); // 메인 캘린더 업데이트 (메모 로드 포함)
+                    renderCalendar(currentDate);
                     miniCurrentDate = new Date(currentDate); 
                     renderMiniCalendar(miniCurrentDate);
                 });
             
                 miniCalendarDays.appendChild(dayDiv);
             }
-            
-            // 5. 다음 달 날짜 채우기
+
             const totalCells = miniCalendarDays.children.length;
             const remainingCells = 42 - totalCells; 
         
@@ -528,10 +506,8 @@
                 dayDiv.textContent = i;
                 miniCalendarDays.appendChild(dayDiv);
             }
-            // loadNote(date); - ⭐ 미니 캘린더에서는 메모 로드 제거됨 ⭐
         }
 
-        // 5. 버튼 이벤트 리스너 정의
         miniPrevButton.addEventListener('click', () => {
             miniCurrentDate.setMonth(miniCurrentDate.getMonth() - 1);
             renderMiniCalendar(miniCurrentDate);
@@ -564,11 +540,9 @@
             renderMiniCalendar(miniCurrentDate);
         });
 
-        // 6. 페이지 로드 시 초기 렌더링 및 이벤트 리스너 등록
         renderCalendar(currentDate);
         renderMiniCalendar(miniCurrentDate);
 
-        // ⭐ 메모 입력 감지 리스너 추가: 입력할 때마다 저장 함수 호출 ⭐
         memoTextArea.addEventListener('keyup', saveNote);
     </script>
 </body>

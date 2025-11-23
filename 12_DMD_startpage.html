@@ -8,8 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
         * {
             margin: 0;
@@ -22,7 +23,7 @@
         }
 
         body {
-            font-family: apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: "Noto Sans KR", sans-serif;
             overflow-x: hidden;
             background: #0a0a1a;
         }
@@ -109,6 +110,7 @@
         }
 
         .subtitle {
+            font-family: "Gowun Batang", serif;
             font-size: 20px;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 40px;
@@ -292,14 +294,14 @@
         .section-content {
             position: relative;
             z-index: 10;
-            max-width: 1200px;
+            max-width: 1400px;
             width: 100%;
         }
 
         .section-title-main {
             font-size: 48px;
-            font-family: 'Sansation', sans-serif;
-            font-weight: 700;
+            font-family: "Gowun Batang", serif;
+            font-weight: 500;
             text-align: center;
             background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 50%, #b8a8ff 100%);
             -webkit-background-clip: text;
@@ -308,6 +310,7 @@
         }
 
         .section-subtitle {
+            font-family: "Noto Sans KR", sans-serif;
             font-size: 18px;
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
@@ -317,7 +320,7 @@
         .features-grid {
             display: flex;
             flex-direction: column;
-            gap: 100px; /* 간격 넓힘 */
+            gap: 90px; /* 간격 넓힘 */
             margin-bottom: 60px;
             padding: 0 20px;
         }
@@ -326,7 +329,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 60px;
+            gap: 120px;
             text-align: left;
             padding: 0;
         }
@@ -343,7 +346,7 @@
             flex-direction: column; /* 내부 텍스트들을 세로로 배치 */
             gap: 12px;             /* 제목과 설명 사이 간격 */
             flex: 1;               /* 남은 공간 모두 차지 */
-            max-width: 400px;      /* 텍스트 영역 최대 너비 제한 */
+            max-width: 600px;      /* 텍스트 영역 최대 너비 제한 */
         }
 
         .feature-text-content {
@@ -390,7 +393,7 @@
 
         .feature-title {
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 600;
             color: #ffffff;
             margin-bottom: 12px;
         }
@@ -416,10 +419,10 @@
         .dmd-slider-viewport {
             position: relative;
             width: 100%;
-            max-width: 1000px; /* 전체 슬라이더 너비 */
+            max-width: 1400px; /* 전체 슬라이더 너비 */
             margin: 0 auto;
             overflow: hidden; /* 넘치는 부분 숨김 */
-            padding: 50px 0;
+            padding: 10px 0;
         }
 
         .dmd-slider-track {
@@ -482,7 +485,7 @@
 
         .benefit-title {
             font-size: 32px;
-            font-weight: 700;
+            font-weight: 600;
             color: #ffffff;
             margin-bottom: 20px;
         }
@@ -503,31 +506,75 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding: 80px 40px;
+            padding: 40px 20px;
         }
 
         .auth-container {
             position: relative;
             width: 100%;
-            max-width: 450px;
-            max-height: 80vh; /* 화면 높이의 80% 제한 */
-            overflow-y: auto; /* 내용이 길면 내부 스크롤 */
-            overflow-x: hidden; /* 가로 스크롤 방지 (중요) */
-            
-            background: linear-gradient(135deg, rgba(157, 117, 255, 0.1), rgba(124, 92, 219, 0.05));
-            border: 2px solid rgba(157, 117, 255, 0.3);
+            max-width: 1000px;
+            height: 610px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(157, 117, 255, 0.15);
             border-radius: 24px;
-            padding: 50px 0; /* 좌우 패딩 제거 (내부 폼에서 처리) */
-            box-shadow: 0 20px 60px rgba(157, 117, 255, 0.2);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            display: flex; /* 좌우 분할을 위한 Flex */
+            overflow: hidden;
         }
 
         .auth-container::-webkit-scrollbar { width: 6px; }
         .auth-container::-webkit-scrollbar-thumb { background: rgba(157, 117, 255, 0.5); border-radius: 3px; }
 
-        .auth-forms {
-            width: 200%; /* 두 개의 폼이므로 200% */
+        .auth-side {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.1));
             display: flex;
-            transition: transform 0.5s ease-in-out;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border-right: 1px solid rgba(157, 117, 255, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .auth-side-image {
+            width: 80%;
+            max-width: 280px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .auth-side-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+            font-family: "Gowun Batang", serif;
+        }
+
+        .auth-side-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* [New] 오른쪽 폼 래퍼 (슬라이딩 영역 제한) */
+        .auth-wrapper {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden; /* 폼 슬라이딩 시 넘치는 부분 숨김 */
+        }
+
+        .auth-forms {
+            width: 200%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .auth-forms.show-signup {
@@ -535,13 +582,17 @@
         }
 
         .auth-form {
-            width: 50%; /* 정확히 절반 차지 */
-            flex-shrink: 0; /* 줄어들지 않음 */
-            padding: 0 40px; /* 패딩을 여기서 줌 */
-            box-sizing: border-box;
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .auth-title {
+            font-family: "Gowun Batang", serif;
             font-size: 32px;
             font-weight: 700;
             color: #ffffff;
@@ -590,7 +641,7 @@
             border-radius: 12px;
             color: #ffffff;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 10px;
@@ -605,14 +656,14 @@
             text-align: center;
             margin-top: 20px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .toggle-link {
             color: #9d75ff;
             cursor: pointer;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 400;
             transition: color 0.3s;
         }
 
@@ -839,52 +890,61 @@
         <div class="stars" id="starsContainer4"></div>
         
         <div class="auth-container">
-            <div class="auth-forms" id="authForms">
-                <!-- Login Form -->
-                <div class="auth-form" id="loginForm">
-                    <h2 class="auth-title">로그인</h2>
-                    <form onsubmit="handleLogin(event)">
-                        <div class="form-group">
-                            <label class="form-label">이메일</label>
-                            <input type="email" class="form-input" placeholder="example@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">비밀번호</label>
-                            <input type="password" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" class="submit-btn">로그인</button>
-                    </form>
-                    <div class="form-toggle">
-                        아직 회원이 아니신가요? 
-                        <a class="toggle-link" onclick="toggleAuthForm()">회원가입</a>
-                    </div>
-                </div>
+            <div class="auth-side">
+                <img src="./content/logo.png" alt="DMD Preview" class="auth-side-image">
+                <h3 class="auth-side-title">Start Your Diary</h3>
+                <p class="auth-side-desc">
+                    달과 함께 흐르는 당신만의 시간,<br>
+                    DMD에서 소중한 기록을 시작해보세요.
+                </p>
+            </div>
 
-                <!-- Signup Form -->
-                <div class="auth-form" id="signupForm">
-                    <h2 class="auth-title">회원가입</h2>
-                    <form onsubmit="handleSignup(event)">
-                        <div class="form-group">
-                            <label class="form-label">이름</label>
-                            <input type="text" class="form-input" placeholder="홍길동" required>
+            <div class="auth-wrapper">
+                <div class="auth-forms" id="authForms">
+                    <div class="auth-form" id="loginForm">
+                        <h2 class="auth-title">로그인하기</h2>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">로그인</button>
+                        </form>
+                        <div class="form-toggle">
+                            아직 회원이 아니신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">회원가입 하러가기</a>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">이메일</label>
-                            <input type="email" class="form-input" placeholder="example@email.com" required>
+                    </div>
+
+                    <div class="auth-form" id="signupForm">
+                        <h2 class="auth-title">계정 만들기</h2>
+                        <form onsubmit="handleSignup(event)">
+                            <div class="form-group">
+                                <label class="form-label">이름</label>
+                                <input type="text" class="form-input" placeholder="홍길동" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호 확인</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">가입하기</button>
+                        </form>
+                        <div class="form-toggle">
+                            이미 계정이 있으신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">로그인 하러가기</a>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">비밀번호</label>
-                            <input type="password" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">비밀번호 확인</label>
-                            <input type="password" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        <button type="submit" class="submit-btn">가입하기</button>
-                    </form>
-                    <div class="form-toggle">
-                        이미 계정이 있으신가요? 
-                        <a class="toggle-link" onclick="toggleAuthForm()">로그인</a>
                     </div>
                 </div>
             </div>

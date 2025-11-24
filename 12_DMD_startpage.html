@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD-startpage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Noto Sans KR", sans-serif;
+            overflow-x: hidden;
+            background: #0a0a1a;
+        }
+
+        .DMD-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .moon-orbit {   /*moon orbit path*/
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .moon-phase {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            transition: all 0.3s ease-out;
+            filter: drop-shadow(0 0 20px rgba(216, 151, 238, 0.5));
+        }
+
+        .moon-phase img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .DMD-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 40px;
+        }
+
+        .main-title {
+            font-size: 90px;
+            font-family: 'Sansation', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 30%, #d0c8ff 60%, #b8a8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        .subtitle {
+            font-family: "Gowun Batang", serif;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            animation: fadeInDown 1s ease-out 0.4s both;
+        }
+
+        /* .diary-highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 28px;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 30px;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
+            border-radius: 50px;
+            border: 2px solid rgba(157, 117, 255, 0.4);
+            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
+        }
+
+        .diary-icon {
+            font-size: 32px;
+            animation: bookFlip 5s ease-in-out infinite;
+        }
+
+        @keyframes bookFlip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
+            }
+        } */
+
+        .row-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .row-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: 200;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .row-btn.journey-start {
+            font-weight: 300;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
+            color: #ffffff;
+            border: 2px solid rgba(157, 117, 255, 0.4);
+            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
+        }
+
+        .row-btn.journey-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 50px rgba(157, 117, 255, 0.7);
+        }
+
+        .journey-icon {
+            font-size: 24px;
+            animation: bookFlip 5s ease-in-out infinite;
+        }
+
+        @keyframes bookFlip {
+            0%, 100% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
+            }
+        }
+
+        .row-btn.secondary {
+            font-size: 20px;
+            font-weight: 100;
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .row-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .floating-element.book {
+            font-size: 40px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-element.pen {
+            font-size: 35px;
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        .floating-element.star {
+            font-size: 30px;
+            animation: float 6s ease-in-out infinite 2s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-indicator svg {
+            width: 45px;
+            height: 40px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .second-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 40px;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .section-title-main {
+            font-size: 48px;
+            font-family: "Gowun Batang", serif;
+            font-weight: 500;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 50%, #b8a8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-family: "Noto Sans KR", sans-serif;
+            font-size: 18px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 90px; /* 간격 넓힘 */
+            margin-bottom: 60px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 120px;
+            text-align: left;
+            padding: 0;
+        }
+
+        /* 짝수 번째 카드는 이미지와 텍스트 위치 반전 */
+        .feature-card:nth-child(even) {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        /* 새로 추가한 텍스트 래퍼 스타일 */
+        .feature-text {
+            display: flex;
+            flex-direction: column; /* 내부 텍스트들을 세로로 배치 */
+            gap: 12px;             /* 제목과 설명 사이 간격 */
+            flex: 1;               /* 남은 공간 모두 차지 */
+            max-width: 600px;      /* 텍스트 영역 최대 너비 제한 */
+        }
+
+        .feature-text-content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        /* 2. 이미지 배경(::before) 확장 수정 */
+        .feature-image-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            width: 250px; /* 이미지 영역 고정 */
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0; /* 기존 마진 제거 */
+        }
+
+        /* 배경 장식을 이미지보다 훨씬 크게 설정 */
+        .feature-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130%;  /* 이미지 너비의 1.4배 */
+            height: 50%; /* 이미지 높이의 1.2배 */
+            background: linear-gradient(135deg, rgba(116, 90, 198, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(157, 117, 255, 0.2);
+            z-index: 0; /* 이미지 뒤로 */
+        }
+        
+        .feature-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            z-index: 2; /* 배경보다 앞으로 */
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* ===== 3rd Section (Benefits Swiper) ===== */
+        .third-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 40px;
+        }
+
+        .dmd-slider-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 1400px; /* 전체 슬라이더 너비 */
+            margin: 0 auto;
+            overflow: hidden; /* 넘치는 부분 숨김 */
+            padding: 10px 0;
+        }
+
+        .dmd-slider-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            gap: 30px; /* 슬라이드 사이 간격 */
+        }
+
+        .dmd-slide {
+            /* 2. 좌우 카드가 보이게 하기 위해 width 조절 */
+            flex: 0 0 40%; /* 한 화면에 40% 차지 (중앙 배치 시 좌우 보임) */
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
+            border: 2px solid rgba(157, 117, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5; /* 비활성 카드는 반투명 */
+            transform: scale(0.9); /* 비활성 카드는 약간 축소 */
+            transition: all 0.5s ease;
+        }
+
+        .dmd-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            border-color: #9d75ff;
+            box-shadow: 0 0 30px rgba(157, 117, 255, 0.2);
+            z-index: 2;
+        }
+
+        /* 네비게이션 버튼 */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 24px;
+            transition: 0.3s;
+        }
+
+        .slider-btn:hover { background: #9d75ff; }
+        .slider-btn.prev { left: 10px; }
+        .slider-btn.next { right: 10px; }
+
+        .benefit-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+        }
+
+        .benefit-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .benefit-description {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        /* ===== 4th Section (Login/Signup) ===== */
+        .fourth-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 610px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(157, 117, 255, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            display: flex; /* 좌우 분할을 위한 Flex */
+            overflow: hidden;
+        }
+
+        .auth-container::-webkit-scrollbar { width: 6px; }
+        .auth-container::-webkit-scrollbar-thumb { background: rgba(157, 117, 255, 0.5); border-radius: 3px; }
+
+        .auth-side {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.1));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border-right: 1px solid rgba(157, 117, 255, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .auth-side-image {
+            width: 80%;
+            max-width: 280px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .auth-side-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+            font-family: "Gowun Batang", serif;
+        }
+
+        .auth-side-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* [New] 오른쪽 폼 래퍼 (슬라이딩 영역 제한) */
+        .auth-wrapper {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden; /* 폼 슬라이딩 시 넘치는 부분 숨김 */
+        }
+
+        .auth-forms {
+            width: 200%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .auth-forms.show-signup {
+            transform: translateX(-50%);
+        }
+
+        .auth-form {
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-title {
+            font-family: "Gowun Batang", serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #9d75ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(157, 117, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #9d75ff, #7c5cdb);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.5);
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .toggle-link {
+            color: #9d75ff;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .toggle-link:hover {
+            color: #b8a8ff;
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 반응형 */
+        @media screen and (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .row-btn.journey-start {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+
+            .journey-icon {
+                font-size: 24px;
+            }
+
+            .row-buttons {
+                flex-direction: column;
+            }
+
+            .row-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .floating-element {
+                display: none;
+            }
+
+            .moon-phase {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .main-title {
+                font-size: 28px;
+            }
+
+            .moon-phase {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="DMD-section" id="DMDSection">
+        <!-- Animated Stars -->
+        <div class="stars" id="starsContainer"></div>
+
+        <div class="moon-orbit" id="moonOrbit">
+            <div class="moon-phase" id="moonPhase">
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg" alt="Moon Phase" id="moonImage">
+            </div>
+        </div>
+
+        <div class="floating-element book" style="top: 20%; left: 15%;">📖</div>
+        <div class="floating-element pen" style="top: 30%; right: 20%;">✒️</div>
+        <div class="floating-element star" style="bottom: 25%; left: 10%;">✨</div>
+        <div class="floating-element book" style="bottom: 20%; right: 15%;">📔</div>
+
+        <div class="DMD-content">
+            <h1 class="main-title">Day<br>Month<br>Diary</h1>
+            <p class="subtitle">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
+
+            <!-- 당신만의 다이어리 버튼
+            <div class="diary-highlight">
+                <span class="diary-icon">📔</span>
+                <span>당신만의 다이어리</span>
+            </div>
+            -->
+
+            <div class="row-buttons">
+                <button class="row-btn journey-start" onclick="startJourney()">
+                    <span class="journey-icon">📔</span>
+                    <span>시작하기</span>
+                </button>
+                <button class="row-btn secondary" onclick="learnMore()">
+                    <span>더 알아보기</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToNext()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </section>
+
+    <section class="second-section" id="secondSection">
+        <div class="stars" id="starsContainer2"></div>
+        
+        <div class="section-content">
+            <h2 class="section-title-main">당신의 이야기를 특별하게</h2>
+            <p class="section-subtitle">Day Month Diary만의 독특한 기능들을 만나보세요</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-image-wrapper">
+                        <img src="./content/home.png" alt="달 기반 기록" class="feature-image">
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">달의 주기와 함께</h3>
+                        <p class="feature-description">보름달부터 그믐달까지, 달의 변화와 함께 당신의 하루를 기록하세요.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image-wrapper">
+                        <img src="./content/home.png" alt="아름다운 디자인" class="feature-image">
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">감성적인 디자인</h3>
+                        <p class="feature-description">밤하늘의 별빛처럼 은은하고 아름다운 인터페이스로 일기를 작성하세요.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image-wrapper">
+                        <img src="./content/home.png" alt="월별 정리" class="feature-image">
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">월별 타임라인</h3>
+                        <p class="feature-description">한 달의 기록을 한눈에 보고, 소중한 순간들을 되돌아보세요.</p>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3rd Section -->
+    <section class="third-section" id="thirdSection">
+        <div class="stars" id="starsContainer3"></div>
+        
+        <div class="section-content">
+            <h2 class="section-title-main">왜 DMD를 선택해야 할까요?</h2>
+            <p class="section-subtitle">당신의 일상을 더 특별하게 만드는 이유</p>
+            
+            <div class="dmd-slider-viewport">
+                <div class="dmd-slider-track" id="sliderTrack">
+                    <div class="dmd-slide active">
+                        <div class="benefit-icon">🌙</div>
+                        <h3 class="benefit-title">감성적인 기록</h3>
+                        <p class="benefit-description">밤하늘의 달처럼 은은하고 아름다운 공간에서 하루를 정리하세요.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">📅</div>
+                        <h3 class="benefit-title">체계적인 관리</h3>
+                        <p class="benefit-description">월별, 일별로 체계적으로 정리된 타임라인으로 당신의 변화를 확인하세요.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">🔒</div>
+                        <h3 class="benefit-title">안전한 보관</h3>
+                        <p class="benefit-description">소중한 당신의 이야기는 안전하게 보호되며 언제 어디서나 접근 가능합니다.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">✨</div>
+                        <h3 class="benefit-title">지속 가능한 습관</h3>
+                        <p class="benefit-description">아름다운 디자인과 직관적인 인터페이스가 일기 쓰기를 즐겁게 만듭니다.</p>
+                    </div>
+                </div>
+
+                <button class="slider-btn prev" onclick="prevSlide()">&#10094;</button>
+                <button class="slider-btn next" onclick="nextSlide()">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4th Section (Login/Signup) -->
+    <section class="fourth-section" id="fourthSection">
+        <div class="stars" id="starsContainer4"></div>
+        
+        <div class="auth-container">
+            <div class="auth-side">
+                <img src="./content/logo.png" alt="DMD Preview" class="auth-side-image">
+                <h3 class="auth-side-title">Start Your Diary</h3>
+                <p class="auth-side-desc">
+                    달과 함께 흐르는 당신만의 시간,<br>
+                    DMD에서 소중한 기록을 시작해보세요.
+                </p>
+            </div>
+
+            <div class="auth-wrapper">
+                <div class="auth-forms" id="authForms">
+                    <div class="auth-form" id="loginForm">
+                        <h2 class="auth-title">로그인하기</h2>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">로그인</button>
+                        </form>
+                        <div class="form-toggle">
+                            아직 회원이 아니신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">회원가입 하러가기</a>
+                        </div>
+                    </div>
+
+                    <div class="auth-form" id="signupForm">
+                        <h2 class="auth-title">계정 만들기</h2>
+                        <form onsubmit="handleSignup(event)">
+                            <div class="form-group">
+                                <label class="form-label">이름</label>
+                                <input type="text" class="form-input" placeholder="홍길동" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호 확인</label>
+                                <input type="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">가입하기</button>
+                        </form>
+                        <div class="form-toggle">
+                            이미 계정이 있으신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">로그인 하러가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./JS/12_DMD_startpage.js"></script>
+</body>
+</html>

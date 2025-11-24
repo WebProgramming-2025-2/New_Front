@@ -5,6 +5,51 @@
     font-display: swap;
     
 }
+.sansation-light {
+    font-family: "Sansation", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  .sansation-regular {
+    font-family: "Sansation", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .sansation-bold {
+    font-family: "Sansation", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .sansation-light-italic {
+    font-family: "Sansation", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+  }
+  
+  .sansation-regular-italic {
+    font-family: "Sansation", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+  }
+  
+  .sansation-bold-italic {
+    font-family: "Sansation", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+  }
+  
+
+.roboto-font {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
 
 * {
     margin: 0;
@@ -76,6 +121,13 @@ body {
     opacity: 1;
 }
 
+.sidebar-logo-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
 
 /* Header */
 .header {
@@ -127,6 +179,24 @@ body {
     gap: 12px;
 }
 
+.share-btn {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    color: #9d75ff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.share-btn:hover {
+    background-color: rgba(157, 117, 255, 0.1);
+    color: #7c5cdb;
+}
 
 .profile-btn {
     display: flex;
@@ -196,17 +266,16 @@ body {
 
 
 .book-title {
-    /* 1. 박스 크기 및 위치 설정 (변경 사항 없음) */
     position: absolute;
-    top: 24%;           /* Y 시작 위치 */
-    left: 31.5%;        /* X 시작 위치 */
-    width: 38%;         /* 폭 */
-    height: 12.5%;      /* 높이 */
+    top: 24%;          
+    left: 31.5%;        
+    width: 38%;         
+    height: 12.5%;      
     
     /* 2. 정렬 및 넘침 처리 수정 */
     display: flex;
-    align-items: center;    /* ✅ 수직 중앙 정렬 유지 */
-    justify-content: flex-start; /* ⬅️ 수평 중앙 정렬 대신 왼쪽 정렬로 변경 */
+    align-items: center;    
+    justify-content: flex-start;
     
     /* 3. 텍스트 스타일 및 넘침 처리 */
     color: #333333;
@@ -219,8 +288,8 @@ body {
     padding: 0 4px; 
     
     /* 4. 넘칠 경우 뒷 글자 숨기기 (왼쪽 정렬 시 자동 적용) */
-    overflow: hidden;       /* 박스 밖으로 튀어나오는 내용 숨김 */
-    white-space: nowrap;    /* 줄 바꿈 방지 */
-    text-overflow: clip;    /* 넘치는 텍스트를 자름 */
-    text-align: left;       /* ⬅️ Flexbox 내부 텍스트를 명확히 왼쪽 정렬 */
+    overflow: hidden;       
+    white-space: nowrap;    
+    text-overflow: clip;   
+    text-align: left;       
 }

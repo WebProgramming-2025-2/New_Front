@@ -4,62 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMD-startpage</title>
+    <link rel="stylesheet" href="/css/12_DMD_style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
         body {
             font-family: "Noto Sans KR", sans-serif;
             overflow-x: hidden;
-            background: #0a0a1a;
+            background: var(--bg-dark-1);
         }
 
         .DMD-section {
             position: relative;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+            background: var(--gradient-background-1);
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-        }
-
-        .stars {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
         }
 
         .moon-orbit {   /*moon orbit path*/
@@ -77,7 +44,7 @@
             width: 120px;
             height: 120px;
             transition: all 0.3s ease-out;
-            filter: drop-shadow(0 0 20px rgba(216, 151, 238, 0.5));
+            filter: drop-shadow(0 0 20px var(--color-moon-glow));
         }
 
         .moon-phase img {
@@ -99,58 +66,24 @@
             font-family: 'Sansation', sans-serif;
             font-weight: 300;
             font-style: italic;
-            background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 30%, #d0c8ff 60%, #b8a8ff 100%);
+            background: var(--gradient-text-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 8px;
             letter-spacing: 2px;
             line-height: 1.2;
+            /* fadeInDown 애니메이션은 CSS 파일에 정의됨 */
             animation: fadeInDown 1s ease-out 0.2s both;
         }
 
         .subtitle {
-            font-family: "Gowun Batang", serif;
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--color-text-secondary);
             margin-bottom: 40px;
             letter-spacing: 3px;
             animation: fadeInDown 1s ease-out 0.4s both;
         }
-
-        /* .diary-highlight {
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 28px;
-            font-weight: 400;
-            color: #ffffff;
-            margin-bottom: 30px;
-            padding: 20px 40px;
-            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
-            border-radius: 50px;
-            border: 2px solid rgba(157, 117, 255, 0.4);
-            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
-        }
-
-        .diary-icon {
-            font-size: 32px;
-            animation: bookFlip 5s ease-in-out infinite;
-        }
-
-        @keyframes bookFlip {
-            0%, 100% { transform: rotateY(0deg); }
-            50% { transform: rotateY(180deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
-            }
-        } */
 
         .row-buttons {
             display: flex;
@@ -160,66 +93,10 @@
             animation: fadeInUp 1s ease-out 0.8s both;
         }
 
-        .row-btn {
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 24px;
-            font-weight: 200;
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif sans-serif;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .row-btn.journey-start {
-            font-weight: 300;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
-            color: #ffffff;
-            border: 2px solid rgba(157, 117, 255, 0.4);
-            animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
-        }
-
-        .row-btn.journey-start:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 50px rgba(157, 117, 255, 0.7);
-        }
-
         .journey-icon {
             font-size: 24px;
+            /* bookFlip 애니메이션은 CSS 파일에 정의됨 */
             animation: bookFlip 5s ease-in-out infinite;
-        }
-
-        @keyframes bookFlip {
-            0%, 100% { transform: rotateY(0deg); }
-            50% { transform: rotateY(180deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(157, 117, 255, 0.6);
-            }
-        }
-
-        .row-btn.secondary {
-            font-size: 20px;
-            font-weight: 100;
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .row-btn.secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-3px);
         }
 
         .floating-element {
@@ -230,6 +107,7 @@
 
         .floating-element.book {
             font-size: 40px;
+            /* float 애니메이션은 CSS 파일에 정의됨 */
             animation: float 8s ease-in-out infinite;
         }
 
@@ -243,20 +121,12 @@
             animation: float 6s ease-in-out infinite 2s;
         }
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-30px) rotate(10deg);
-            }
-        }
-
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
+            /* bounce 애니메이션은 CSS 파일에 정의됨 */
             animation: bounce 2s infinite;
             cursor: pointer;
             z-index: 10;
@@ -266,18 +136,6 @@
             width: 45px;
             height: 40px;
             color: rgba(255, 255, 255, 0.6);
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
         }
 
         .second-section {
@@ -300,7 +158,6 @@
 
         .section-title-main {
             font-size: 48px;
-            font-family: "Gowun Batang", serif;
             font-weight: 500;
             text-align: center;
             background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 50%, #b8a8ff 100%);
@@ -340,13 +197,12 @@
             text-align: right;
         }
 
-        /* 새로 추가한 텍스트 래퍼 스타일 */
         .feature-text {
             display: flex;
-            flex-direction: column; /* 내부 텍스트들을 세로로 배치 */
-            gap: 12px;             /* 제목과 설명 사이 간격 */
-            flex: 1;               /* 남은 공간 모두 차지 */
-            max-width: 600px;      /* 텍스트 영역 최대 너비 제한 */
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            max-width: 600px;
         }
 
         .feature-text-content {
@@ -354,31 +210,29 @@
             max-width: 400px;
         }
 
-        /* 2. 이미지 배경(::before) 확장 수정 */
         .feature-image-wrapper {
             position: relative;
             flex-shrink: 0;
-            width: 250px; /* 이미지 영역 고정 */
+            width: 250px;
             height: 250px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0; /* 기존 마진 제거 */
+            margin-bottom: 0;
         }
 
-        /* 배경 장식을 이미지보다 훨씬 크게 설정 */
         .feature-image-wrapper::before {
             content: '';
             position: absolute;
             top: 80%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 130%;  /* 이미지 너비의 1.4배 */
-            height: 50%; /* 이미지 높이의 1.2배 */
+            width: 130%;
+            height: 50%;
             background: linear-gradient(135deg, rgba(116, 90, 198, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
             border-radius: 20px;
             border: 1px solid rgba(157, 117, 255, 0.2);
-            z-index: 0; /* 이미지 뒤로 */
+            z-index: 0;
         }
         
         .feature-image {
@@ -388,7 +242,7 @@
             object-fit: cover;
             border-radius: 16px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            z-index: 2; /* 배경보다 앞으로 */
+            z-index: 2;
         }
 
         .feature-title {
@@ -404,7 +258,6 @@
             line-height: 1.6;
         }
 
-        /* ===== 3rd Section (Benefits Swiper) ===== */
         .third-section {
             width: 100vw;
             min-height: 100vh;
@@ -419,21 +272,20 @@
         .dmd-slider-viewport {
             position: relative;
             width: 100%;
-            max-width: 1400px; /* 전체 슬라이더 너비 */
+            max-width: 1400px;
             margin: 0 auto;
-            overflow: hidden; /* 넘치는 부분 숨김 */
+            overflow: hidden;
             padding: 10px 0;
         }
 
         .dmd-slider-track {
             display: flex;
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            gap: 30px; /* 슬라이드 사이 간격 */
+            gap: 30px;
         }
 
         .dmd-slide {
-            /* 2. 좌우 카드가 보이게 하기 위해 width 조절 */
-            flex: 0 0 40%; /* 한 화면에 40% 차지 (중앙 배치 시 좌우 보임) */
+            flex: 0 0 40%;
             background: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
             border: 2px solid rgba(157, 117, 255, 0.3);
             border-radius: 24px;
@@ -444,8 +296,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            opacity: 0.5; /* 비활성 카드는 반투명 */
-            transform: scale(0.9); /* 비활성 카드는 약간 축소 */
+            opacity: 0.5;
+            transform: scale(0.9);
             transition: all 0.5s ease;
         }
 
@@ -456,27 +308,6 @@
             box-shadow: 0 0 30px rgba(157, 117, 255, 0.2);
             z-index: 2;
         }
-
-        /* 네비게이션 버튼 */
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 24px;
-            transition: 0.3s;
-        }
-
-        .slider-btn:hover { background: #9d75ff; }
-        .slider-btn.prev { left: 10px; }
-        .slider-btn.next { right: 10px; }
 
         .benefit-icon {
             font-size: 64px;
@@ -497,7 +328,6 @@
             max-width: 600px;
         }
 
-        /* ===== 4th Section (Login/Signup) ===== */
         .fourth-section {
             width: 100vw;
             min-height: 100vh;
@@ -519,7 +349,7 @@
             border: 1px solid rgba(157, 117, 255, 0.15);
             border-radius: 24px;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-            display: flex; /* 좌우 분할을 위한 Flex */
+            display: flex;
             overflow: hidden;
         }
 
@@ -553,7 +383,6 @@
             font-weight: 600;
             color: #fff;
             margin-bottom: 10px;
-            font-family: "Gowun Batang", serif;
         }
 
         .auth-side-desc {
@@ -562,12 +391,11 @@
             line-height: 1.6;
         }
 
-        /* [New] 오른쪽 폼 래퍼 (슬라이딩 영역 제한) */
         .auth-wrapper {
             width: 50%;
             height: 100%;
             position: relative;
-            overflow: hidden; /* 폼 슬라이딩 시 넘치는 부분 숨김 */
+            overflow: hidden;
         }
 
         .auth-forms {
@@ -592,7 +420,6 @@
         }
 
         .auth-title {
-            font-family: "Gowun Batang", serif;
             font-size: 32px;
             font-weight: 700;
             color: #ffffff;
@@ -633,25 +460,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #9d75ff, #7c5cdb);
-            border: none;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.5);
-        }
-
         .form-toggle {
             text-align: center;
             margin-top: 20px;
@@ -670,37 +478,6 @@
         .toggle-link:hover {
             color: #b8a8ff;
             text-decoration: underline;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* 반응형 */
@@ -760,7 +537,6 @@
 </head>
 <body>
     <section class="DMD-section" id="DMDSection">
-        <!-- Animated Stars -->
         <div class="stars" id="starsContainer"></div>
 
         <div class="moon-orbit" id="moonOrbit">
@@ -776,14 +552,7 @@
 
         <div class="DMD-content">
             <h1 class="main-title">Day<br>Month<br>Diary</h1>
-            <p class="subtitle">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
-
-            <!-- 당신만의 다이어리 버튼
-            <div class="diary-highlight">
-                <span class="diary-icon">📔</span>
-                <span>당신만의 다이어리</span>
-            </div>
-            -->
+            <p class="subtitle gowun-batang-regular">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
 
             <div class="row-buttons">
                 <button class="row-btn journey-start" onclick="startJourney()">
@@ -807,7 +576,7 @@
         <div class="stars" id="starsContainer2"></div>
         
         <div class="section-content">
-            <h2 class="section-title-main">당신의 이야기를 특별하게</h2>
+            <h2 class="section-title-main gowun-batang-regular">당신의 이야기를 특별하게</h2>
             <p class="section-subtitle">Day Month Diary만의 독특한 기능들을 만나보세요</p>
             
             <div class="features-grid">
@@ -844,12 +613,11 @@
         </div>
     </section>
 
-    <!-- 3rd Section -->
     <section class="third-section" id="thirdSection">
         <div class="stars" id="starsContainer3"></div>
         
         <div class="section-content">
-            <h2 class="section-title-main">왜 DMD를 선택해야 할까요?</h2>
+            <h2 class="section-title-main gowun-batang-regular">왜 DMD를 선택해야 할까요?</h2>
             <p class="section-subtitle">당신의 일상을 더 특별하게 만드는 이유</p>
             
             <div class="dmd-slider-viewport">
@@ -885,14 +653,13 @@
         </div>
     </section>
 
-    <!-- 4th Section (Login/Signup) -->
     <section class="fourth-section" id="fourthSection">
         <div class="stars" id="starsContainer4"></div>
         
         <div class="auth-container">
             <div class="auth-side">
-                <img src="./content/logo.png" alt="DMD Preview" class="auth-side-image">
-                <h3 class="auth-side-title">Start Your Diary</h3>
+                <img src="./content/lightTodark.png" alt="DMD Preview" class="auth-side-image">
+                <h3 class="auth-side-title gowun-batang-regular">Start Your Diary</h3>
                 <p class="auth-side-desc">
                     달과 함께 흐르는 당신만의 시간,<br>
                     DMD에서 소중한 기록을 시작해보세요.
@@ -902,7 +669,7 @@
             <div class="auth-wrapper">
                 <div class="auth-forms" id="authForms">
                     <div class="auth-form" id="loginForm">
-                        <h2 class="auth-title">로그인하기</h2>
+                        <h2 class="auth-title gowun-batang-regular">로그인하기</h2>
                         <form onsubmit="handleLogin(event)">
                             <div class="form-group">
                                 <label class="form-label">이메일</label>
@@ -921,7 +688,7 @@
                     </div>
 
                     <div class="auth-form" id="signupForm">
-                        <h2 class="auth-title">계정 만들기</h2>
+                        <h2 class="auth-title gowun-batang-regular">계정 만들기</h2>
                         <form onsubmit="handleSignup(event)">
                             <div class="form-group">
                                 <label class="form-label">이름</label>

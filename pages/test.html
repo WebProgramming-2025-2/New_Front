@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey - Timeline</title>
+    <link rel="stylesheet" href="../css/12_DMD_style.css">
+    <style>
+        .section-title, .activities-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #7c5cdb 0%, #9d75ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Story Carousel */
+        .story-carousel {
+            position: relative;
+            height: 280px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            position: relative;
+        }
+
+        .story-card {
+            position: absolute;
+            width: 340px;
+            height: 230px;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.25);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.75) translateX(720px); 
+        }
+
+        .story-card.center {
+            transform: scale(1.05) translateX(0);
+            z-index: 3;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .story-card.left-1 {
+            transform: scale(0.88) translateX(-380px);
+            z-index: 2;
+            opacity: 0.7;
+            pointer-events: auto;
+        }
+
+        .story-card.left-2 {
+            transform: scale(0.75) translateX(-720px);
+            z-index: 1;
+            opacity: 0.4;
+            pointer-events: auto;
+        }
+
+        .story-card.right-1 {
+            transform: scale(0.88) translateX(380px);
+            z-index: 2;
+            opacity: 0.7;
+            pointer-events: auto;
+        }
+
+        .story-card.right-2 {
+            transform: scale(0.75) translateX(720px);
+            z-index: 1;
+            opacity: 0.4;
+            pointer-events: auto;
+        }
+
+        .story-title {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            color: #ffffff;
+        }
+
+        .story-description {
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+            color: #ffffff;
+        }
+
+        .cta-button {
+            background-color: #ffffff;
+            color: #9d75ff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-button:hover {
+            background-color: #f0f2ff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(157, 117, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator-dot.active {
+            background-color: #9d75ff;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .indicator-dot:hover {
+            background-color: #9d75ff;
+        }
+
+        /* Activities Section */
+        .activities-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .activities-controls {
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 38px;
+            height: 38px;
+            background-color: transparent;
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 10px;
+            color: #9d75ff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background-color: rgba(157, 117, 255, 0.1);
+            border-color: #9d75ff;
+            color: #7c5cdb;
+        }
+
+        /* Book Cards Section */
+        .horizontal-scroll-section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .bookshelf-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px 40px;
+        }
+        
+        .book-card {
+            width: calc((100% - 40px * 4) / 5);
+            aspect-ratio: 3/4;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: visible;
+        }
+
+
+ /* Diary Info Popup - startpage 배경 느낌 적용 */
+        .diary-info-popup {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.95), rgba(124, 92, 219, 0.95));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px 14px;
+            min-width: 170px;
+            box-shadow: 0 8px 32px rgba(157, 117, 255, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .book-card.show-popup .diary-info-popup {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .diary-info-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .diary-info-item {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .diary-info-item svg {
+            width: 12px;
+            height: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+        }
+
+        .diary-action-btn {
+            width: 100%;
+            padding: 7px 10px;
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            font-size: 11px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .diary-action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .diary-action-btn.delete {
+            color: #fff;
+            background: rgba(255, 107, 107, 0.3);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .diary-action-btn.delete:hover {
+            background: rgba(255, 107, 107, 0.5);
+            border-color: rgba(255, 107, 107, 0.7);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .modal-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .modal-btn.confirm {
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(157, 117, 255, 0.4);
+        }
+
+        .modal-btn.delete {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .modal-btn.delete:hover {
+            background: #ff5252;
+        }
+
+        .toast-message {
+            position: fixed;
+            top: 105px;
+            left: 54px;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.4);
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .toast-message.active {
+            opacity: 1;
+        }
+
+        /* Move Mode Highlight */
+        .move-mode .story-card {
+            cursor: pointer;
+        }
+
+        .move-mode .story-card:hover {
+            box-shadow: 0 12px 32px rgba(157, 117, 255, 0.4);
+        }
+
+        /* Add Button */
+        .add-button {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, #9d75ff, #a6e5fa);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 18px 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 90;
+        }
+
+        .add-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(157, 117, 255, 0.5);
+        }
+
+        .plus-icon {
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        .create-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .create-modal-overlay.active {
+            display: flex;
+        }
+
+        .create-modal-content {
+            background: #fff;
+            width: 720px;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .create-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .create-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+        }
+
+        .close-create-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s;
+        }
+        .close-create-btn:hover { color: #333; }
+
+        .create-section { margin-bottom: 32px; }
+        .section-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #7c5cdb;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .diary-name-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #eef0f5;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s;
+            color: #333;
+        }
+        .diary-name-input:focus {
+            border-color: #9d75ff;
+            background-color: #fcfbffe0;
+        }
+
+        .cover-custom-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            background: #f8f9fd;
+            padding: 24px;
+            border-radius: 16px;
+        }
+
+        .cover-preview {
+            width: 140px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            transition: transform 0.3s;
+        }
+        .cover-preview:hover { transform: scale(1.05); }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            flex-grow: 1;
+        }
+
+        .color-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .color-btn:hover { transform: scale(1.1); }
+        .color-btn.active {
+            transform: scale(1.15);
+            border: 2px solid #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .color-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px; height: 10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        .paper-options {
+            display: flex;
+            gap: 16px;
+        }
+        .paper-card {
+            flex: 1;
+            height: 140px;
+            border: 2px solid #eef0f5;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .paper-card:hover { border-color: #b6a1f6; }
+        .paper-card.active {
+            border-color: #7c5cdb;
+            box-shadow: 0 0 0 3px rgba(124, 92, 219, 0.2);
+        }
+        
+        .paper-pattern {
+            width: 100%; height: 100%;
+            background-color: #fff;
+        }
+        .paper-card.line .paper-pattern {
+            background-image: linear-gradient(#e1e1e1 1px, transparent 1px);
+            background-size: 100% 20px;
+            margin-top: 20px;
+        }
+        .paper-card.grid .paper-pattern {
+            background-image: 
+                linear-gradient(#e1e1e1 1px, transparent 1px),
+                linear-gradient(90deg, #e1e1e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .paper-name {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(255,255,255,0.9);
+            padding: 8px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .create-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, #7c5cdb 0%, #9d75ff 100%);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(124, 92, 219, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Columns.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">책장</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Calendar.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">캘린더</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Layers.svg" alt="Logo" class="sidebar-icon">
+            <div class="sidebar-tooltip">아카이브</div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="../content/logo.png" alt="Journey Logo" class="logo-icon">
+                <span>Day Month Diary</span>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <div class="profile-btn">
+                <div class="profile-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="section-title">Monthly bookshelf</h2>
+        
+        <!-- 데모를 위한 샘플 다이어리 카드 -->
+        <div style="margin: 40px 0;">
+            <div style="display: inline-block; position: relative;">
+                <div class="book-card show-popup" style="width: 200px; height: 267px; background: linear-gradient(135deg, #CDBEFF, #9d75ff); border-radius: 12px;">
+                    <!-- Diary Info Popup -->
+                    <div class="diary-info-popup">
+                        <div class="diary-info-title">2025 일상기록</div>
+                        <div class="diary-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            <span>생성: 2025-01-15</span>
+                        </div>
+                        <div class="diary-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                            <span>15개 항목</span>
+                        </div>
+                        <button class="diary-action-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            수정
+                        </button>
+                        <button class="diary-action-btn delete">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            삭제
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p style="color: #999; margin-top: 20px;">↑ 변경된 Diary Info Popup 디자인 (startpage 배경 스타일 적용)</p>
+    </div>
+</body>
+</html>

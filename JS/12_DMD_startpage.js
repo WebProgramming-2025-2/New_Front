@@ -93,7 +93,7 @@ function scrollToNext() {
 /**
  * Navigate to fourth section (Login/Signup)
  */
-function startJourney() {
+function startbook() {
     const fourthSection = document.getElementById('fourthSection');
     if (fourthSection) {
         fourthSection.scrollIntoView({ behavior: 'smooth' });

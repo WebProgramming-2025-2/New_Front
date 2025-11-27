@@ -54,7 +54,7 @@
     /* Gradient Buttons & Elements */
     --gradient-button-primary: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-purple-dark));
     --gradient-button-submit: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-    --gradient-button-transperant: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.3));
+    --gradient-button-transperant: linear-gradient(135deg, rgba(156, 117, 255, 0.1), rgba(124, 92, 219, 0.2));
     
     /* Gradient Cards & Backgrounds */
     --gradient-card-glow: linear-gradient(135deg, var(--color-accent-glow) 0%, rgba(0, 0, 0, 0) 100%);
@@ -150,15 +150,13 @@ html {
 body {
     font-family: "Noto Sans KR", sans-serif;
     overflow-x: hidden;
-    background: var(--gradient-background-1); 
+    background: var(--gradient-background-1);
     min-height: 100vh;
     margin: 0;
     position: relative;
     color: var(--color-text-primary);
 }
 
-/* 반짝이는 별 배경 */
-/* 공통 별 배경 화면에 고정 */
 .common-star-bg {
     position: fixed;
     top: 0;
@@ -184,8 +182,6 @@ body {
     100% { opacity: 0; transform: scale(0.5); }
 } */
 
-/* 버튼 스타일 */
-/* 다른 페이지에서 불필요하다면 startpage.html으로 이동 예정*/
 .row-btn {
     padding: 15px 40px;
     border: none;
@@ -229,7 +225,6 @@ body {
     transform: translateY(-3px);
 }
 
-/* 큰 버튼 */
 .submit-btn {
     width: 100%;
     padding: 16px;
@@ -249,7 +244,6 @@ body {
     box-shadow: 0 8px 24px var(--shadow-primary);
 }
 
-/* 좌우 버튼 */
 .slider-btn {
     position: absolute;
     top: 50%;
@@ -281,7 +275,6 @@ body {
     right: 10px;
 }
 
-/* 공통 애니메이션 */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -348,7 +341,6 @@ body {
     }
 }
 
-/* Sidebar */
 .sidebar {
     position: fixed;
     left: 0;
@@ -414,7 +406,6 @@ body {
     object-fit: contain;
 }
 
-/* Header */
 .header {
     position: fixed;
     top: 0;
@@ -517,7 +508,6 @@ body {
     color: var(--color-primary-dark);
 }
 
-/* Main Content */
 .main-content {
     margin-left: 54px;
     margin-top: 70px;

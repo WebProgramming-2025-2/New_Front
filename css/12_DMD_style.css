@@ -67,7 +67,6 @@
     --gradient-logo: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
 }
 
-/* 폰트 로드 문제가 있을 수 있으므로 각자 HTML 안에서도 import 해주세요*/
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
@@ -148,35 +147,42 @@ html {
     scroll-behavior: smooth;
 }
 
-/* body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: #ffffff;
-    background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
-} */
+body {
+    font-family: "Noto Sans KR", sans-serif;
+    overflow-x: hidden;
+    background: var(--gradient-background-1); 
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+    color: var(--color-text-primary);
+}
 
 /* 반짝이는 별 배경 */
-.stars {
-    position: absolute;
+/* 공통 별 배경 화면에 고정 */
+.common-star-bg {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: -1;
 }
 
 .star {
     position: absolute;
-    width: 2px;
-    height: 2px;
+    width: 1.5px;
+    height: 1.5px;
     background: var(--color-star);
     border-radius: 50%;
-    animation: twinkle 3s infinite;
+    /* animation: twinkle 10s infinite; */
 }
 
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
+/* @keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0.5); }
+} */
 
 /* 버튼 스타일 */
 /* 다른 페이지에서 불필요하다면 startpage.html으로 이동 예정*/
@@ -195,7 +201,7 @@ html {
     text-decoration: none;
 }
 
-.row-btn.journey-start {
+.row-btn.web-start {
     font-weight: 300;
     padding: 15px 40px;
     background: var(--gradient-button-transperant);
@@ -204,7 +210,7 @@ html {
     animation: fadeIn 1s ease-out 0.7s both, pulse 1.5s ease-in-out infinite;
 }
 
-.row-btn.journey-start:hover {
+.row-btn.web-start:hover {
     transform: translateY(-3px);
     box-shadow: 0 0 50px rgba(157, 117, 255, 0.7);
 }

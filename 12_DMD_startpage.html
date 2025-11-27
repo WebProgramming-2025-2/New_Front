@@ -12,12 +12,6 @@
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
-        body {
-            font-family: "Noto Sans KR", sans-serif;
-            overflow-x: hidden;
-            background: var(--bg-dark-1);
-        }
-
         .DMD-section {
             position: relative;
             width: 100vw;
@@ -27,6 +21,21 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 1.5px;
+            height: 1.5px;
+            background: var(--color-star);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
         }
 
         .moon-orbit {   /*moon orbit path*/
@@ -93,7 +102,7 @@
             animation: fadeInUp 1s ease-out 0.8s both;
         }
 
-        .journey-icon {
+        .book-icon {
             font-size: 24px;
             /* bookFlip 애니메이션은 CSS 파일에 정의됨 */
             animation: bookFlip 5s ease-in-out infinite;
@@ -495,12 +504,12 @@
                 font-size: 16px;
             }
 
-            .row-btn.journey-start {
+            .row-btn.web-start {
                 font-size: 20px;
                 padding: 15px 30px;
             }
 
-            .journey-icon {
+            .book-icon {
                 font-size: 24px;
             }
 
@@ -555,8 +564,8 @@
             <p class="subtitle gowun-batang-regular">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
 
             <div class="row-buttons">
-                <button class="row-btn journey-start" onclick="startJourney()">
-                    <span class="journey-icon">📔</span>
+                <button class="row-btn web-start" onclick="startbook()">
+                    <span class="book-icon">📔</span>
                     <span>시작하기</span>
                 </button>
                 <button class="row-btn secondary" onclick="learnMore()">
@@ -658,7 +667,7 @@
         
         <div class="auth-container">
             <div class="auth-side">
-                <img src="./content/lightTodark.png" alt="DMD Preview" class="auth-side-image">
+                <img src="./content/logo.png" alt="DMD Preview" class="auth-side-image">
                 <h3 class="auth-side-title gowun-batang-regular">Start Your Diary</h3>
                 <p class="auth-side-desc">
                     달과 함께 흐르는 당신만의 시간,<br>

@@ -759,13 +759,13 @@
         .book-card {
             width: calc((100% - 40px * 4) / 5);
             aspect-ratio: 3/4;
-            position: relative;
+            position: relative; /* z-index 사용을 위해 필수 */
             cursor: pointer;
             transition: all 0.3s;
-            overflow: visible;
-            
+            overflow: visible; /* 팝업이 카드 밖으로 나가도 잘리지 않게 함 */
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1; /* 기본 우선순위 */
         }
 
         .book-card::before {
@@ -786,14 +786,71 @@
             opacity: 1;
         }
 
-        .book-card:hover {
+        .book-card:hover, 
+        .book-card.show-popup {
             transform: translateY(-8px);
+            z-index: 100; /* 주변 다른 카드들보다 훨씬 높게 설정하여 가려짐 방지 */
+        }
+        .book-card svg {
+            stroke: #dcd3ff; /* 파스텔 보라 대신 밝은 라벤더색 */
+            stroke-width: 1.2;
+            fill: rgba(157, 117, 255, 0.05); /* 내부를 아주 연하게 채움 */
+            filter: drop-shadow(0 0 5px rgba(157, 117, 255, 0.4)); /* 은은한 빛 */
+            transition: all 0.4s ease;
+        }
+        .book-title {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #e8e8ff;
+            text-align: center;
+        }
+        .book-card .book-svg {
+            width: 60%;
+            height: auto;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+            transition: all 0.3s;
+        }
+        
+        .book-card:hover .book-svg {
+            filter: drop-shadow(0 15px 20px rgba(157, 117, 255, 0.4));
+            transform: scale(1.05);
         }
 
         .book-card:hover svg {
-            filter: drop-shadow(0 0 20px rgba(157, 117, 255, 0.6)) 
-                    drop-shadow(0 0 40px rgba(157, 117, 255, 0.4))
-                    drop-shadow(0 0 60px rgba(157, 117, 255, 0.2));
+            stroke: #ffffff; /* 호버 시 흰색으로 빛남 */
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 8px rgba(157, 117, 255, 0.8)) 
+                    drop-shadow(0 0 15px rgba(157, 117, 255, 0.4)); /* 강한 네온 효과 */
+            transform: scale(1.05) translateY(-2px);
+        }
+        .book-date {
+            color: #e8e8ff;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .book-desc {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+        }
+        .new-entry-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(157, 117, 255, 0.1);
+            border: 1px dashed rgba(157, 117, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .book-card:hover .new-entry-icon {
+            background: rgba(157, 117, 255, 0.3);
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(157, 117, 255, 0.4);
         }
 
         /* Diary Info Popup */
@@ -1026,7 +1083,22 @@
             font-size: 22px;
             font-weight: 300;
         }
-        
+        .book-card-inner {
+            width: 100%;
+            height: 100%;
+            /* 더 투명하고 세련된 배경 */
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(157, 117, 255, 0.02) 100%);
+            border: 1px solid rgba(157, 117, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -1289,6 +1361,49 @@
 
         <div class="horizontal-scroll-section" id="diarySection">
             <div class="bookshelf-row" id="diaryGrid">
+                <div class="book-card">
+                    <div class="book-card-inner">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <span class="book-date">2024.11.26</span>
+                        <span class="book-desc">오늘의 기록</span>
+                    </div>
+                    <div class="diary-info-popup">
+                        <div class="diary-info-title">2024.11.26</div>
+                        <div class="diary-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            화요일
+                        </div>
+                        <div class="diary-info-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                            감성적인 하루
+                        </div>
+                        <button class="diary-action-btn">수정하기</button>
+                        <button class="diary-action-btn delete">삭제하기</button>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-card-inner">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <span class="book-date">2024.11.25</span>
+                        <span class="book-desc">어제의 일기</span>
+                    </div>
+                </div>
+
+                <div class="book-card">
+                    <div class="book-card-inner">
+                        <div class="new-entry-icon">
+                            <span style="color: #fff; font-size: 24px; font-weight: 300;">+</span>
+                        </div>
+                        <span style="color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 600;">새 글 쓰기</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1329,6 +1444,6 @@
         
         createStars();
     </script>
-    <script src="../JS/home_carousel.js"></script>
+    <script src="../JS/test_carousel.js"></script>
 </body>
 </html>

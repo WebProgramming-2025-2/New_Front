@@ -98,6 +98,10 @@ function learnMore() {
     scrollToNext();
 }
 
+// 로그인 / 회원가입
+const DB_KEY = 'my_service_users';
+const SESSION_KEY = 'currentUser';
+
 function toggleAuthForm() {
     const authForms = document.getElementById('authForms');
     authForms.classList.toggle('show-signup');
@@ -105,16 +109,55 @@ function toggleAuthForm() {
 
 function handleLogin(event) {
     event.preventDefault();
-    // TODO: Implement login logic
-    console.log('Login submitted');
-    alert('로그인 기능은 곧 구현될 예정입니다.');
+    const loginEmail = document.getElementById('loginEmail').value;
+    const loginPassword = document.getElementById('loginPassword').value;
+
+    const users = JSON.parse(localStorage.getItem(DB_KEY)) || [];
+
+    const validUser = users.find(user => user.email === loginEmail && user.password === loginPassword);
+
+    if (validUser) {
+        const currentUser = {
+            username: validUser.username,
+            email: validUser.email
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+
+        alert(`${validUser.username}님 환영합니다!`);
+        // 변경 예정!!
+        window.location.href = 'pages/12_Orbit_home.html';
+    } else {
+        alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+    }
 }
 
 function handleSignup(event) {
     event.preventDefault();
-    // TODO: Implement signup logic
-    console.log('Signup submitted');
-    alert('회원가입 기능은 곧 구현될 예정입니다.');
+    const username = document.getElementById('username').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password2').value;
+
+    if (password !== passwordConfirm) {
+        alert('비밀번호가 일치하지 않습니다.');
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem(DB_KEY)) || [];
+
+    const existingUser = users.find(user => user.email === email);
+    if (existingUser) {
+        alert('이미 가입된 이메일입니다.');
+        return;
+    }
+
+    const newUser = { username, email, password };
+    users.push(newUser);
+    localStorage.setItem(DB_KEY, JSON.stringify(users));
+
+    alert('회원가입 성공! 로그인 해주세요.');
+    event.target.reset();
+    toggleAuthForm();
 }
 
 let currentSlideIndex = 0;

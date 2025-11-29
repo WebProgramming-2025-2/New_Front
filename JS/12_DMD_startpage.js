@@ -13,8 +13,6 @@ const originalPhases = [
     'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg', // 🌔
 ];
 
-const RepeatCount = 3;
-
 const moonPhases = originalPhases.flatMap((phase, index) => {
     let count = 3;
 
@@ -23,14 +21,14 @@ const moonPhases = originalPhases.flatMap((phase, index) => {
         count = 4;
     }
 
-    // 2. 삭 길게 보여줌
+    // 삭 길게 보여줌
     if (index === 8) {
         count = 4;
     }
 
-    // 설정된 count만큼 배열에 채워 넣기
     return Array(count).fill(phase);
 });
+
 const moonPhase = document.getElementById('moonPhase');
 const moonImage = document.getElementById('moonImage');
 
@@ -140,7 +138,7 @@ function handleLogin(event) {
 
         alert(`${validUser.username}님 환영합니다!`);
         // 변경 예정!!
-        window.location.href = 'pages/12_Orbit_home.html';
+        window.location.href = 'pages/12_DMD_home.html';
     } else {
         alert('이메일 또는 비밀번호가 올바르지 않습니다.');
     }

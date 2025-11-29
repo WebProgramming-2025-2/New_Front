@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journey - Timeline</title>
+    <title>DMD-home</title>
     
     <link rel="stylesheet" href="../css/12_DMD_style.css">
     
@@ -13,18 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           페이지 전용 스타일 (Home Specific)
-           ========================================= */
-
-        /* 배경 고정 (CSS 파일 body 설정 보완) */
+        
         body {
             background-attachment: fixed;
             background-size: cover;
             overflow-x: hidden;
         }
 
-        /* Main Content Z-index */
         .main-content { position: relative; z-index: 1; }
 
         .section-title, .activities-title {
@@ -39,7 +34,6 @@
         }
         .activities-title { font-size: 28px; }
 
-        /* Carousel Styles */
         .story-carousel {
             position: relative;
             height: 320px;
@@ -73,7 +67,6 @@
             filter: drop-shadow(0 0 15px var(--color-moon-glow));
         }
 
-        /* Carousel Logic States */
         .story-card.center {
             transform: scale(1) translateX(0);
             z-index: 3; opacity: 1; pointer-events: auto;
@@ -359,11 +352,10 @@
         /* Book Cards Section */
         .horizontal-scroll-section { position: relative; margin-bottom: 20px; }
         
-        /* 컨테이너 */
         .bookshelf-row { display: flex; flex-wrap: wrap; gap: 40px 40px; }
         .bookshelf-row.view-mode-list { flex-direction: column; gap: 16px; }
 
-        /* [TYPE A] Grid Card (책장 보기 전용) */
+        /* Grid Card */
         .grid-card { 
             width: calc((100% - 40px * 4) / 5);
             aspect-ratio: 3/4;
@@ -396,7 +388,7 @@
             overflow: hidden; white-space: nowrap; text-overflow: clip; text-align: left;       
         }
 
-        /* [TYPE B] List Card (리스트 보기 전용) */
+        /* List Card (리스트 보기 전용) */
         .list-card {
             width: 100%; height: 100px;
             display: flex; align-items: center; padding: 20px 24px;
@@ -409,7 +401,7 @@
 
         .list-card:hover {
             background: linear-gradient(135deg, rgba(157, 117, 255, 0.12), rgba(124, 92, 219, 0.18));
-            border-color: rgba(157, 117, 255, 0.4);
+            border-color: var(--border-primary);
         }
 
         .list-card .book-svg { width: 60px; height: 60px; margin-right: 24px; flex-shrink: 0; }
@@ -488,7 +480,7 @@
 
     .bookshelf-row.list-view .book-card:hover {
         background: linear-gradient(135deg, rgba(157, 117, 255, 0.12), rgba(124, 92, 219, 0.18));
-        border-color: rgba(157, 117, 255, 0.4);
+        border-color: var(--border-primary);
     }
 
     .bookshelf-row.list-view .book-svg {
@@ -583,6 +575,80 @@
         transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
         z-index: 100;
     }
+    .book-card {
+    width: 100%;
+    aspect-ratio: 3/4;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+    overflow: visible;
+    }
+
+    .book-card:hover .book-card-inner {
+            border-color: rgba(157, 117, 255, 0.5);
+            background: linear-gradient(160deg, rgba(157, 117, 255, 0.15) 0%, rgba(157, 117, 255, 0.05) 100%);
+            
+    }
+        
+
+    .book-card:hover .book-svg {
+        filter: saturate(3.2) drop-shadow(0 15px 30px rgba(157, 117, 255, 0.3));
+    
+    }
+    
+    .book-svg {
+        width: 100%;
+        height: 100%;
+        filter: saturate(2.2) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        transition: all 0.3s ease;
+    }
+    .book-title {
+        position: absolute;
+        top: 24%;          
+        left: 31.5%;        
+        width: 38%;         
+        height: 12.5%;      
+
+        display: flex;
+        align-items: center;    
+        justify-content: flex-start;
+
+        color: #333333;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.2;
+        z-index: 3;
+        pointer-events: none;
+        box-sizing: border-box; 
+        padding: 0 4px; 
+        overflow: hidden;       
+        white-space: nowrap;    
+        text-overflow: clip;   
+        text-align: left;       
+    }
+    .control-btn .sidebar-tooltip {
+        position: absolute;
+        bottom: 125%; 
+        left: 50%;
+        transform: translateX(-50%) translateY(10px); 
+        white-space: nowrap; 
+        opacity: 0;         
+        pointer-events: none; 
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+        z-index: 100;
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); 
+        color: var(--color-text-primary);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        box-shadow: 0 8px 24px var(--border-primary);
+    }
+
+    .control-btn:hover .sidebar-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0); 
+    }
 
     </style>
 </head>
@@ -612,15 +678,15 @@
 
     <div class="sidebar">
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Columns.svg" alt="Logo" class="sidebar-icon active">
+            <img src="../content/Columns.svg" class="sidebar-icon active">
             <div class="sidebar-tooltip">책장</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Calendar.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Calendar.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">캘린더</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Layers.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Layers.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">아카이브</div>
         </div>
     </div>
@@ -628,7 +694,7 @@
     <div class="header">
         <div class="logo">
             <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
-                <img src="../content/logo.png" alt="Journey Logo" class="logo-icon">
+                <img src="../content/logo.png" class="logo-icon">
                 <span>Day Month Diary</span>
             </a>
         </div>
@@ -909,14 +975,14 @@
     <div class="toast-message" id="toastMessage">이동할 달을 선택해주세요</div>
 
     <script>
-        // JS에서 생성하는 별 배경 코드 수정 (CSS 파일의 common-star-bg 사용)
+        
         function createStars() {
             const starsContainer = document.getElementById('starsContainer');
             const starCount = 100;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
-                star.className = 'star'; // CSS 파일에 정의된 .star 클래스 사용
+                star.className = 'star'; 
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 3 + 's';
@@ -926,5 +992,7 @@
         createStars();
     </script>
     <script src="../JS/home_carousel.js"></script>
+    <script src="../JS/common_background.js"></script>
+    <script src="../JS/12_DMD_startpage.js"></script>
 </body>
 </html>

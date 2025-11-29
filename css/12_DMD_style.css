@@ -348,14 +348,14 @@ body {
     top: 0;
     width: 54px;
     height: 100vh;
-    
+    background: var(--gradient-button-transperant);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 80px 0;
     gap: 30px;
     z-index: 100;
-    box-shadow: 2px 0 10px var(--shadow-dark);
+    /* box-shadow: 2px 0 10px var(--shadow-dark); */
 }
 
 .sidebar-icon-wrapper {
@@ -367,23 +367,21 @@ body {
     justify-content: center;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 .sidebar-icon-wrapper:hover {
-    background: var(--color-accent-purple);
-    transform: translateX(5px);
+    background-color: var(--color-accent-glow);
 }
 
 .sidebar-icon-wrapper:hover .sidebar-icon {
-    color: #b6a1f6;
-    filter: brightness(0) saturate(100%) invert(74%) sepia(35%) saturate(1000%) hue-rotate(214deg) brightness(103%) contrast(101%);
+    color: var(--color-primary-lighter);
 }
 
 .sidebar-tooltip {
     position: absolute;
     left: 60px;
-    background: linear-gradient(135deg, #9d75ff, #7c5cdb); /* 버튼과 동일한 그라데이션 */
+    background-color: var(--color-accent-purple);
     color: var(--color-text-primary);
     padding: 8px 12px;
     border-radius: 8px;
@@ -394,8 +392,8 @@ body {
     pointer-events: none;
     transition: opacity 0.2s;
     z-index: 101;
-    box-shadow: 0 8px 24px var(--shadow-primary);
 }
+
 
 .sidebar-icon.active {
     filter: brightness(0) saturate(100%) invert(74%) sepia(35%) saturate(1000%) hue-rotate(214deg) brightness(103%) contrast(101%);
@@ -419,44 +417,39 @@ body {
     left: 54px;
     right: 0;
     height: 68px;
-    
+    background: var(--gradient-button-transperant);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 30px;
     border-bottom: 1px solid var(--border-light);
     z-index: 99;
-    box-shadow: 0 2px 8px rgba(157, 117, 255, 0.08);
-}
-
-.header, .sidebar {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(10px);
-    border-color: rgba(157, 117, 255, 0.25);
+    /* box-shadow: 0 2px 8px rgba(157, 117, 255, 0.08); */
 }
 
 .logo {
+    font-family: 'Sansation', sans-serif;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    gap: 14px;
+    font-size: 20px;
+    font-style: italic;
+    letter-spacing: 1px;
 }
 
 .logo-icon {
-    padding-right: 10px;
+    padding-right: 13px;
     width: 36px;
     height: 36px;
     object-fit: contain;
 }
 
 .logo span {
-    background: var(--gradient-title);  
+    background: var(--gradient-text-main);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .header-right {
@@ -465,43 +458,23 @@ body {
     gap: 12px;
 }
 
-.share-btn {
-    width: 40px;
-    height: 40px;
-    background-color: transparent;
-    border: none;
-    border-radius: 10px;
-    color: var(--color-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.share-btn:hover {
-    background-color: rgba(157, 117, 255, 0.1);
-    color: var(--color-primary-dark);
-}
 
 .profile-btn {
     display: flex;
     align-items: center;
     gap: 6px;
     background-color: transparent;
-    border: 1px solid rgba(157, 117, 255, 0.3); border-radius: 12px; color: #9d75ff;
+    border: 1px solid transparent;
     border-radius: 20px;
     padding: 4px 8px 4px 4px;
     cursor: pointer;
     transition: all 0.2s;
-    
 }
 
 .profile-btn:hover {
-    background: rgba(157, 117, 255, 0.1); border-color: #9d75ff;
-    
+    background-color: var(--color-accent-glow);
+    border-color: var(--border-secondary);
 }
-
 
 .profile-avatar {
     width: 32px;
@@ -530,67 +503,6 @@ body {
     min-height: calc(100vh - 110px);
 }
 
-.book-card {
-    width: 100%;
-    aspect-ratio: 3/4;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s;
-    overflow: visible;
-}
-
-.book-card:hover .book-card-inner {
-            border-color: rgba(157, 117, 255, 0.5);
-            background: linear-gradient(160deg, rgba(157, 117, 255, 0.15) 0%, rgba(157, 117, 255, 0.05) 100%);
-            
-        }
-        
-
-.book-card:hover .book-svg {
-    filter: saturate(3.2) drop-shadow(0 15px 30px rgba(157, 117, 255, 0.3));
-  
-}
-    
-.book-svg {
-    width: 100%;
-    height: 100%;
-    /* 전체적으로 채도를 한 번 더 낮춤 (0.7 = 70%) */
-    filter: saturate(2.2) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-    transition: all 0.3s ease;
-}
-.book-title {
-    position: absolute;
-    top: 24%;          
-    left: 31.5%;        
-    width: 38%;         
-    height: 12.5%;      
-    
-    /* 2. 정렬 및 넘침 처리 수정 */
-    display: flex;
-    align-items: center;    
-    justify-content: flex-start;
-    
-    /* 3. 텍스트 스타일 및 넘침 처리 */
-    color: #333333;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    z-index: 3;
-    pointer-events: none;
-    box-sizing: border-box; 
-    padding: 0 4px; 
-    
-    /* 4. 넘칠 경우 뒷 글자 숨기기 (왼쪽 정렬 시 자동 적용) */
-    overflow: hidden;       
-    white-space: nowrap;    
-    text-overflow: clip;   
-    text-align: left;       
-}
-
-.control-btn:hover .sidebar-tooltip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0); /* 제자리로 이동하며 등장 */
-}
 
 .modal-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7);
@@ -599,13 +511,26 @@ body {
 .modal-overlay.active { display: flex; }
 .modal-content {
     background: linear-gradient(135deg, rgba(26, 26, 62, 0.95), rgba(45, 27, 78, 0.95));
-    backdrop-filter: blur(10px); border: 1px solid var(--border-secondary);
-    border-radius: 20px; padding: 32px; max-width: 420px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-secondary);
+    border-radius: 20px; 
+    padding: 32px; max-width: 420px; width: 90%; 
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
-.modal-title { font-family: "Gowun Batang", serif; font-size: 20px; font-weight: 700; color: var(--color-text-primary); margin-bottom: 16px; }
-.modal-message { font-size: 15px; color: var(--color-text-secondary); margin-bottom: 28px; line-height: 1.6; }
+.modal-title { 
+    font-family: "Gowun Batang", serif; font-size: 20px; font-weight: 700; 
+    color: var(--color-text-primary); margin-bottom: 16px;
+}
+.modal-message { 
+    font-size: 15px; color: var(--color-text-secondary); 
+    margin-bottom: 28px; line-height: 1.6; 
+}
 .modal-buttons { display: flex; gap: 12px; }
-.modal-btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+.modal-btn { 
+    flex: 1; padding: 14px; border: none; border-radius: 12px; 
+    font-size: 15px; font-weight: 600; 
+    cursor: pointer; transition: all 0.3s; 
+}
 .modal-btn.cancel { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--color-text-secondary); }
 .modal-btn.cancel:hover { background: rgba(255, 255, 255, 0.15); }
 .modal-btn.confirm { background: var(--gradient-button-submit); color: var(--color-text-primary); }
@@ -614,7 +539,9 @@ body {
 .toast-message {
     position: fixed; top: 105px; left: 54px; right: 0; margin: 0 auto; width: fit-content;
     background: var(--gradient-button-submit); color: var(--color-text-primary);
-    padding: 16px 28px; border-radius: 12px; font-size: 14px; font-weight: 600;
-    box-shadow: 0 8px 24px var(--shadow-primary); z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    padding: 16px 28px; border-radius: 12px; 
+    font-size: 14px; font-weight: 600;
+    box-shadow: 0 8px 24px var(--shadow-primary); 
+    z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
 }
 .toast-message.active { opacity: 1; }

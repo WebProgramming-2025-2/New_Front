@@ -20,17 +20,11 @@ let isInDiarySection = false;
 let lastConfirmedCenterIndex = 0;
 let isRotating = false;
 
-// ✨ [추가된 상태 변수] 정렬 순서 (true: 최신순, false: 오래된순)
 let isLatestFirst = true; 
 
-// ===== Render Diaries =====
-// ... (상단 데이터 및 변수 선언부는 동일) ...
 
-// ===== Render Diaries (클래스 분리 적용) =====
-// ===== Render Diaries (클래스 분리 적용) =====
 function renderDiaries() {
     const grid = document.getElementById('diaryGrid');
-    // 'view-mode-list' 클래스 유무로 뷰 모드 판단
     const isListView = grid.classList.contains('view-mode-list'); 
     grid.innerHTML = '';
     
@@ -47,10 +41,7 @@ function renderDiaries() {
     filteredDiaries.forEach((diary) => {
         const card = document.createElement('div');
         card.dataset.diaryId = diary.id;
-        
-        // ⭐ 뷰 모드에 따라 클래스명과 HTML 구조 완전 분리
         if (isListView) {
-            // [TYPE B] LIST CARD HTML
             card.className = 'list-card'; 
             card.innerHTML = `
                 <svg class="book-svg" viewBox="0 0 490 490" xmlns="http://www.w3.org/2000/svg">
@@ -85,7 +76,6 @@ function renderDiaries() {
                 </div>
             `;
         } else {
-            // [TYPE A] GRID CARD HTML
             card.className = 'grid-card'; 
             card.innerHTML = `
                 <svg class="book-svg" viewBox="0 0 490 490" xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +110,6 @@ function renderDiaries() {
                 </div>
             `;
             
-            // Hover 이벤트는 그리드 뷰일 때만 적용
             card.addEventListener('mouseenter', () => {
                 hoverTimers[diary.id] = setTimeout(() => {
                     card.classList.add('show-popup');
@@ -156,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (tooltip) tooltip.innerText = text;
         }
 
-        // 1. 정렬 버튼
         sortBtn.addEventListener('click', () => {
             isLatestFirst = !isLatestFirst; 
             const svg = sortBtn.querySelector('svg');
@@ -168,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateTooltipText(sortBtn, isLatestFirst ? '오래된순 정렬' : '최신순 정렬');
         });
 
-        // 2. 뷰 모드 버튼
         viewBtn.addEventListener('click', () => {
             const grid = document.getElementById('diaryGrid');
             grid.classList.toggle('view-mode-list'); 
@@ -179,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// ===== Delete Diary =====
+
 function confirmDeleteDiary(id) {
     const diary = diaries.find(d => d.id === id);
     showModal(
@@ -250,7 +237,6 @@ function showModal(title, message, onConfirm, type = 'confirm') {
     }
     
     modal.classList.add('active');
-    
     confirmBtn.onclick = () => {
         onConfirm();
     };
@@ -261,7 +247,6 @@ function hideModal() {
     if (modal) modal.classList.remove('active');
 }
 
-// 모달 이벤트 리스너 (HTML 로드 후 실행 보장)
 const modalCancel = document.getElementById('modalCancel');
 if(modalCancel) modalCancel.onclick = hideModal;
 
@@ -277,7 +262,6 @@ function showToast(message) {
     const toast = document.getElementById('toastMessage');
     toast.textContent = message;
     toast.classList.add('active');
-    // 기존 타이머 제거 (연속 클릭 시 오류 방지)
     if(toast.timer) clearTimeout(toast.timer);
     
     toast.timer = setTimeout(() => {
@@ -401,7 +385,6 @@ if (diarySection) {
         isInDiarySection = false;
         
         if (moveMode) {
-            // 이동 모드에서는 유지
         } else {
             revertToLastConfirmed();
         }

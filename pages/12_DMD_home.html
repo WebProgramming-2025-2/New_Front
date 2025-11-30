@@ -28,7 +28,8 @@
             font-weight: 600;
             margin-bottom: 30px;
             letter-spacing: -0.5px;
-            background: var(--gradient-title);            -webkit-background-clip: text;
+            background: var(--gradient-title);            
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
@@ -363,6 +364,7 @@
             cursor: pointer;
             overflow: visible;
             transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
+            container-type: inline-size;
         }
 
         .grid-card:hover .book-card-inner {
@@ -383,7 +385,7 @@
         .grid-card .book-title {
             position: absolute; top: 24%; left: 31.5%; width: 38%; height: 12.5%;
             display: flex; align-items: center; justify-content: flex-start;
-            color: #333333; font-size: 14px; font-weight: 600; line-height: 1.2;
+            color: #333333; font-size: 7cqw; font-weight: 600; line-height: 1.2;
             z-index: 3; pointer-events: none; box-sizing: border-box; padding: 0 4px; 
             overflow: hidden; white-space: nowrap; text-overflow: clip; text-align: left;       
         }
@@ -455,140 +457,138 @@
         .add-button:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(157, 117, 255, 0.6); }
         .plus-icon { font-size: 22px; font-weight: 300; }
 
-    /* List View Styles */
-    .bookshelf-row.list-view {
-        flex-direction: column;
-        gap: 16px;
-    }
+        /* List View Styles */
+        .bookshelf-row.list-view {
+            flex-direction: column;
+            gap: 16px;
+        }
 
-    .bookshelf-row.list-view .book-card {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        padding: 20px 24px;
-        background: linear-gradient(135deg, rgba(157, 117, 255, 0.08), rgba(124, 92, 219, 0.12));
-        border: 1px solid rgba(157, 117, 255, 0.25);
-        border-radius: 16px;
-        position: relative;
-        cursor: default;
-
-
-
-    }
+        .bookshelf-row.list-view .book-card {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.08), rgba(124, 92, 219, 0.12));
+            border: 1px solid rgba(157, 117, 255, 0.25);
+            border-radius: 16px;
+            position: relative;
+            cursor: default;
 
 
-    .bookshelf-row.list-view .book-card:hover {
-        background: linear-gradient(135deg, rgba(157, 117, 255, 0.12), rgba(124, 92, 219, 0.18));
-        border-color: var(--border-primary);
-    }
 
-    .bookshelf-row.list-view .book-svg {
-        width: 60px;
-        height: 60px;
-        margin-right: 24px;
-        flex-shrink: 0;
-    }
+        }
 
-    .bookshelf-row.list-view .book-title {
-        display: none;
-    }
+        .bookshelf-row.list-view .book-card:hover {
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.12), rgba(124, 92, 219, 0.18));
+            border-color: var(--border-primary);
+        }
 
-    .bookshelf-row.list-view .diary-info-popup {
-    position: static;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    background: transparent;
-    backdrop-filter: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    min-width: auto;
-    display: flex;
-    align-items: center;
-    flex: 1;
-    gap: 24px;
-    }
+        .bookshelf-row.list-view .book-svg {
+            width: 60px;
+            height: 60px;
+            margin-right: 24px;
+            flex-shrink: 0;
+        }
 
-    .bookshelf-row.list-view .diary-info-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #ffffff;
-        margin: 0;
-        padding: 0;
-        border: none;
-        min-width: 200px;
-    }
+        .bookshelf-row.list-view .book-title {
+            display: none;
+        }
 
-    .bookshelf-row.list-view .diary-info-content {
-        display: flex;
-        gap: 24px;
-        flex: 1;
-    }
+        .bookshelf-row.list-view .diary-info-popup {
+            position: static;
+            opacity: 1;
+            pointer-events: auto;
+            transform: none;
+            background: transparent;
+            backdrop-filter: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+            min-width: auto;
+            display: flex;
+            align-items: center;
+            flex: 1;
+            gap: 24px;
+        }
 
-    .bookshelf-row.list-view .diary-info-item {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.7);
-        margin: 0;
-        white-space: nowrap;
-    }
+        .bookshelf-row.list-view .diary-info-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            border: none;
+            min-width: 200px;
+        }
 
-    .bookshelf-row.list-view .diary-info-item svg {
-        width: 14px;
-        height: 14px;
-    }
+        .bookshelf-row.list-view .diary-info-content {
+            display: flex;
+            gap: 24px;
+            flex: 1;
+        }
 
-    .bookshelf-row.list-view .diary-actions {
-    display: flex;
-    gap: 8px;
-    margin: 0;
-    margin-left: auto;
-    flex-shrink: 0;
-    }
+        .bookshelf-row.list-view .diary-info-item {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            white-space: nowrap;
+        }
 
-    .bookshelf-row.list-view .diary-action-btn {
-        width: auto;
-        padding: 10px 20px;
-        margin: 0;
-        font-size: 13px;
-        white-space: nowrap;
-    }
-    .bookshelf-row.list-view .diary-info-item span {
-        display: inline;
-    }
+        .bookshelf-row.list-view .diary-info-item svg {
+            width: 14px;
+            height: 14px;
+        }
 
-    .control-btn {
-        position: relative; 
-        overflow: visible;  
-    }
+        .bookshelf-row.list-view .diary-actions {
+            display: flex;
+            gap: 8px;
+            margin: 0;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
 
-    .control-btn .sidebar-tooltip {
-        position: absolute;
-        bottom: 125%; 
-        left: 50%;
-        transform: translateX(-50%) translateY(10px); 
+        .bookshelf-row.list-view .diary-action-btn {
+            width: auto;
+            padding: 10px 20px;
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+        .bookshelf-row.list-view .diary-info-item span {
+            display: inline;
+        }
 
-        white-space: nowrap; 
-        opacity: 0;         
-        pointer-events: none; 
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
-        z-index: 100;
-    }
-    .book-card {
-    width: 100%;
-    aspect-ratio: 3/4;
-    position: relative;
-    cursor: pointer;
-    transition: all 0.3s;
-    overflow: visible;
-    }
+        .control-btn {
+            position: relative; 
+            overflow: visible;  
+        }
 
-    .book-card:hover .book-card-inner {
+        .control-btn .sidebar-tooltip {
+            position: absolute;
+            bottom: 125%; 
+            left: 50%;
+            transform: translateX(-50%) translateY(10px); 
+
+            white-space: nowrap; 
+            opacity: 0;         
+            pointer-events: none; 
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
+            z-index: 100;
+        }
+        .book-card {
+            width: 100%;
+            aspect-ratio: 3/4;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: visible;
+        }
+
+        .book-card:hover .book-card-inner {
             border-color: rgba(157, 117, 255, 0.5);
-            background: linear-gradient(160deg, rgba(157, 117, 255, 0.15) 0%, rgba(157, 117, 255, 0.05) 100%);
-            
-    }
+            background: linear-gradient(160deg, rgba(157, 117, 255, 0.15) 0%, rgba(157, 117, 255, 0.05) 100%);    
+        }
         
 
     .book-card:hover .book-svg {
@@ -649,6 +649,48 @@
         opacity: 1;
         transform: translateX(-50%) translateY(0); 
     }
+    .toast-message {
+        position: fixed; top: 105px; left: 54px; right: 0; margin: 0 auto; width: fit-content;
+        background: var(--gradient-button-submit); color: var(--color-text-primary);
+        padding: 16px 28px; border-radius: 12px; 
+        font-size: 14px; font-weight: 600;
+        box-shadow: 0 8px 24px var(--shadow-primary); 
+        z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+    .toast-message.active { opacity: 1; }
+
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7);
+        display: none; align-items: center; justify-content: center; z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+        background: linear-gradient(135deg, rgba(26, 26, 62, 0.95), rgba(45, 27, 78, 0.95));
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-secondary);
+        border-radius: 20px; 
+        padding: 32px; max-width: 420px; width: 90%; 
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    .modal-title { 
+        font-family: "Gowun Batang", serif; font-size: 20px; font-weight: 700; 
+        color: var(--color-text-primary); margin-bottom: 16px;
+    }
+    .modal-message { 
+        font-size: 15px; color: var(--color-text-secondary); 
+        margin-bottom: 28px; line-height: 1.6; 
+    }
+    .modal-buttons { display: flex; gap: 12px; }
+    .modal-btn { 
+        flex: 1; padding: 14px; border: none; border-radius: 12px; 
+        font-size: 15px; font-weight: 600; 
+        cursor: pointer; transition: all 0.3s; 
+    }
+    .modal-btn.cancel { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--color-text-secondary); }
+    .modal-btn.cancel:hover { background: rgba(255, 255, 255, 0.15); }
+    .modal-btn.confirm { background: var(--gradient-button-submit); color: var(--color-text-primary); }
+    .modal-btn.confirm:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--border-primary); }
+
 
     </style>
 </head>

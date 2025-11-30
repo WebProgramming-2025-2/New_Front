@@ -10,7 +10,7 @@
     --bg-dark-1: #0a0a1a;
     --bg-dark-2: #1a1a3e;
     --bg-dark-3: #2d1b4e;
-    
+
     /* Accent Colors */
     --color-accent-purple: rgba(157, 117, 255, 0.2);
     --color-accent-purple-dark: rgba(124, 92, 219, 0.3);
@@ -55,12 +55,12 @@
     --gradient-button-primary: linear-gradient(135deg, var(--color-accent-purple), var(--color-accent-purple-dark));
     --gradient-button-submit: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
     --gradient-button-transperant: linear-gradient(135deg, rgba(156, 117, 255, 0.1), rgba(124, 92, 219, 0.2));
-   
+    
     /* Gradient Cards & Backgrounds */
     --gradient-card-glow: linear-gradient(135deg, var(--color-accent-glow) 0%, rgba(0, 0, 0, 0) 100%);
     --gradient-slide: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
     --gradient-auth-side: linear-gradient(135deg, var(--color-accent-purple), rgba(124, 92, 219, 0.1));
-    --gradient-title: linear-gradient(135deg, var(--color-text-primary)0%, var(--color-primary-lightest) 50%, var(--color-primary-light) 100%);
+    --gradient-title: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-primary-lightest) 50%, var(--color-primary-light) 100%);
     /* Gradient Sidebar & Header */
     --gradient-sidebar: linear-gradient(180deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     --gradient-header: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 255, 0.9) 100%);
@@ -169,8 +169,8 @@ body {
 
 .star {
     position: absolute;
-    width: 1.5px;
-    height: 1.5px;
+    width: 1.2px;
+    height: 1.2px;
     background: var(--color-star);
     border-radius: 50%;
     /* animation: twinkle 10s infinite; */
@@ -341,7 +341,6 @@ body {
     }
 }
 
-
 .sidebar {
     position: fixed;
     left: 0;
@@ -392,11 +391,6 @@ body {
     pointer-events: none;
     transition: opacity 0.2s;
     z-index: 101;
-}
-
-
-.sidebar-icon.active {
-    filter: brightness(0) saturate(100%) invert(74%) sepia(35%) saturate(1000%) hue-rotate(214deg) brightness(103%) contrast(101%);
 }
 
 .sidebar-icon-wrapper:hover .sidebar-tooltip {
@@ -458,7 +452,6 @@ body {
     gap: 12px;
 }
 
-
 .profile-btn {
     display: flex;
     align-items: center;
@@ -479,7 +472,7 @@ body {
 .profile-avatar {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -502,46 +495,3 @@ body {
     padding: 30px 235px;
     min-height: calc(100vh - 110px);
 }
-
-
-.modal-overlay {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7);
-    display: none; align-items: center; justify-content: center; z-index: 1000;
-}
-.modal-overlay.active { display: flex; }
-.modal-content {
-    background: linear-gradient(135deg, rgba(26, 26, 62, 0.95), rgba(45, 27, 78, 0.95));
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-secondary);
-    border-radius: 20px; 
-    padding: 32px; max-width: 420px; width: 90%; 
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-.modal-title { 
-    font-family: "Gowun Batang", serif; font-size: 20px; font-weight: 700; 
-    color: var(--color-text-primary); margin-bottom: 16px;
-}
-.modal-message { 
-    font-size: 15px; color: var(--color-text-secondary); 
-    margin-bottom: 28px; line-height: 1.6; 
-}
-.modal-buttons { display: flex; gap: 12px; }
-.modal-btn { 
-    flex: 1; padding: 14px; border: none; border-radius: 12px; 
-    font-size: 15px; font-weight: 600; 
-    cursor: pointer; transition: all 0.3s; 
-}
-.modal-btn.cancel { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: var(--color-text-secondary); }
-.modal-btn.cancel:hover { background: rgba(255, 255, 255, 0.15); }
-.modal-btn.confirm { background: var(--gradient-button-submit); color: var(--color-text-primary); }
-.modal-btn.confirm:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--border-primary); }
-
-.toast-message {
-    position: fixed; top: 105px; left: 54px; right: 0; margin: 0 auto; width: fit-content;
-    background: var(--gradient-button-submit); color: var(--color-text-primary);
-    padding: 16px 28px; border-radius: 12px; 
-    font-size: 14px; font-weight: 600;
-    box-shadow: 0 8px 24px var(--shadow-primary); 
-    z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-}
-.toast-message.active { opacity: 1; }

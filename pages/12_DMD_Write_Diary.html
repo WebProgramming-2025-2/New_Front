@@ -1,34 +1,32 @@
 <!DOCTYPE html>
-
 <html>
-
     <head>
-
         <meta charset="UTF-8">
-
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>Journey - Write Diary</title>
-
+        <title>DMD-writediary</title>
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-
         <link rel="preconnect" href="https://fonts.googleapis.com">
-
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
-
         <link href="../css/12_DMD_style.css" rel="stylesheet">
-
         <style>
+            .toast-message {
+                position: fixed; top: 105px; left: 54px; right: 0; margin: 0 auto; width: fit-content;
+                background: var(--gradient-button-submit); color: var(--color-text-primary);
+                padding: 16px 28px; border-radius: 12px; 
+                font-size: 14px; font-weight: 600;
+                box-shadow: 0 8px 24px var(--shadow-primary);
+                z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            }
+            .toast-message.active { opacity: 1; }
+            
             /*외부 라이브러리 정의*/
             .ql-container.ql-snow { border: none !important; }
 
             .ql-editor {
                 padding: 0 !important;
-                font-family: inherit !important;
+                font-family: 'Gowun Batang', serif;
                 font-size: inherit !important;
                 line-height: 1.6;
             }
@@ -51,8 +49,10 @@
                 right: 0;
                 height: 70px;
                 background: var(--gradient-button-transperant);
+                backdrop-filter: blur(5px);
                 border-bottom: 1px solid var(--border-light);
-                display: flex;
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
                 align-items: center;
                 padding: 0 20px;
                 z-index: 10;    
@@ -63,21 +63,50 @@
                 border: none;
                 width: 40px;
                 height: 40px;
+                position: static;
+                transform: none;
             }
             .slider-btn:hover {
                 background-color: var(--border-light);
             }
 
+            .diary-title-input {
+                padding: 8px 16px;
+                background: var(--gradient-button-transperant);
+                backdrop-filter: blur(10px);
+                border: 1px solid var(--border-secondary);
+                border-radius: 8px;
+                color: var(--color-text-primary);
+                font-size: 16px;
+                font-family: 'Gowun Batang', serif;
+                min-width: 250px;
+                transition: all 0.2s;
+            }
+            .diary-title-input:focus {
+                outline: none;
+                border-color: var(--color-primary);
+                box-shadow: 0 0 12px var(--shadow-glow);
+            }
+            .diary-title-input::placeholder {
+                color: var(--color-text-muted);
+            }
+
             .toolbar-center {
-                flex: 1;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 gap: 8px;
+                justify-self: center;
+            }
+
+            .toolbar-left {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                justify-self: start;
             }
 
             .save-btn {
-                margin-left: -90px;
                 margin-right: 20px;
                 padding: 8px 20px;
                 background: var(--gradient-button-submit);
@@ -90,6 +119,7 @@
                 transition: all 0.3s;
                 display: flex;
                 align-items: center;
+                justify-self: end;
             }
 
             .save-btn:hover {
@@ -125,7 +155,7 @@
                 align-items: center;
                 justify-content: center;
                 gap: 4px;
-                color: var(--color-primary-lighter);
+                color: var(--color-primary-lightest);
                 font-size: 14px;
                 transition: all 0.2s;
             }
@@ -420,9 +450,28 @@
                 );
             }
 
+            /* 페이지 네비게이션 스타일 */
+            .page-navigation {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 20px;
+                padding: 15px;
+            }
+
+            .page-number {
+                min-width: 60px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--color-text-primary);
+                font-family: 'Sansation', sans-serif;
+            }
+
             .editor-placeholder {
                 width: 100%; min-height: 400px; border: none; font-size: 16px; line-height: 28px; color:#000000;
-                font-family: 'NoonnuBasicGothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                font-family: 'Gowun Batang', serif;
                 background: transparent; position: relative; z-index: 2; padding-top: -2px;
             }
             .editor-placeholder:focus { outline: none; }
@@ -436,15 +485,15 @@
 
     <div class="sidebar">
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Columns.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Columns.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">책장</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Calendar.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Calendar.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">캘린더</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Layers.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Layers.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">아카이브</div>
         </div>
     </div>
@@ -474,7 +523,10 @@
 
         <div class="main-content">
             <div class="custom-toolbar">
-                <button class="slider-btn" onclick="history.back()">❮</button>
+                <div class="toolbar-left">
+                    <button class="slider-btn" onclick="history.back()">❮</button>
+                    <input type="text" id="diaryTitle" class="diary-title-input" placeholder="제목을 입력하세요">
+                </div>
                 <div class="toolbar-center">
                     <div class="btn-group">
                         <button id="insertBtn">
@@ -549,12 +601,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="page-navigation">
+                    <button class="slider-btn" onclick="previousPage()">←</button>
+                    <span class="page-number" id="pageNum"></span>
+                    <button class="slider-btn" onclick="nextPage()">→</button>
+            </div>
             </div>
         </div>
 
         <input type="file" id="photoInput" accept="image/*" style="display: none;">
+        <div id="toastMessage" class="toast-message"></div>
 
-        <script src="../JS/12_Write_Diary.js"></script>
+        <script src="../JS/12_DMD_Write_Diary.js"></script>
         <script src="../JS/common_background.js"></script>
         <script src="home_carousel.js"></script>
     </body>

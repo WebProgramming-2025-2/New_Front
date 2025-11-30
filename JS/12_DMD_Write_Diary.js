@@ -1,6 +1,7 @@
 const diaryPagesContainer = document.getElementById('diaryPagesContainer');
 let activeQuill = null;
 const DIARY_STORAGE_KEY = 'diary_permanent_data';
+const MAX_PAGES = 10;
 
 //  에디터 초기화 (외부라이브러리 (작성화면)
 function initQuill(element, placeholderText = null) {
@@ -550,6 +551,12 @@ function saveCurrentPageData() {
         floating: floatingData,
         static: staticData
     };
+
+    // 제목 저장
+    const titleInput = document.getElementById('diaryTitle');
+    if (titleInput) {
+        diaryPagesData.title = titleInput.value;
+    }
 }
 
 // 다이어리 페이지 로드
@@ -607,6 +614,15 @@ function loadPageData(index) {
             }
         }
     }
+    updatePageNum();
+}
+
+// 페이지 번호 안내
+function updatePageNum() {
+    const Num = document.getElementById('pageNum');
+    if (Num) {
+        Num.textContent = `${currentPageIndex + 1}/${MAX_PAGES}`;
+    }
 }
 
 // 페이지 넘김
@@ -623,13 +639,13 @@ document.addEventListener('keydown', (e) => {
             saveCurrentPageData();
             currentPageIndex--;
             loadPageData(currentPageIndex);
-            console.log(`Page: ${currentPageIndex + 1}`);
         }
     } else if (e.key === 'ArrowRight') {
-        saveCurrentPageData();
-        currentPageIndex++;
-        loadPageData(currentPageIndex);
-        console.log(`Page: ${currentPageIndex + 1}`);
+        if (currentPageIndex < MAX_PAGES - 1) {
+            saveCurrentPageData();
+            currentPageIndex++;
+            loadPageData(currentPageIndex);
+        }
     }
 });
 
@@ -672,6 +688,7 @@ document.addEventListener('selectstart', (e) => {
 // 페이지 로드 시 저장된 데이터 불러오기
 window.addEventListener('load', () => {
     loadPermanentData();
+    updatePageNum();
 });
 
 // 영구 저장 함수 추가
@@ -680,9 +697,11 @@ function saveDiaryPermanently() {
     
     try {
         localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(diaryPagesData));
+        showToast('저장했습니다.'); 
+
     } catch (e) {
         console.error('저장 실패:', e);
-        alert('저장에 실패했습니다.');
+        showToast('저장에 실패했습니다.'); 
     }
 }
 
@@ -693,8 +712,43 @@ function loadPermanentData() {
         if (savedData) {
             diaryPagesData = JSON.parse(savedData);
             loadPageData(0);
+
+            const titleInput = document.getElementById('diaryTitle');
+            if (titleInput && diaryPagesData.title) {
+                titleInput.value = diaryPagesData.title;
+            }
         }
+        updatePageNum();
     } catch (e) {
         console.error('불러오기 실패:', e);
     }
+}
+
+// 페이지 넘김 버튼 함수
+function previousPage() {
+    if (currentPageIndex > 0) {
+        saveCurrentPageData();
+        currentPageIndex--;
+        loadPageData(currentPageIndex);
+    }
+}
+
+function nextPage() {
+    if (currentPageIndex < MAX_PAGES - 1) {
+        saveCurrentPageData();
+        currentPageIndex++;
+        loadPageData(currentPageIndex);
+        console.log(`Page: ${currentPageIndex + 1}/${MAX_PAGES}`);
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toastMessage');
+    toast.textContent = message;
+    toast.classList.add('active');
+    if(toast.timer) clearTimeout(toast.timer);
+    
+    toast.timer = setTimeout(() => {
+        toast.classList.remove('active');
+    }, 3000);
 }

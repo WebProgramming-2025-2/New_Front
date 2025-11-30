@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day Month Diary Calendar</title>
+    <title>DMD-calender</title>
     <link rel="stylesheet" href="../css/12_DMD_style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,7 +145,7 @@
             transform: translateX(-50%);
             width: 4px;
             height: 4px;
-            background: #ffd700;
+            background: #ffd983;
             border-radius: 50%;
             box-shadow: 0 0 6px #ffd700;
         }
@@ -302,7 +302,7 @@
 
         .day.has-memo {
             color: white;
-            border-color: #fbff0080;
+            border-color: #ffd983;
             box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
         }
 
@@ -509,15 +509,15 @@
 <body>
     <div class="sidebar">
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Columns.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Columns.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">책장</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Calendar.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Calendar.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">캘린더</div>
         </div>
         <div class="sidebar-icon-wrapper">
-            <img src="../content/Layers.svg" alt="Logo" class="sidebar-icon">
+            <img src="../content/Layers.svg" class="sidebar-icon">
             <div class="sidebar-tooltip">아카이브</div>
         </div>
     </div>
@@ -613,10 +613,9 @@
         </div>
     </div>
 
-    <script src="../JS/common_background.js"></script>
-    <script src="../JS/12_DMD_startpage.js"></script>
 </body>
-
+<script src="../JS/common_background.js"></script>
+<script src="../JS/12_DMD_startpage.js"></script>
 <script>
     const calendarDays = document.getElementById('calendarDays');
     const prevButton = document.getElementById('prevMonth');
@@ -893,3 +892,4 @@
     renderMiniCalendar(miniCurrentDate);
 
 </script>
+

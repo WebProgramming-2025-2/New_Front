@@ -113,7 +113,7 @@ function renderDiaries() {
             card.addEventListener('mouseenter', () => {
                 hoverTimers[diary.id] = setTimeout(() => {
                     card.classList.add('show-popup');
-                }, 1200);
+                }, 800);
             });
             
             card.addEventListener('mouseleave', () => {

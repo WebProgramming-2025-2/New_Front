@@ -61,6 +61,7 @@
     --gradient-card-glow: linear-gradient(135deg, var(--color-accent-glow) 0%, rgba(0, 0, 0, 0) 100%);
     --gradient-slide: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
     --gradient-auth-side: linear-gradient(135deg, var(--color-accent-purple), rgba(124, 92, 219, 0.1));
+    --gradient-title: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-primary-lightest) 50%, var(--color-primary-light) 100%);
     
     /* Gradient Sidebar & Header */
     --gradient-sidebar: linear-gradient(180deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
@@ -367,6 +368,10 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+.sidebar-icon.active {
+    filter: brightness(0) saturate(100%) invert(74%) sepia(35%) saturate(1000%) hue-rotate(214deg) brightness(103%) contrast(101%);
 }
 
 .sidebar-icon-wrapper:hover {

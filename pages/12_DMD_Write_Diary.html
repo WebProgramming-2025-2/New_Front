@@ -70,25 +70,14 @@
                 background-color: var(--border-light);
             }
 
-            .diary-title-input {
+            .diary-title-display {
                 padding: 8px 16px;
-                background: var(--gradient-button-transperant);
-                backdrop-filter: blur(10px);
-                border: 1px solid var(--border-secondary);
                 border-radius: 8px;
+                background: var(--gradient-card-glow);
                 color: var(--color-text-primary);
-                font-size: 16px;
+                font-size: 18px;
                 font-family: 'Gowun Batang', serif;
                 min-width: 250px;
-                transition: all 0.2s;
-            }
-            .diary-title-input:focus {
-                outline: none;
-                border-color: var(--color-primary);
-                box-shadow: 0 0 12px var(--shadow-glow);
-            }
-            .diary-title-input::placeholder {
-                color: var(--color-text-muted);
             }
 
             .toolbar-center {
@@ -102,7 +91,6 @@
             .toolbar-left {
                 display: flex;
                 align-items: center;
-                gap: 15px;
                 justify-self: start;
             }
 
@@ -525,7 +513,7 @@
             <div class="custom-toolbar">
                 <div class="toolbar-left">
                     <button class="slider-btn" onclick="history.back()">❮</button>
-                    <input type="text" id="diaryTitle" class="diary-title-input" placeholder="제목을 입력하세요">
+                    <div id="diaryTitle" class="diary-title-display"></div>
                 </div>
                 <div class="toolbar-center">
                     <div class="btn-group">

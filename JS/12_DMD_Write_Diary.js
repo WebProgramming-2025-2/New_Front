@@ -2,6 +2,7 @@ const diaryPagesContainer = document.getElementById('diaryPagesContainer');
 let activeQuill = null;
 const DIARY_STORAGE_KEY = 'diary_permanent_data';
 const MAX_PAGES = 10;
+const DIARY_TITLE_KEY = 'diary_title';
 
 //  에디터 초기화 (외부라이브러리 (작성화면)
 function initQuill(element, placeholderText = null) {
@@ -134,6 +135,7 @@ function insertListAtCursor(type) {
 const urlParams = new URLSearchParams(window.location.search);
 const coverStyle = urlParams.get('cover') || 'default';
 const pageStyle = urlParams.get('page') || 'default';
+const diaryTitle = urlParams.get('title') || '다이어리 제목';
 
 function applyCoverStyle(style) {
     const cover = document.getElementById('diaryCover');
@@ -551,12 +553,6 @@ function saveCurrentPageData() {
         floating: floatingData,
         static: staticData
     };
-
-    // 제목 저장
-    const titleInput = document.getElementById('diaryTitle');
-    if (titleInput) {
-        diaryPagesData.title = titleInput.value;
-    }
 }
 
 // 다이어리 페이지 로드
@@ -708,15 +704,19 @@ function saveDiaryPermanently() {
 // 영구 저장된 데이터 불러오기 함수 추가
 function loadPermanentData() {
     try {
+        const titleDisplay = document.getElementById('diaryTitle');
+        if (titleDisplay) {
+            const savedTitle = localStorage.getItem(DIARY_TITLE_KEY) || diaryTitle;
+            titleDisplay.textContent = savedTitle;
+            if (urlParams.get('title')) {
+                localStorage.setItem(DIARY_TITLE_KEY, diaryTitle);
+            }
+        }
+
         const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
         if (savedData) {
             diaryPagesData = JSON.parse(savedData);
             loadPageData(0);
-
-            const titleInput = document.getElementById('diaryTitle');
-            if (titleInput && diaryPagesData.title) {
-                titleInput.value = diaryPagesData.title;
-            }
         }
         updatePageNum();
     } catch (e) {

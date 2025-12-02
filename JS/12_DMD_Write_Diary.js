@@ -365,7 +365,9 @@ function loadStickers() {
     if(!stickerPopup) return;
     stickerPopup.innerHTML = '';
     // 스티커 파일 목록
-    const stickerFiles = ['여행도장.png','나비.png','엽서.png','카세트테이프.png','크로와상.png','카메라.png','팬케이크.png','체리.png','폴라로이드.png','티켓.png','사탕.png','미피.png','마카롱.png','구름.png','CD.png'];
+    const stickerFiles = ['12_DMD_여행도장.png','12_DMD_나비.png','12_DMD_엽서.png','12_DMD_카세트테이프.png','12_DMD_크로와상.png',
+                            '12_DMD_카메라.png','12_DMD_팬케이크.png','12_DMD_체리.png','12_DMD_폴라로이드.png','12_DMD_티켓.png',
+                            '12_DMD_사탕.png','12_DMD_미피.png','12_DMD_마카롱.png','12_DMD_구름.png','12_DMD_CD.png'];
     stickerFiles.forEach((file) => {
         const img = document.createElement('img');
         img.src = `../content/${file}`; 

@@ -60,7 +60,7 @@
     --gradient-card-glow: linear-gradient(135deg, var(--color-accent-glow) 0%, rgba(0, 0, 0, 0) 100%);
     --gradient-slide: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
     --gradient-auth-side: linear-gradient(135deg, var(--color-accent-purple), rgba(124, 92, 219, 0.1));
-    
+    --gradient-title: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-primary-lightest) 50%, var(--color-primary-light) 100%);
     /* Gradient Sidebar & Header */
     --gradient-sidebar: linear-gradient(180deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     --gradient-header: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 255, 0.9) 100%);
@@ -169,8 +169,8 @@ body {
 
 .star {
     position: absolute;
-    width: 1.5px;
-    height: 1.5px;
+    width: 1.2px;
+    height: 1.2px;
     background: var(--color-star);
     border-radius: 50%;
     /* animation: twinkle 10s infinite; */

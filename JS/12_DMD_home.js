@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 svg.style.transform = isLatestFirst ? 'rotate(0deg)' : 'rotate(180deg)';
             }
             renderDiaries();
-            updateTooltipText(sortBtn, isLatestFirst ? '오래된순 정렬' : '최신순 정렬');
+            updateTooltipText(sortBtn, isLatestFirst ? '과거순 정렬' : '최신순 정렬');
         });
 
         viewBtn.addEventListener('click', () => {

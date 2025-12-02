@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(starContainer);
 
     const createStars = () => {
-        const starCount = 85;
+        const starCount = 100;
 
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD-calender</title>
+    <link rel="stylesheet" href="../css/12_DMD_style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+    <style>
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 3.75rem;
+            margin-top: 4.375rem;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 1.875rem;
+            margin-bottom: 1.875rem;
+        }
+
+        /* Mini Calendar */
+        .mini-calendar-container {
+            position: relative;
+            width: 19.375rem;
+            background: rgba(26, 26, 62, 0.5);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+        }
+
+        .mini-calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .mini-month-year {
+            position: relative;
+            left: 0.3125rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        #miniMonthLabel {
+            font-size: 2.5em;
+            font-weight: 300;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #miniYearLabel {
+            font-size: 1.1em;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .mini-nav{
+            height: 4rem;
+            width: 10rem;
+            position: relative;
+            top: 0.3125rem;
+        }
+
+        .mini-calendar-container .slider-btn.prev {
+            left: 4rem;
+            top: 3rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            font-size: 0.875rem;
+        }
+
+        .mini-calendar-container .slider-btn.next {
+            right: 0.5rem;
+            top: 3rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            font-size: 0.875rem;
+        }
+
+        .mini-calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 0.0625rem solid rgba(157, 117, 255, 0.2);
+        }
+
+        .mini-calendar-weekdays div:first-child { color: #ff7575; }
+        .mini-calendar-weekdays div:last-child { color: #9d75ff; }
+
+        .mini-calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+        }
+
+        .mini-day {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.1875rem;
+            height: 2.1875rem;
+            font-size: 0.85em;
+            color: var(--color-text-secondary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .mini-day:hover {
+            background: rgba(157, 117, 255, 0.3);
+        }
+
+        .mini-prev-month, .mini-next-month {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .mini-today {
+            background: linear-gradient(156deg, #391989, #c9b7ff);
+            border-radius: 50%;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* 메모가 있는 날 표시 */
+        .mini-day.has-memo::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #ffd983;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffd700;
+        }
+
+        .mini-day.mini-today.has-memo::after {
+            background: #ffffff;
+            box-shadow: 0 0 6px #ffffff;
+        }
+
+        /* Main Calendar */
+        .calendar-container {
+            position: relative;
+            flex: 1;
+            background: rgba(26, 26, 62, 0.5);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border-radius: 0.9375rem;
+            margin-left: 0.9375rem;
+            padding: 1.875rem;
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .calendar-header {
+            position: relative;
+            top: 3.125rem;
+            width: 10rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .year-label {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .month-label {
+            font-size: 3.4375rem;
+            font-weight: 300;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .calendar-content {
+            flex: 1;
+        }
+
+        .calendar-container .slider-btn.prev {
+            left: 1.25rem;
+            top: 10.625rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .calendar-container .slider-btn.next {
+            right: 1.5625rem;
+            top: 10.625rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0.9375rem 0;
+            border-bottom: 0.125rem solid rgba(157, 117, 255, 0.3);
+            margin-bottom: 0.625rem;
+        }
+
+        .calendar-weekdays div:first-child { color: #ff7575; }
+        .calendar-weekdays div:last-child { color: #9d75ff; }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day {
+            min-width: 7.2rem;
+            max-width: 7.2rem;
+            min-height: 6.25rem;
+            max-height: 6.25rem;
+            padding: 0.625rem;
+            text-align: left;
+            background: rgba(10, 10, 26, 0.3);
+            border: 0.0625rem solid rgba(157, 117, 255, 0.2);
+            border-radius: 0.75rem;
+            font-size: 0.9em;
+            color: var(--color-text-secondary);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            overflow: scroll;
+            scrollbar-width: none;
+        }
+
+        .day:-webkit-scrollbar {
+            display: none;
+        }
+
+        .day:hover:not(.prev-month):not(.next-month) {
+            background: rgba(157, 117, 255, 0.2);
+            border-color: #9d75ff;
+            transform: translateY(-0.125rem);
+        }
+
+        .day:nth-child(7n+1) { 
+            color: #ff7575;
+        }
+
+        .day:nth-child(7n) {
+            color: #b8a8ff;
+        }
+
+        .prev-month, .next-month {
+            color: rgba(255, 255, 255, 0.3);
+            background: rgba(10, 10, 26, 0.2);
+        }
+
+        .today {
+            background: rgba(157, 117, 255, 0.3);
+            border: 0.125rem solid #9d75ff;
+            font-weight: bold;
+            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
+        }
+
+        /* 날짜별 메모 미리보기 */
+        .day-memo-preview {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255);
+            overflow: scroll;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 0.2rem;
+        }
+
+        .day-memo-preview::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day.has-memo {
+            color: white;
+            border-color: #ffd983;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Memo Area */
+        .memo-area {
+            background: rgba(26, 26, 62, 0.6);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border-radius: 1.25rem;
+            padding: 1.875rem;
+            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+        }
+
+        .memo-area label {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.9375rem;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .memo-area textarea {
+            width: 100%;
+            min-height: 7.5rem;
+            padding: 0.9375rem;
+            background: rgba(10, 10, 26, 0.4);
+            border: 0.0625rem solid rgba(157, 117, 255, 0.2);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            resize: vertical;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s;
+        }
+
+        .memo-area textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .memo-area textarea:focus {
+            outline: none;
+            border-color: #9d75ff;
+            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
+            background: rgba(10, 10, 26, 0.5);
+        }
+
+        /* 날짜별 메모 모달 */
+        .memo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memo-modal.active {
+            display: flex;
+        }
+
+        .memo-modal-content {
+            background: rgba(26, 26, 62, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+        }
+
+        .memo-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .memo-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .memo-modal-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .memo-modal-close:hover {
+            color: #9d75ff;
+        }
+
+        .memo-modal textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: rgba(10, 10, 26, 0.5);
+            border: 1px solid rgba(157, 117, 255, 0.2);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            resize: vertical;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s;
+        }
+
+        .memo-modal textarea:focus {
+            outline: none;
+            border-color: #9d75ff;
+            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
+        }
+
+        .memo-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .memo-modal-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .memo-modal-btn.save {
+            background: linear-gradient(135deg, #9d75ff, #c9b7ff);
+            color: white;
+        }
+
+        .memo-modal-btn.save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(157, 117, 255, 0.4);
+        }
+
+        .memo-modal-btn.delete {
+            background: rgba(255, 117, 117, 0.2);
+            color: #ff7575;
+            border: 1px solid #ff7575;
+        }
+
+        .memo-modal-btn.delete:hover {
+            background: rgba(255, 117, 117, 0.3);
+        }
+
+        /* 반응형 미디어 쿼리 */
+        @media screen and (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .mini-calendar-container {
+                width: 100%;
+                max-width: 25rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-content {
+                margin-left: 1rem;
+                margin-top: 2rem;
+                padding: 1rem;
+            }
+
+            .calendar-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .calendar-header {
+                top: 0;
+                width: 100%;
+            }
+
+            .day {
+                min-height: 4rem;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Columns.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">책장</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Calendar.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">캘린더</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/Layers.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">아카이브</div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="../content/logo.png" alt="Journey Logo" class="logo-icon">
+                <span>Day Month Diary</span>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <div class="profile-btn">
+                <div class="profile-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="main-container">
+            <div class="mini-calendar-container" id="miniCalendar">
+                <div class="mini-calendar-header">
+                    <div class="mini-month-year">
+                        <span class="mini-month-label" id="miniMonthLabel"></span>
+                        <span class="mini-year-label" id="miniYearLabel"></span>
+                    </div>
+                    <div class="mini-nav">
+                        <button id="miniPrevMonth" class="slider-btn prev">&lt;</button>
+                        <button id="miniNextMonth" class="slider-btn next">&gt;</button>
+                    </div>
+                </div>
+                <div class="mini-calendar-weekdays">
+                    <div>S</div>
+                    <div>M</div>
+                    <div>T</div>
+                    <div>W</div>
+                    <div>T</div>
+                    <div>F</div>
+                    <div>S</div>
+                </div>
+                <div class="mini-calendar-days" id="miniCalendarDays"></div>
+            </div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="year-label" id="YearLabel"></div>
+                    <div class="month-label" id="MonthLabel"></div>
+
+                    <button class="slider-btn prev" id="prevMonth">&lt;</button>
+                    <button class="slider-btn next" id="nextMonth">&gt;</button>
+                </div>
+                <div class="calendar-content">
+                    <div class="calendar-weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                
+                    <div class="calendar-days" id="calendarDays"></div>
+                </div>
+            </div>
+        </div>
+        <div class="memo-area">
+            <label for="monthly-note">📌 이달의 메모</label>
+            <textarea id="monthly-note" name="monthly-note" rows="4" placeholder="이달의 목표, 중요한 일정 등을 기록하세요."></textarea>
+        </div>
+    </div>
+
+    <!-- 날짜별 메모 모달 -->
+    <div class="memo-modal" id="memoModal">
+        <div class="memo-modal-content">
+            <div class="memo-modal-header">
+                <div class="memo-modal-title" id="memoModalTitle">날짜 메모</div>
+                <button class="memo-modal-close" id="memoModalClose">&times;</button>
+            </div>
+            <textarea id="dailyMemoTextarea" placeholder="이 날의 메모를 입력하세요..."></textarea>
+            <div class="memo-modal-buttons">
+                <button class="memo-modal-btn delete" id="deleteMemoBtn">삭제</button>
+                <button class="memo-modal-btn save" id="saveMemoBtn">저장</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../JS/common_background.js"></script>
+<script src="../JS/12_DMD_startpage.js"></script>
+<script>
+    const calendarDays = document.getElementById('calendarDays');
+    const prevButton = document.getElementById('prevMonth');
+    const nextButton = document.getElementById('nextMonth');
+    const miniCalendarDays = document.getElementById('miniCalendarDays');
+    const miniMonthLabel = document.getElementById('miniMonthLabel');
+    const miniYearLabel = document.getElementById('miniYearLabel');
+    const miniPrevButton = document.getElementById('miniPrevMonth');
+    const miniNextButton = document.getElementById('miniNextMonth');
+    const YearLabel = document.getElementById('YearLabel');
+    const MonthLabel = document.getElementById('MonthLabel');
+
+    let currentDate = new Date(); 
+    let miniCurrentDate = new Date(currentDate);
+    let monthlyNotes = JSON.parse(localStorage.getItem('monthlyCalendarNotes')) || {}; 
+    let dailyMemos = JSON.parse(localStorage.getItem('dailyCalendarMemos')) || {};
+
+    const memoTextArea = document.getElementById('monthly-note');
+    const memoModal = document.getElementById('memoModal');
+    const memoModalTitle = document.getElementById('memoModalTitle');
+    const dailyMemoTextarea = document.getElementById('dailyMemoTextarea');
+    const saveMemoBtn = document.getElementById('saveMemoBtn');
+    const deleteMemoBtn = document.getElementById('deleteMemoBtn');
+    const memoModalClose = document.getElementById('memoModalClose');
+
+    let currentMemoDate = null;
+
+    function getNoteKey(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        return `${year}-${month}`;
+    }
+
+    function getDailyMemoKey(year, month, day) {
+        return `${year}-${month}-${day}`;
+    }
+
+    function saveNote() {
+        const key = getNoteKey(currentDate);
+        monthlyNotes[key] = memoTextArea.value;
+        localStorage.setItem('monthlyCalendarNotes', JSON.stringify(monthlyNotes));
+    }
+
+    function loadNote(date) {
+        const key = getNoteKey(date);
+        const note = monthlyNotes[key] || '';
+        memoTextArea.value = note;
+    }
+
+    function openMemoModal(year, month, day) {
+        currentMemoDate = { year, month, day };
+        const key = getDailyMemoKey(year, month, day);
+        const memo = dailyMemos[key] || '';
+
+        memoModalTitle.textContent = `${year}년 ${month}월 ${day}일 메모`;
+        dailyMemoTextarea.value = memo;
+        memoModal.classList.add('active');
+    }
+
+    function closeMemoModal() {
+        memoModal.classList.remove('active');
+        currentMemoDate = null;
+    }
+
+    function saveDailyMemo() {
+        if (!currentMemoDate) return;
+
+        const { year, month, day } = currentMemoDate;
+        const key = getDailyMemoKey(year, month, day);
+        const memo = dailyMemoTextarea.value.trim();
+
+        if (memo) {
+            dailyMemos[key] = memo;
+        } else {
+            delete dailyMemos[key];
+        }
+
+        localStorage.setItem('dailyCalendarMemos', JSON.stringify(dailyMemos));
+        closeMemoModal();
+        renderCalendar(currentDate);
+        renderMiniCalendar(miniCurrentDate);
+    }
+
+    function deleteDailyMemo() {
+        if (!currentMemoDate) return;
+
+        const { year, month, day } = currentMemoDate;
+        const key = getDailyMemoKey(year, month, day);
+
+        delete dailyMemos[key];
+        localStorage.setItem('dailyCalendarMemos', JSON.stringify(dailyMemos));
+        closeMemoModal();
+        renderCalendar(currentDate);
+        renderMiniCalendar(miniCurrentDate);
+    }
+
+    function renderCalendar(date) {
+        calendarDays.innerHTML = ''; 
+        const year = date.getFullYear();
+        const month = date.getMonth(); 
+
+        YearLabel.textContent = `${year}년`;
+        MonthLabel.textContent = `${month + 1}월`;
+
+        const firstDayOfMonth = new Date(year, month, 1).getDay(); 
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate(); 
+        const today = new Date();
+        const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+        const todayDate = today.getDate();
+
+        // 이전 달 날짜
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const prevMonthLastDate = new Date(year, month, 0).getDate();
+            const day = prevMonthLastDate - (firstDayOfMonth - 1 - i);
+            const prevDayDiv = document.createElement('div');
+            prevDayDiv.classList.add('day', 'prev-month');
+            prevDayDiv.textContent = day;
+            calendarDays.appendChild(prevDayDiv);
+        }
+
+        // 현재 달 날짜
+        for (let dateNum = 1; dateNum <= lastDateOfMonth; dateNum++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('day');
+
+            const dateSpan = document.createElement('span');
+            dateSpan.textContent = dateNum;
+            dayDiv.appendChild(dateSpan);
+
+            if (isCurrentMonth && dateNum === todayDate) {
+                dayDiv.classList.add('today');
+            }
+
+            // 메모가 있는지 확인
+            const memoKey = getDailyMemoKey(year, month + 1, dateNum);
+            if (dailyMemos[memoKey]) {
+                dayDiv.classList.add('has-memo');
+                const previewDiv = document.createElement('div');
+                previewDiv.classList.add('day-memo-preview');
+                previewDiv.textContent = dailyMemos[memoKey];
+                dayDiv.appendChild(previewDiv);
+            }
+
+            // 클릭 이벤트
+            dayDiv.addEventListener('click', () => {
+                openMemoModal(year, month + 1, dateNum);
+            });
+
+            calendarDays.appendChild(dayDiv);
+        }
+
+        // 다음 달 날짜
+        const totalCells = calendarDays.children.length;
+        const remainingCells = 42 - totalCells; 
+
+        for (let i = 1; i <= remainingCells; i++) {
+            const nextDayDiv = document.createElement('div');
+            nextDayDiv.classList.add('day', 'next-month');
+            nextDayDiv.textContent = i;
+            calendarDays.appendChild(nextDayDiv);
+        }
+
+        loadNote(date); 
+    }
+
+    function renderMiniCalendar(date) {
+        miniCalendarDays.innerHTML = '';
+
+        const year = date.getFullYear();
+        const month = date.getMonth(); 
+        miniMonthLabel.textContent = month + 1;
+        miniYearLabel.textContent = year;
+
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const lastDateOfMonth = new Date(year, month + 1, 0).getDate();
+        const today = new Date();
+        const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+        const todayDate = today.getDate();
+
+        // 이전 달 날짜
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const prevMonthLastDate = new Date(year, month, 0).getDate();
+            const day = prevMonthLastDate - (firstDayOfMonth - 1 - i);
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('mini-day', 'mini-prev-month');
+            dayDiv.textContent = day;
+            miniCalendarDays.appendChild(dayDiv);
+        }
+
+        // 현재 달 날짜
+        for (let dateNum = 1; dateNum <= lastDateOfMonth; dateNum++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('mini-day');
+            dayDiv.textContent = dateNum;
+        
+            if (isCurrentMonth && dateNum === todayDate) {
+                dayDiv.classList.add('mini-today');
+            }
+
+            // 메모가 있는지 확인하여 표시
+            const memoKey = getDailyMemoKey(year, month + 1, dateNum);
+            if (dailyMemos[memoKey]) {
+                dayDiv.classList.add('has-memo');
+            }
+
+            dayDiv.addEventListener('click', () => {
+                currentDate.setFullYear(year, month, dateNum);
+                renderCalendar(currentDate);
+                miniCurrentDate = new Date(currentDate); 
+                renderMiniCalendar(miniCurrentDate); 
+            });
+        
+            miniCalendarDays.appendChild(dayDiv);
+        }
+
+        // 다음 달 날짜
+        const totalCells = miniCalendarDays.children.length;
+        const remainingCells = 42 - totalCells; 
+
+        for (let i = 1; i <= remainingCells; i++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('mini-day', 'mini-next-month');
+            dayDiv.textContent = i;
+            miniCalendarDays.appendChild(dayDiv);
+        }
+    }
+
+    // 이벤트 리스너
+    miniPrevButton.addEventListener('click', () => {
+        miniCurrentDate.setMonth(miniCurrentDate.getMonth() - 1);
+        renderMiniCalendar(miniCurrentDate);
+        currentDate = new Date(miniCurrentDate);
+        renderCalendar(currentDate);
+    });
+
+    miniNextButton.addEventListener('click', () => {
+        miniCurrentDate.setMonth(miniCurrentDate.getMonth() + 1);
+        renderMiniCalendar(miniCurrentDate);
+        currentDate = new Date(miniCurrentDate);
+        renderCalendar(currentDate);
+    });
+
+    prevButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+        miniCurrentDate = new Date(currentDate);
+        renderMiniCalendar(miniCurrentDate);
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+        miniCurrentDate = new Date(currentDate);
+        renderMiniCalendar(miniCurrentDate);
+    });
+
+    // 모달 이벤트
+    saveMemoBtn.addEventListener('click', saveDailyMemo);
+    deleteMemoBtn.addEventListener('click', deleteDailyMemo);
+    memoModalClose.addEventListener('click', closeMemoModal);
+
+    // 모달 배경 클릭시 닫기
+    memoModal.addEventListener('click', (e) => {
+        if (e.target === memoModal) {
+            closeMemoModal();
+        }
+    });
+
+    // 월별 메모 자동 저장
+    memoTextArea.addEventListener('keyup', saveNote);
+
+    // 초기 렌더링
+    renderCalendar(currentDate);
+    renderMiniCalendar(miniCurrentDate);
+
+</script>
+
+
+
+

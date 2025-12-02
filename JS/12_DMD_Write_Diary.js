@@ -4,7 +4,7 @@ const DIARY_STORAGE_KEY = 'diary_permanent_data';
 const MAX_PAGES = 10;
 const DIARY_TITLE_KEY = 'diary_title';
 
-//  에디터 초기화 (외부라이브러리 (작성화면)
+//  에디터 초기화 (외부라이브러리 (작성화면))
 function initQuill(element, placeholderText = null) {
     const text = placeholderText || element.getAttribute('data-placeholder');
     const quill = new Quill(element, {
@@ -179,18 +179,16 @@ applyPageStyle(pageStyle);
 
 
 // 칸 조절 (스티커, 사진, 글자입력칸)
-function makeDraggableResizable(contentElement, x, y, initialWidth = 'auto', initialHeight = 'auto') {
+function makeDraggableResizable(contentElement, x, y, initialWidth = 'auto', initialHeight = 'auto', isSelected = true) {  // ← 매개변수 추가
     const container = document.createElement('div');
-    container.className = 'floating-object-container selected';
+    container.className = isSelected ? 'floating-object-container selected' : 'floating-object-container';  // ← 조건부로 selected 적용
     container.style.left = x + 'px';
     container.style.top = y + 'px';
     if(initialWidth !== 'auto') container.style.width = initialWidth + 'px';
     if(initialHeight !== 'auto') container.style.height = initialHeight + 'px';
-
     contentElement.style.width = '100%';
     contentElement.style.height = '100%';
     contentElement.style.display = 'block';
-    
     if (contentElement.tagName === 'IMG') {
         contentElement.draggable = false;
     }
@@ -199,7 +197,6 @@ function makeDraggableResizable(contentElement, x, y, initialWidth = 'auto', ini
             e.stopPropagation();
         }
     });
-
     container.appendChild(contentElement);
 
     // 크기 조절 핸들
@@ -215,7 +212,6 @@ function makeDraggableResizable(contentElement, x, y, initialWidth = 'auto', ini
     const rotateHandle = document.createElement('div');
     rotateHandle.className = 'rotate-handle';
     container.appendChild(rotateHandle);
-
     diaryPagesContainer.appendChild(container);
     setupInteraction(container, rotateHandle);
     
@@ -399,11 +395,16 @@ function createImageElement(src) {
 }
 
 // 스티커 드래그 앤 드롭
-diaryPagesContainer.addEventListener('dragover', (e) => e.preventDefault());
+diaryPagesContainer.addEventListener('dragover', (e) => {
+    const types = e.dataTransfer.types;
+    if (types.includes('text/plain')) {
+        e.preventDefault();
+    }
+});
 diaryPagesContainer.addEventListener('drop', (e) => {
     e.preventDefault();
     const imgSrc = e.dataTransfer.getData('text/plain');
-    if (imgSrc) {
+    if (imgSrc && (imgSrc.startsWith('http') || imgSrc.startsWith('data:image') || imgSrc.includes('content/'))) {
         const rect = diaryPagesContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -581,7 +582,8 @@ function loadPageData(index) {
                     objData.left, 
                     objData.top, 
                     parseFloat(objData.width), 
-                    parseFloat(objData.height)
+                    parseFloat(objData.height),
+                    false
                 );
                 const quill = initQuill(contentElement);
                 quill.root.innerHTML = objData.content;
@@ -596,7 +598,8 @@ function loadPageData(index) {
                     objData.left,
                     objData.top,
                     parseFloat(objData.width),
-                    parseFloat(objData.height)
+                    parseFloat(objData.height),
+                    false
                 );
                 if (objData.transform) container.style.transform = objData.transform;
             }
@@ -754,3 +757,5 @@ function showToast(message) {
         toast.classList.remove('active');
     }, 3000);
 }
+
+// 스티커 드래그 앤 드롭

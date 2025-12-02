@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD-startpage</title>
+    <link rel="stylesheet" href="/css/12_DMD_style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+
+        .first-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: var(--gradient-background-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 1.5px;
+            height: 1.5px;
+            background: var(--color-star);
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        .moon-orbit {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .moon-phase {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            transition: all 0.3s ease-out;
+            filter: drop-shadow(0 0 20px var(--color-moon-glow));
+        }
+
+        .moon-phase img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .DMD-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 40px;
+        }
+
+        .main-title {
+            font-size: 90px;
+            font-family: 'Sansation', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            background: var(--gradient-text-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            animation: fadeInDown 1s ease-out 0.2s both;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            animation: fadeInDown 1s ease-out 0.4s both;
+        }
+
+        .row-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .book-icon {
+            font-size: 24px;
+            animation: bookFlip 5s ease-in-out infinite;
+        }
+
+        .floating-element {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .floating-element.book {
+            font-size: 40px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-element.pen {
+            font-size: 35px;
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        .floating-element.star {
+            font-size: 30px;
+            animation: float 6s ease-in-out infinite 2s;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .scroll-indicator svg {
+            width: 45px;
+            height: 40px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .second-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 40px;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 10;
+            max-width: 1400px;
+            width: 100%;
+        }
+
+        .section-title-main {
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff 0%, #e8e8ff 50%, #b8a8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-family: "Noto Sans KR", sans-serif;
+            font-size: 18px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            margin-bottom: 60px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+            padding: 0;
+        }
+
+        .feature-card:nth-child(even) {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        .feature-text {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .feature-text-content {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .feature-image-wrapper {
+            position: relative;
+            flex-shrink: 0;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0;
+        }
+
+        .feature-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130%;
+            height: 50%;
+            background: linear-gradient(135deg, rgba(116, 90, 198, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(157, 117, 255, 0.2);
+            z-index: 0;
+        }
+        
+        .feature-image {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+
+        .feature-image-wrapper.laptop-wrapper {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            aspect-ratio: 16 / 10;
+            position: relative;
+            margin: 30px 90px;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+
+            overflow: visible;
+        }
+
+        .feature-image-wrapper.laptop-wrapper::before {
+            width: 95%;
+            height: 35%;
+            top: 71.5%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gradient-button-transperant);
+            border: 0.5px solid var(--color-moon-glow);
+            z-index: 0;
+        }
+
+        .laptop-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            z-index: 10;
+        }
+
+        .laptop-screen {
+            position: absolute;
+            top: 17.94%;
+            left: 12.1%;
+            width: 76.3%;
+            height: 66.8%;
+            z-index: 5;
+            overflow: hidden;
+            background-color: #000;
+            z-index: 5;
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .third-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a1a3e 50%, #2d1b4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 80px 40px;
+        }
+
+        .dmd-slider-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 10px 0;
+        }
+
+        .dmd-slider-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            gap: 30px;
+        }
+
+        .dmd-slide {
+            flex: 0 0 40%;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.15), rgba(124, 92, 219, 0.1));
+            border: 2px solid rgba(157, 117, 255, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+            transform: scale(0.9);
+            transition: all 0.5s ease;
+        }
+
+        .dmd-slide.active {
+            opacity: 1;
+            transform: scale(1);
+            border-color: #9d75ff;
+            box-shadow: 0 0 30px rgba(157, 117, 255, 0.2);
+            z-index: 2;
+        }
+
+        .benefit-icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+        }
+
+        .benefit-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .benefit-description {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .fourth-section {
+            width: 100vw;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a1a3e 50%, #0a0a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .auth-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 610px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(157, 117, 255, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            display: flex;
+            overflow: hidden;
+        }
+
+        .auth-container::-webkit-scrollbar { width: 6px; }
+        .auth-container::-webkit-scrollbar-thumb { background: rgba(157, 117, 255, 0.5); border-radius: 3px; }
+
+        .auth-side {
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(157, 117, 255, 0.2), rgba(124, 92, 219, 0.1));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border-right: 1px solid rgba(157, 117, 255, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .auth-side-image {
+            width: 80%;
+            max-width: 280px;
+            object-fit: contain;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .auth-side-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .auth-side-desc {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .auth-wrapper {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-forms {
+            width: 200%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .auth-forms.show-signup {
+            transform: translateX(-50%);
+        }
+
+        .auth-form {
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(157, 117, 255, 0.3);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #9d75ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(157, 117, 255, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .toggle-link {
+            color: #9d75ff;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        .toggle-link:hover {
+            color: #b8a8ff;
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                letter-spacing: 2px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .row-btn.web-start {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+
+            .book-icon {
+                font-size: 24px;
+            }
+
+            .row-buttons {
+                flex-direction: column;
+            }
+
+            .row-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .floating-element {
+                display: none;
+            }
+
+            .moon-phase {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .main-title {
+                font-size: 28px;
+            }
+
+            .moon-phase {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="first-section" id="FirstSection">
+        <div class="stars" id="starsContainer"></div>
+
+        <div class="moon-orbit" id="moonOrbit">
+            <div class="moon-phase" id="moonPhase">
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg" alt="Moon Phase" id="moonImage">
+            </div>
+        </div>
+
+        <div class="floating-element book" style="top: 20%; left: 15%;">📖</div>
+        <div class="floating-element pen" style="top: 30%; right: 20%;">✒️</div>
+        <div class="floating-element star" style="bottom: 25%; left: 10%;">✨</div>
+        <div class="floating-element book" style="bottom: 20%; right: 15%;">📔</div>
+
+        <div class="DMD-content">
+            <h1 class="main-title">Day<br>Month<br>Diary</h1>
+            <p class="subtitle gowun-batang-regular">매일 매달 남기는 나만의 기록, <em>DMD</em></p>
+
+            <div class="row-buttons">
+                <button class="row-btn web-start" onclick="startbook()">
+                    <span class="book-icon">📔</span>
+                    <span>시작하기</span>
+                </button>
+                <button class="row-btn secondary" onclick="learnMore()">
+                    <span>더 알아보기</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToNext()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </section>
+
+    <section class="second-section" id="secondSection">
+        <div class="stars" id="starsContainer2"></div>
+        
+        <div class="section-content">
+            <h2 class="section-title-main gowun-batang-regular">당신의 이야기를 특별하게</h2>
+            <p class="section-subtitle">Day Month Diary만의 독특한 기능들을 만나보세요</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-image-wrapper laptop-wrapper">
+                        <img src="./content/laptopFrame.png" alt="Laptop Frame" class="laptop-frame">
+                        
+                        <div class="laptop-screen">
+                            <img src="./content/home.png" alt="Screen Content" class="screen-content">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">달의 주기와 함께</h3>
+                        <p class="feature-description">보름달부터 그믐달까지, 달의 변화와 함께 당신의 하루를 월별로 기록하세요.</p>
+                    </div>
+                </div>
+
+
+                <div class="feature-card">
+                    <div class="feature-image-wrapper laptop-wrapper">
+                        <img src="./content/laptopFrame.png" alt="Laptop Frame" class="laptop-frame">
+                        
+                        <div class="laptop-screen">
+                            <img src="./content/home.png" alt="Screen Content" class="screen-content">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">매일 부담없이 기록하는</h3>
+                        <p class="feature-description">달력에 당신이 보낸 하루를 손쉽고 간단하게 적어보세요.</p>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-image-wrapper laptop-wrapper">
+                        <img src="./content/laptopFrame.png" alt="Laptop Frame" class="laptop-frame">
+                        
+                        <div class="laptop-screen">
+                            <img src="./content/home.png" alt="Screen Content" class="screen-content">
+                        </div>
+                    </div>
+                    <div class="feature-text">
+                        <h3 class="feature-title">사용자의 니즈에 맞추어</h3>
+                        <p class="feature-description">직관적이고 편리한 인터페이스로 다이어리를 작성하고, 스티커로 다이어리를 꾸며 보세요.</p>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="third-section" id="thirdSection">
+        <div class="stars" id="starsContainer3"></div>
+        
+        <div class="section-content">
+            <h2 class="section-title-main gowun-batang-regular">왜 DMD를 선택해야 할까요?</h2>
+            <p class="section-subtitle">당신의 일상을 더 특별하게 만드는 이유</p>
+            
+            <div class="dmd-slider-viewport">
+                <div class="dmd-slider-track" id="sliderTrack">
+                    <div class="dmd-slide active">
+                        <div class="benefit-icon">🌙</div>
+                        <h3 class="benefit-title">감성적인 기록</h3>
+                        <p class="benefit-description">밤하늘의 달처럼 은은하고 아름다운 공간에서 하루를 정리하세요.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">📅</div>
+                        <h3 class="benefit-title">체계적인 관리</h3>
+                        <p class="benefit-description">월별, 일별로 체계적으로 정리된 타임라인으로 당신의 변화를 확인하세요.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">🔒</div>
+                        <h3 class="benefit-title">안전한 보관</h3>
+                        <p class="benefit-description">소중한 당신의 이야기는 안전하게 보호되며 언제 어디서나 접근 가능합니다.</p>
+                    </div>
+                    
+                    <div class="dmd-slide">
+                        <div class="benefit-icon">✨</div>
+                        <h3 class="benefit-title">지속 가능한 습관</h3>
+                        <p class="benefit-description">아름다운 디자인과 직관적인 인터페이스가 일기 쓰기를 즐겁게 만듭니다.</p>
+                    </div>
+                </div>
+
+                <button class="slider-btn prev" onclick="prevSlide()">&#10094;</button>
+                <button class="slider-btn next" onclick="nextSlide()">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="fourth-section" id="fourthSection">
+        <div class="stars" id="starsContainer4"></div>
+        
+        <div class="auth-container">
+            <div class="auth-side">
+                <img src="./content/logo.png" alt="DMD Preview" class="auth-side-image">
+                <h3 class="auth-side-title gowun-batang-regular">Day Month Diary</h3>
+                <p class="auth-side-desc">
+                    달과 함께 흐르는 당신만의 시간,<br>
+                    DMD에서 소중한 기록을 시작해보세요.
+                </p>
+            </div>
+
+            <div class="auth-wrapper">
+                <div class="auth-forms" id="authForms">
+                    <div class="auth-form" id="loginForm">
+                        <h2 class="auth-title gowun-batang-regular">로그인</h2>
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" id="loginEmail" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" id="loginPassword" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">로그인하기</button>
+                        </form>
+                        <div class="form-toggle">
+                            아직 회원이 아니신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">회원가입 하러가기</a>
+                        </div>
+                    </div>
+
+                    <div class="auth-form" id="signupForm">
+                        <h2 class="auth-title gowun-batang-regular">회원가입</h2>
+                        <form onsubmit="handleSignup(event)">
+                            <div class="form-group">
+                                <label class="form-label">이름</label>
+                                <input type="text" id="username" class="form-input" placeholder="홍길동" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">이메일</label>
+                                <input type="email" id="email" class="form-input" placeholder="example@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호</label>
+                                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">비밀번호 확인</label>
+                                <input type="password" id="password2" class="form-input" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="submit-btn">가입하기</button>
+                        </form>
+                        <div class="form-toggle">
+                            이미 계정이 있으신가요? 
+                            <a class="toggle-link" onclick="toggleAuthForm()">로그인 하러가기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./JS/12_DMD_startpage.js"></script>
+</body>
+</html>

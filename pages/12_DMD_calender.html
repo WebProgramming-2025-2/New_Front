@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DMD-calender</title>
     <link rel="stylesheet" href="../css/12_DMD_style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
-    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+        
         body::-webkit-scrollbar {
             display: none;
         }
@@ -246,10 +243,7 @@
         }
 
         .day {
-            min-width: 7.2rem;
-            max-width: 7.2rem;
-            min-height: 6.25rem;
-            max-height: 6.25rem;
+            aspect-ratio: 1.15 / 1;
             padding: 0.625rem;
             text-align: left;
             background: rgba(10, 10, 26, 0.3);
@@ -509,7 +503,7 @@
             }
 
             .day {
-                min-height: 4rem;
+                aspect-ratio: 1.15 / 1;
                 font-size: 0.8em;
             }
         }
@@ -902,7 +896,3 @@
     renderMiniCalendar(miniCurrentDate);
 
 </script>
-
-
-
-

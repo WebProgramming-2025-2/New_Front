@@ -126,13 +126,7 @@ function renderDiaries() {
         }
         
         card.addEventListener('click', (e) => {
-        if (moveMode) {
-            e.stopPropagation();
-            return; 
-        }
-
-        const targetUrl = `12_DMD_Write_Diary.html?id=${diary.id}&title=${encodeURIComponent(diary.name)}`;
-        window.location.href = targetUrl;
+        if (moveMode) e.stopPropagation();   
         });
         
         grid.appendChild(card);

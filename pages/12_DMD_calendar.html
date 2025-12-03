@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<head>
+    <html lang="ko">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMD_12_calendar</title>
+    <link rel="stylesheet" href="../css/12_DMD_style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <style>
+        :root{
+            --color-red: #ff7575;
+            --color-red-background: rgba(255, 117, 117, 0.2);
+            --color-yellow: #ffd983;
+            --background-dark: rgba(0, 0, 0, 0.2);
+        }
+        /* Main Content */
+        .main-content {
+            margin-left: 3.75rem;
+            margin-top: 4.375rem;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-container {
+            display: flex;
+            gap: 1.875rem;
+            margin-bottom: 1.875rem;
+        }
+
+        /* Mini Calendar */
+        .mini-calendar-container {
+            position: relative;
+            width: 19.375rem;
+            background: var(--bg-dark-2);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid var(--border-secondary);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
+        }
+
+        .mini-calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .mini-month-year {
+            position: relative;
+            left: 0.3125rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        #miniMonthLabel {
+            font-size: 2.5em;
+            font-weight: 300;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #miniYearLabel {
+            font-size: 1.1em;
+            font-weight: 300;
+            color: var(--border-white);
+        }
+
+        .mini-nav{
+            height: 4rem;
+            width: 10rem;
+            position: relative;
+            top: 0.3125rem;
+        }
+
+        .mini-calendar-container .slider-btn.prev {
+            left: 4rem;
+            top: 3rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            font-size: 0.875rem;
+        }
+
+        .mini-calendar-container .slider-btn.next {
+            right: 0.5rem;
+            top: 3rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            font-size: 0.875rem;
+        }
+
+        .mini-calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: var(--border-white);
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 0.0625rem solid var(--color-accent-purple);
+        }
+
+        .mini-calendar-weekdays div:first-child { color: #ff7575; }
+        .mini-calendar-weekdays div:last-child { color: var(--color-primary-dark); }
+
+        .mini-calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+        }
+
+        .mini-day {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 2.1875rem;
+            height: 2.1875rem;
+            font-size: 0.85em;
+            color: var(--color-text-secondary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .mini-day:hover {
+            background: var(--border-secondary);
+        }
+
+        .mini-prev-month, .mini-next-month {
+            color: var(--border-white);
+        }
+
+        .mini-today {
+            background: var(--gradient-button-submit);
+            border-radius: 50%;
+            color: var(--color-text-primary);
+            font-weight: bold;
+        }
+
+        /* 메모가 있는 날 표시 */
+        .mini-day.has-memo::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: #ffd983;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffd700;
+        }
+
+        .mini-day.mini-today.has-memo::after {
+            background: var(--color-text-primary);
+            box-shadow: 0 0 6px var(--color-text-primary);
+        }
+
+        /* Main Calendar */
+        .calendar-container {
+            position: relative;
+            flex: 1;
+            background: var(--bg-dark-2);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid var(--border-secondary);
+            border-radius: 0.9375rem;
+            margin-left: 0.9375rem;
+            padding: 1.875rem;
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .calendar-header {
+            position: relative;
+            top: 1rem;
+            width: 10rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .year-label {
+            font-size: 1.2em;
+            color: var(--border-white);
+            font-weight: 500;
+        }
+
+        .month-label {
+            font-size: 3.4375rem;
+            font-weight: 300;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .calendar-content {
+            flex: 1;
+        }
+
+        .calendar-container .slider-btn.prev {
+            left: 1.25rem;
+            top: 10.625rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .calendar-container .slider-btn.next {
+            right: 1.5625rem;
+            top: 10.625rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: 600;
+            color: var(--border-white);
+            padding: 0.9375rem 0;
+            border-bottom: 0.125rem solid var(--border-secondary);
+            margin-bottom: 0.625rem;
+        }
+
+        .calendar-weekdays div:first-child { color: var(--color-red); }
+        .calendar-weekdays div:last-child { color: var(--color-primary-dark); }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day {
+            aspect-ratio: 1.15 / 1;
+            padding: 0.625rem;
+            text-align: left;
+            background: var(--bg-dark-2);
+            border: 0.0625rem solid var(--color-accent-purple);
+            border-radius: 0.75rem;
+            font-size: 0.9em;
+            color: var(--color-text-secondary);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            overflow: scroll;
+            scrollbar-width: none;
+        }
+
+        .day:-webkit-scrollbar {
+            display: none;
+        }
+
+        .day:hover:not(.prev-month):not(.next-month) {
+            background: var(--color-accent-purple);
+            border-color: var(--color-primary);
+            transform: translateY(-0.125rem);
+        }
+
+        .day:nth-child(7n+1) { 
+            color: var(--color-red);
+        }
+
+        .day:nth-child(7n) {
+            color: var(--color-primary-light);
+        }
+
+        .prev-month, .next-month {
+            color: var(--border-white);
+            background: var(--background-dark);
+        }
+
+        .today {
+            background: var(--border-secondary);
+            border: 0.125rem solid var(--color-primary);
+            font-weight: bold;
+            box-shadow: 0 0 1.25rem var(--border-secondary);
+        }
+
+        /* 날짜별 메모 미리보기 */
+        .day-memo-preview {
+            font-size: 1.1em;
+            color: var(--color-text-primary);
+            overflow: scroll;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 0.2rem;
+        }
+
+        .day-memo-preview::-webkit-scrollbar {
+            display: none;
+        }
+
+        .day.has-memo {
+            color: var(--color-text-primary);
+            border-color: var(--color-yellow);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Memo Area */
+        .memo-area {
+            background: var(--bg-dark-2);
+            backdrop-filter: blur(0.625rem);
+            border: 0.0625rem solid var(--border-secondary);
+            border-radius: 1.25rem;
+            padding: 1.875rem;
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
+        }
+
+        .memo-area label {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.9375rem;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .memo-area textarea {
+            width: 100%;
+            min-height: 7.5rem;
+            padding: 0.9375rem;
+            background: var(--background-dark);
+            border: 0.0625rem solid var(--color-accent-purple);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            resize: vertical;
+            color: var(--color-text-secondary);
+            transition: all 0.3s;
+        }
+
+        .memo-area textarea::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .memo-area textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 1.25rem var(--border-secondary);
+            background: var(--bg-dark-1);
+        }
+
+        /* 날짜별 메모 모달 */
+        .memo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-dark);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .memo-modal.active {
+            display: flex;
+        }
+
+        .memo-modal-content {
+            background: var(--bg-dark-2);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-secondary);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 1rem 3rem var(--overlay-dark);
+        }
+
+        .memo-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .memo-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--gradient-title);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .memo-modal-close {
+            background: none;
+            border: none;
+            color: var(--border-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .memo-modal-close:hover {
+            color: var(--color-primary);
+        }
+
+        .memo-modal textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            background: var(--background-dark);
+            border: 1px solid var(--color-accent-purple);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            resize: vertical;
+            color: var(--color-text-secondary);
+            transition: all 0.3s;
+        }
+
+        .memo-modal textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 1.25rem var(--border-secondary);
+        }
+
+        .memo-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: flex-end;
+        }
+
+        .memo-modal-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .memo-modal-btn.save {
+            background: var(--gradient-button-submit);
+            color: var(--color-text-primary);
+        }
+
+        .memo-modal-btn.save {
+            background: var(--gradient-button-submit);
+            color: var(--color-text-primary);
+        }
+
+        .memo-modal-btn.delete {
+            background: var(--color-red-background);
+            color: var(--color-red);
+            border: 1px solid var(--color-red);
+        }
+
+        .memo-modal-btn.delete:hover {
+            background: var(--color-red-background);
+        }
+
+        /* 반응형 미디어 쿼리 */
+        @media screen and (max-width: 1200px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .mini-calendar-container {
+                width: 100%;
+                max-width: 25rem;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main-content {
+                margin-left: 1rem;
+                margin-top: 2rem;
+                padding: 1rem;
+            }
+
+            .calendar-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .calendar-header {
+                top: 0;
+                width: 100%;
+            }
+
+            .day {
+                aspect-ratio: 1.15 / 1;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Columns.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">책장</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Calendar.svg" class="sidebar-icon active">
+            <div class="sidebar-tooltip">캘린더</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Layers.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">아카이브</div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="../content/12_DMD_logo.png" alt="Journey Logo" class="logo-icon">
+                <span>Day Month Diary</span>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <div class="profile-btn">
+                <div class="profile-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="main-container">
+            <div class="mini-calendar-container" id="miniCalendar">
+                <div class="mini-calendar-header">
+                    <div class="mini-month-year">
+                        <span class="mini-month-label" id="miniMonthLabel"></span>
+                        <span class="mini-year-label" id="miniYearLabel"></span>
+                    </div>
+                    <div class="mini-nav">
+                        <button id="miniPrevMonth" class="slider-btn prev">❮</button>
+                        <button id="miniNextMonth" class="slider-btn next">❯</button>
+                    </div>
+                </div>
+                <div class="mini-calendar-weekdays">
+                    <div>S</div>
+                    <div>M</div>
+                    <div>T</div>
+                    <div>W</div>
+                    <div>T</div>
+                    <div>F</div>
+                    <div>S</div>
+                </div>
+                <div class="mini-calendar-days" id="miniCalendarDays"></div>
+            </div>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="year-label" id="YearLabel"></div>
+                    <div class="month-label" id="MonthLabel"></div>
+                    <button class="slider-btn prev" id="prevMonth">❮</button>
+                    <button class="slider-btn next" id="nextMonth">❯</button>
+                </div>
+                <div class="calendar-content">
+                    <div class="calendar-weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                
+                    <div class="calendar-days" id="calendarDays"></div>
+                </div>
+            </div>
+        </div>
+        <div class="memo-area">
+            <label for="monthly-note">📌 이달의 메모</label>
+            <textarea id="monthly-note" name="monthly-note" rows="4" placeholder="이달의 목표, 중요한 일정 등을 기록하세요."></textarea>
+        </div>
+    </div>
+
+    <!-- 날짜별 메모 모달 -->
+    <div class="memo-modal" id="memoModal">
+        <div class="memo-modal-content">
+            <div class="memo-modal-header">
+                <div class="memo-modal-title" id="memoModalTitle">날짜 메모</div>
+                <button class="memo-modal-close" id="memoModalClose">&times;</button>
+            </div>
+            <textarea id="dailyMemoTextarea" placeholder="이 날의 메모를 입력하세요..."></textarea>
+            <div class="memo-modal-buttons">
+                <button class="memo-modal-btn delete" id="deleteMemoBtn">삭제</button>
+                <button class="memo-modal-btn save" id="saveMemoBtn">저장</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../JS/12_DMD_common_background.js"></script>
+    <script src="../JS/12_DMD_startpage.js"></script>
+    <script src="../JS/12_DMD_calendar.js"></script>
+</body>
+<html>
+

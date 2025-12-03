@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DMD-writediary</title>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="../css/12_DMD_style.css" rel="stylesheet">
+        <style>
+            .toast-message {
+                position: fixed; top: 105px; left: 54px; right: 0; margin: 0 auto; width: fit-content;
+                background: var(--gradient-button-submit); color: var(--color-text-primary);
+                padding: 16px 28px; border-radius: 12px; 
+                font-size: 14px; font-weight: 600;
+                box-shadow: 0 8px 24px var(--shadow-primary);
+                z-index: 1001; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            }
+            .toast-message.active { opacity: 1; }
+            
+            /*외부 라이브러리 정의*/
+            .ql-container.ql-snow { border: none !important; }
+
+            .ql-editor {
+                padding: 0 !important;
+                font-family: "Noto Sans KR", sans-serif;
+                font-size: inherit !important;
+                line-height: 1.6;
+            }
+            .ql-editor:focus { outline: none; }
+            .ql-editor.ql-blank::before { color: rgba(0,0,0,0.4); font-style: normal; left: 0 !important; }
+            .ql-editor ul, .ql-editor ol { padding-left: 0; }
+
+            .main-content {
+                margin-left: 54px;
+                margin-top: 67px;
+                padding: 0;
+                min-height: calc(100vh - 110px);
+            }
+
+            /* Custom Toolbar */
+            .custom-toolbar {
+                position: fixed;
+                top: 68px;
+                left: 54px;
+                right: 0;
+                height: 70px;
+                background: var(--gradient-button-transperant);
+                backdrop-filter: blur(5px);
+                border-bottom: 1px solid var(--border-light);
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+                align-items: center;
+                padding: 0 20px;
+                z-index: 10;    
+            }
+
+            .slider-btn {
+                background: none;
+                border: none;
+                width: 40px;
+                height: 40px;
+                position: static;
+                transform: none;
+            }
+            .slider-btn:hover {
+                background-color: var(--border-light);
+            }
+
+            .diary-title-display {
+                padding: 8px 16px;
+                color: var(--color-text-primary);
+                font-size: 18px;
+                font-family: "Noto Sans KR", sans-serif;
+                min-width: 250px;
+            }
+
+            .toolbar-center {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                justify-self: center;
+            }
+
+            .toolbar-left {
+                display: flex;
+                align-items: center;
+                justify-self: start;
+            }
+
+            .save-btn {
+                margin-right: 20px;
+                padding: 8px 20px;
+                background: var(--gradient-button-submit);
+                border: none;
+                border-radius: 8px;
+                color: var(--color-text-primary);
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                justify-self: end;
+            }
+
+            .save-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px var(--shadow-primary);
+            }
+
+            .save-btn:active {
+                transform: translateY(1px);
+                box-shadow: 0 2px 6px var(--shadow-primary);
+            }
+
+            .btn-group {
+                display: flex;
+                gap: 4px;
+                padding: 4px;
+                background: var(--gradient-button-transperant);
+                backdrop-filter: blur(10px);
+                border-radius: 8px;
+                border: 1px solid var(--border-secondary);
+                position: relative;
+            }
+
+            .btn-group button {
+                height: 32px;
+                min-width: 32px;
+                padding: 0 8px;
+                border: none;
+                background: transparent;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                color: var(--color-primary-lightest);
+                font-size: 14px;
+                transition: all 0.2s;
+            }
+            .btn-group button:hover {
+                background-color: var(--color-accent-purple);
+            }
+
+            /* Dropdown Menu */
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                margin-top: 8px;
+                background: rgba(64, 52, 104, 0.9);
+                backdrop-filter: blur(10px);
+                border: 1px solid var(--border-primary);
+                border-radius: 8px;
+                box-shadow: 0 4px 12px var(--shadow-glow);
+                overflow: hidden;
+                z-index: 20;
+                min-width: 160px;
+            }
+            .dropdown-menu.show {
+                display: block;
+            }
+
+            .dropdown-item {
+                padding: 12px 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                color: var(--color-text-primary);
+                font-size: 14px;
+                white-space: nowrap;
+            }
+            .dropdown-item:hover {
+                background-color: var(--color-accent-purple);
+            }
+
+            /* 스티커 팝업 스타일 */
+            .sticker-popup {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                margin-top: 8px;
+                background: rgba(64, 52, 104, 0.9);
+                border: 1px solid var(--border-primary);
+                border-radius: 8px;
+                box-shadow: 0 4px 12px var(--shadow-glow);
+                padding: 10px;
+                z-index: 30;
+                width: 280px;
+            }
+            .sticker-popup.show {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .sticker-option {
+                width: 40px;
+                height: 40px;
+                cursor: grab;
+                object-fit: contain;
+                transition: transform 0.2s;
+            }
+            .sticker-option:hover {
+                transform: scale(1.1);
+            }
+
+            /* 객체 조절 핸들 및 래퍼 */
+            .floating-object-container {
+                position: absolute;
+                display: inline-block;
+                z-index: 10;
+                cursor: move;
+                transform-origin: center center;
+                padding: 10px;
+            }
+            .floating-object-container:hover {
+                outline: 1px dashed var(--color-primary);
+            }
+
+            .floating-object-container.selected {
+                outline: 2px solid var(--color-primary-dark);
+                background: rgba(124, 92, 219, 0.05);
+            }
+
+            /* 리사이즈 핸들 */
+            .resize-handle {
+                width: 10px;
+                height: 10px;
+                background: white;
+                border: 1px solid var(--color-primary-dark);
+                position: absolute;
+                z-index: 20;
+                display: none;
+            }
+
+            .floating-object-container.selected .resize-handle { display: block; }
+
+            .handle-nw { top: -5px; left: -5px; cursor: nw-resize; }
+            .handle-ne { top: -5px; right: -5px; cursor: ne-resize; }
+            .handle-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+            .handle-se { bottom: -5px; right: -5px; cursor: se-resize; }
+
+            /* 회전 핸들 */
+            .rotate-handle {
+                width: 10px;
+                height: 10px;
+                background: var(--color-primary-dark);
+                border-radius: 8px;
+                position: absolute;
+                top: -25px;
+                left: 50%;
+                transform: translateX(-50%);
+                cursor: grab;
+                z-index: 20;
+                display: none;
+            }
+            .rotate-handle::after {
+                content: '';
+                position: absolute;
+                top: 10px;
+                left: 4px;
+                width: 2px;
+                height: 15px;
+                background: var(--color-primary-dark);
+            }
+
+            .floating-object-container.selected .rotate-handle { display: block; }
+
+            /* 글자 입력 칸 */
+            .text-box-content {
+                min-width: 50px;
+                min-height: 30px;
+                padding: 5px;
+                outline: none;
+                white-space: pre-wrap;
+                word-break: break-word;
+                cursor: text;
+                background: transparent;
+                position: relative;
+                z-index: 1;
+                color: #000000;
+            }
+            .text-box-content:empty::before {
+                content: attr(data-placeholder);
+                color: #aaa;
+                pointer-events: none;
+                display: block;
+            }
+
+            /* 색상 선택 팝업 스타일 */
+            .color-popup {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                margin-top: 8px;
+                background: rgba(64, 52, 104, 0.9);
+                border: 1px solid var(--border-primary);
+                border-radius: 8px;
+                padding: 12px;
+                box-shadow: 0 4px 12px var(--shadow-glow);
+                z-index: 100;
+                flex-direction: column;
+                gap: 12px;
+                width: 220px;
+            }
+
+            /* 색상 격자 */
+            .color-palette-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+            }
+
+            .palette-swatch {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: 2px solid transparent;
+                cursor: pointer;
+                transition: transform 0.2s, border-color 0.2s;
+            }
+            .palette-swatch:hover {
+                transform: scale(1.1);
+                box-shadow: 0 4px 12px var(--shadow-glow);
+            }
+            .palette-swatch.selected {
+                border-color: var(--color-primary-dark);
+                transform: scale(0.9);
+            }
+
+            /* 적용 버튼 스타일 */
+            .color-apply-btn {
+                width: 100%;
+                padding: 8px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: bold;
+            }
+
+            /* Icons */
+            .icon { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; }
+            .icon-plus::before { content: '+'; font-size: 16px; font-weight: bold; }
+            .icon-chevron-down::before { content: '▼'; font-size: 10px; }
+            .icon-list::before { content: '≡'; font-size: 16px; }
+            .icon-list-ordered::before { content: '1.'; font-size: 14px; font-weight: bold; }
+            .icon-list-unordered::before { content: '•'; font-size: 18px; }
+            .icon-sticker::before { content: '🎨'; font-size: 16px; }
+            .icon-photo::before { content: '📷'; font-size: 16px; }
+            .icon-text::before { content: '📝'; font-size: 16px; }
+            .icon-bold::before { content: 'B'; font-weight: bold; font-size: 14px; }
+            .icon-italic::before { content: 'I'; font-style: italic; font-size: 14px; }
+            .icon-strikethrough::before { content: 'S'; text-decoration: line-through; font-size: 14px; }
+            .icon-underline::before { content: 'U'; text-decoration: underline; font-size: 14px; }
+            .icon-highlight::before { content: 'H'; font-size: 14px; background: linear-gradient(to bottom, transparent 50%, var(--color-primary-light) 50%, var(--color-primary-light) 90%, transparent 90%); padding: 0 2px; }
+            
+            .color-circle {
+                width: 16px; height: 16px; border-radius: 50%;
+                background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+                pointer-events: none;
+            }
+
+            /* content-area 중앙 정렬 */
+            .content-area {
+                padding-top: 97px;
+                max-width: 1000px;
+                margin: 0 auto;
+                min-height: calc(100vh - 67px - 72px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .diary-cover {
+                background: var(--color-primary);
+                padding: 10px 20px;
+                border-radius: 16px;
+                box-shadow: 0 0px 24px var(--shadow-primary);
+                position: relative;
+            }
+            .diary-cover::after {
+                content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 30px; height: 100%;
+                background: linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.1) 100%);
+                pointer-events: none;
+            }
+            .diary-cover::before {
+                content: ''; position: absolute; top: 5px; left: 10px; right: 10px; bottom: 5px;
+                border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; pointer-events: none; z-index: 1;
+            }
+
+            .diary-pages {
+                display: flex;
+                gap: 0;
+                position: relative;
+                z-index: 1;
+                overflow: hidden;
+            }
+
+            .diary-center-line {
+                position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+                background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 5%, rgba(0,0,0,0.1) 95%, transparent 100%);
+                transform: translateX(-50%); z-index: 2;
+            }
+
+            .diary-page {
+                flex: 1; background: rgba(255, 255, 255, 0.98); padding: 10px 20px; height: 500px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+                position: relative; z-index: 1; overflow: hidden;
+            }
+            .diary-page.left {
+                border-radius: 12px 0 0 12px;
+                background: linear-gradient(to right,
+                    var(--color-primary-lightest) 0%,
+                    rgba(255, 255, 255, 0.98) 50%
+                );
+            }
+            .diary-page.right {
+                border-radius: 0 12px 12px 0;
+                background: linear-gradient(to right,
+                    rgba(255, 255, 255, 0.98) 50%,
+                    var(--color-primary-lightest) 100%
+                );
+            }
+
+            /* 페이지 네비게이션 스타일 */
+            .page-navigation {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 20px;
+                padding: 15px;
+            }
+
+            .page-number {
+                min-width: 60px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 500;
+                color: var(--color-text-primary);
+                font-family: 'Sansation', sans-serif;
+            }
+
+            .editor-placeholder {
+                width: 100%; min-height: 400px; border: none; font-size: 16px; line-height: 28px; color:#000000;
+                font-family: "Noto Sans KR", sans-serif;
+                background: transparent; position: relative; z-index: 2; padding-top: -2px;
+            }
+            .editor-placeholder:focus { outline: none; }
+
+            ol, ul { padding-left: 20px;}
+            ol li { list-style-type: decimal; }
+            ul li { list-style-type: disc; }
+        </style>
+    </head>
+    <body>
+
+    <div class="sidebar">
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Columns.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">책장</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Calendar.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">캘린더</div>
+        </div>
+        <div class="sidebar-icon-wrapper">
+            <img src="../content/12_DMD_Layers.svg" class="sidebar-icon">
+            <div class="sidebar-tooltip">아카이브</div>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="logo">
+            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+                <img src="../content/12_DMD_logo.png" alt="Journey Logo" class="logo-icon">
+                <span>Day Month Diary</span>
+            </a>
+        </div>
+
+        <div class="header-right">
+            <div class="profile-btn">
+                <div class="profile-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+        <div class="main-content">
+            <div class="custom-toolbar">
+                <div class="toolbar-left">
+                    <button class="slider-btn" onclick="history.back()">❮</button>
+                    <div id="diaryTitle" class="diary-title-display"></div>
+                </div>
+                <div class="toolbar-center">
+                    <div class="btn-group">
+                        <button id="insertBtn">
+                            <span class="icon icon-plus"></span>
+                            <span class="icon icon-chevron-down"></span>
+                        </button>
+                        <div class="dropdown-menu" id="insertDropdown">
+                            <div class="dropdown-item" id="stickerMenuBtn">
+                                <span class="icon icon-sticker"></span>
+                                <span>스티커</span>
+                            </div>
+                            <div class="dropdown-item" onclick="insertPhoto()">
+                                <span class="icon icon-photo"></span>
+                                <span>사진</span>
+                            </div>
+                            <div class="dropdown-item" onclick="createTextBox()">
+                                <span class="icon icon-text"></span>
+                                <span>글자 작성 칸</span>
+                            </div>
+                        </div>
+                        <div class="sticker-popup" id="stickerPopup"></div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button id="listBtn">
+                            <span class="icon icon-list"></span>
+                            <span class="icon icon-chevron-down"></span>
+                        </button>
+                        <div class="dropdown-menu" id="listDropdown">
+                            <div class="dropdown-item" onclick="insertListAtCursor('ordered')">
+                                <span class="icon icon-list-ordered"></span>
+                                <span>숫자 리스트</span>
+                            </div>
+                            <div class="dropdown-item" onclick="insertListAtCursor('unordered')">
+                                <span class="icon icon-list-unordered"></span>
+                                <span>순서 없는 리스트</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button onclick="applyTextStyle('bold')"><span class="icon icon-bold"></span></button>
+                        <button onclick="applyTextStyle('italic')"><span class="icon icon-italic"></span></button>
+                        <button onclick="applyTextStyle('strikethrough')"><span class="icon icon-strikethrough"></span></button>
+                        <button onclick="applyTextStyle('underline')"><span class="icon icon-underline"></span></button>
+                        <button onclick="applyTextStyle('highlight')"><span class="icon icon-highlight"></span></button>
+                    </div>
+
+                    <div class="btn-group" style="position: relative;">
+                        <button id="colorBtn">
+                            <div class="color-circle" id="currentColorDisplay"></div>
+                        </button>
+                        <div class="color-popup" id="colorPopup">
+                            <div class="color-palette-grid" id="colorPaletteGrid">
+                                </div>
+                            <button class="color-apply-btn" onclick="applySelectedColor()">적용</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="save-btn" onclick="saveDiaryPermanently()">저장</button>
+            </div>
+
+            <div class="content-area">
+                <div class="diary-cover" id="diaryCover">
+                    <div class="diary-pages" id="diaryPagesContainer">
+                        <div class="diary-page left" id="leftPage">
+                            <div class="editor-placeholder" contenteditable="true" id="leftEditor"></div>
+                        </div>
+                        <div class="diary-center-line"></div>
+                        <div class="diary-page right" id="rightPage">
+                            <div class="editor-placeholder" contenteditable="true" id="rightEditor"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-navigation">
+                    <button class="slider-btn" onclick="previousPage()">←</button>
+                    <span class="page-number" id="pageNum"></span>
+                    <button class="slider-btn" onclick="nextPage()">→</button>
+            </div>
+            </div>
+        </div>
+
+        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+        <div id="toastMessage" class="toast-message"></div>
+
+        <script src="../JS/12_DMD_Write_Diary.js"></script>
+        <script src="../JS/12_DMD_common_background.js"></script>
+    </body>
+</html>

@@ -144,6 +144,10 @@
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -385,6 +389,7 @@ body {
     position: absolute;
     left: 60px;
     background-color: var(--color-accent-purple);
+    backdrop-filter: blur(10px);
     color: var(--color-text-primary);
     padding: 8px 12px;
     border-radius: 8px;
@@ -416,6 +421,7 @@ body {
     right: 0;
     height: 68px;
     background: var(--gradient-button-transperant);
+    backdrop-filter: blur(5px);
     display: flex;
     align-items: center;
     justify-content: space-between;

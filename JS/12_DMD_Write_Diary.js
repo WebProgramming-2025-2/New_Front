@@ -145,7 +145,8 @@ function applyCoverStyle(style) {
         'blue': 'linear-gradient(135deg, #5a7a9e 0%, #425a6b 100%)',
         'pink': 'linear-gradient(135deg, #d47a9e 0%, #b85a7a 100%)'
     };
-    if(cover) cover.style.background = coverStyles[style] || coverStyles['default'];
+    // [핵심] || style 을 추가해서, 목록에 없는 색상 코드도 바로 적용되게 함
+    if(cover) cover.style.background = coverStyles[style] || style;
 }
 
 function applyPageStyle(style) {
@@ -692,18 +693,45 @@ window.addEventListener('load', () => {
     updatePageNum();
 });
 
-// 영구 저장 함수 추가
 function saveDiaryPermanently() {
     saveCurrentPageData();
-    
-    try {
-        localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(diaryPagesData));
-        showToast('저장했습니다.'); 
 
-    } catch (e) {
-        console.error('저장 실패:', e);
-        showToast('저장에 실패했습니다.'); 
+    const titleInput = document.getElementById('diaryTitle');
+    const diaryCover = document.getElementById('diaryCover');
+    
+    let currentId = localStorage.getItem('currentDiaryId');
+    if (!currentId) {
+        currentId = Date.now();
     }
+
+    const today = new Date();
+    
+    const diaryData = {
+        id: Number(currentId),
+        title: titleInput.value || "제목 없음",
+        date: today.toISOString().split('T')[0],
+        year: today.getFullYear(),
+        month: today.getMonth(),
+        coverColor: diaryCover.style.background || '#9D75FF',
+        paperType: 'line', 
+        pages: diaryPagesData
+    };
+
+    const allDiaries = JSON.parse(localStorage.getItem(DIARY_STORAGE_KEY)) || [];
+    const existingIndex = allDiaries.findIndex(d => d.id == currentId);
+
+    if (existingIndex > -1) {
+        allDiaries[existingIndex] = diaryData;
+    } else {
+        allDiaries.push(diaryData);
+    }
+
+    localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(allDiaries));
+    
+    localStorage.removeItem('currentDiaryId');
+    localStorage.removeItem('currentDiarySettings');
+
+    window.location.href = '12_DMD_homepopup.html';
 }
 
 // 영구 저장된 데이터 불러오기 함수 추가
@@ -758,4 +786,52 @@ function showToast(message) {
     }, 3000);
 }
 
-// 스티커 드래그 앤 드롭
+
+
+// [최종 수정] 페이지 로드 시 데이터 연결 로직
+window.addEventListener('load', () => {
+    // 1. 방금 생성해서 들어온 경우 (Settings가 있음)
+    const newSettings = localStorage.getItem('currentDiarySettings');
+    // 2. 홈에서 클릭해서 들어온 경우 (ID가 있음)
+    const targetId = localStorage.getItem('currentDiaryId');
+    // 3. 전체 데이터 가져오기
+    const allDiaries = JSON.parse(localStorage.getItem('diary_permanent_data')) || [];
+
+    if (targetId) {
+        // [CASE A] 기존 다이어리 수정 모드
+        const diary = allDiaries.find(d => d.id == targetId);
+        if (diary) {
+            // 제목, 커버, 속지 적용
+            document.getElementById('diaryTitle').value = diary.title;
+            applyCoverStyle(diary.coverColor);
+            
+            let pStyle = 'default';
+            if (diary.paperType === 'line') pStyle = 'lined';
+            if (diary.paperType === 'grid') pStyle = 'grid';
+            applyPageStyle(pStyle);
+
+            // 내용(Pages) 불러오기
+            if (diary.pages) {
+                diaryPagesData = diary.pages;
+                loadPageData(0); // 1페이지 로드
+            }
+        }
+        // 사용 후 ID 삭제 (새로고침 시 꼬임 방지하려면 남겨도 되지만, 일단 유지)
+        // localStorage.removeItem('currentDiaryId'); 
+        
+    } else if (newSettings) {
+        // [CASE B] 새 다이어리 생성 모드
+        const settings = JSON.parse(newSettings);
+        
+        document.getElementById('diaryTitle').value = settings.title;
+        applyCoverStyle(settings.coverColor);
+        
+        let pStyle = 'default';
+        if (settings.paperType === 'line') pStyle = 'lined';
+        if (settings.paperType === 'grid') pStyle = 'grid';
+        applyPageStyle(pStyle);
+        
+        // Settings는 한 번 쓰고 지움
+        localStorage.removeItem('currentDiarySettings');
+    }
+});

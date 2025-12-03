@@ -1245,6 +1245,263 @@
             text-decoration: none;
         }
 
+
+/* =========================================
+           1. 사용자 정보 팝업 CSS (User Info) - 수정됨
+           ========================================= */
+        .user-info-popup {
+            position: absolute;
+            top: 70px;
+            right: 30px;
+            width: 320px;
+            background: linear-gradient(135deg, rgba(26, 26, 62, 0.95), rgba(45, 27, 78, 0.98));
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            padding: 24px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .user-info-popup.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-text-tertiary);
+            padding: 4px;
+        }
+        .popup-close:hover { color: var(--color-text-primary); }
+
+        .popup-email {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+            font-weight: 300;
+            font-family: 'Sansation', sans-serif;
+        }
+
+        .popup-avatar-wrapper { position: relative; margin-bottom: 16px; }
+        .popup-avatar {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary-dark));
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 0 20px var(--shadow-glow);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .popup-avatar svg { width: 40px; height: 40px; }
+        .camera-badge {
+            position: absolute; bottom: 0; right: 0;
+            width: 26px; height: 26px;
+            background-color: var(--bg-dark-2);
+            border: 1px solid var(--border-primary);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-text-primary);
+        }
+
+        .popup-greeting {
+            font-size: 18px; font-weight: 700;
+            color: var(--color-text-primary); margin-bottom: 24px;
+        }
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-secondary);
+            border-radius: 100px;
+            padding: 10px 28px;
+            font-size: 14px; font-weight: 500;
+            color: var(--color-primary-light);
+            cursor: pointer; transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background-color: var(--color-accent-purple);
+            border-color: var(--color-primary-light);
+            color: #fff;
+            box-shadow: 0 0 15px var(--shadow-glow);
+        }
+
+        /* =========================================
+           2. 다이어리 생성 모달 CSS (Create Modal) - 수정됨
+           ========================================= */
+        .create-modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85); /* 배경 더 어둡게 */
+            display: none; align-items: center; justify-content: center;
+            z-index: 3000; backdrop-filter: blur(8px);
+        }
+        .create-modal-overlay.active { display: flex; }
+
+        .create-modal-content {
+            /* 팝업과 통일된 다크 글래스 스타일 */
+            background: linear-gradient(135deg, rgba(20, 20, 45, 0.95), rgba(35, 20, 60, 0.95));
+            border: 1px solid var(--border-light);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.7);
+            width: 720px; border-radius: 24px;
+            padding: 40px; position: relative;
+            max-height: 90vh; overflow-y: auto;
+            color: var(--color-text-primary);
+        }
+
+        .create-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; border-bottom: 1px solid var(--border-lighter);
+            padding-bottom: 20px;
+        }
+        .create-title {
+            font-family: "Gowun Batang", serif; font-size: 24px; font-weight: 700;
+            background: var(--gradient-text-title);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .close-create-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--color-text-tertiary); transition: color 0.2s;
+        }
+        .close-create-btn:hover { color: var(--color-text-primary); }
+
+        .create-section { margin-bottom: 32px; }
+        .section-label {
+            font-size: 15px; font-weight: 600;
+            color: var(--color-primary-light); margin-bottom: 12px; display: block;
+        }
+
+        .diary-name-input {
+            width: 100%; padding: 16px; font-size: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-light);
+            border-radius: 12px; outline: none; transition: all 0.3s;
+            color: var(--color-text-primary);
+        }
+        .diary-name-input::placeholder { color: var(--color-text-muted); }
+        .diary-name-input:focus {
+            border-color: var(--color-primary);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px var(--shadow-dark);
+        }
+
+        /* 커버 꾸미기 */
+        .cover-custom-container {
+            display: flex; gap: 40px; align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-lighter);
+            padding: 24px; border-radius: 16px;
+        }
+        .cover-preview {
+            width: 140px; flex-shrink: 0;
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+            transition: transform 0.3s;
+        }
+        .cover-preview:hover { transform: scale(1.05) rotate(-2deg); }
+
+        .palette-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; flex-grow: 1;
+        }
+        .color-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .color-btn:hover { transform: scale(1.1); border-color: rgba(255, 255, 255, 0.5); }
+        .color-btn.active {
+            transform: scale(1.15); border: 2px solid #fff;
+            box-shadow: 0 0 15px var(--shadow-glow);
+        }
+
+        /* 속지 선택 - 이슈 수정됨 */
+        .paper-options { display: flex; gap: 16px; }
+        
+        .paper-card {
+            flex: 1; height: 140px;
+            background: #e6e6e6; /* 기본 배경을 약간 어둡게 (종이 느낌) */
+            border: 2px solid var(--border-light); /* 테두리 두께 2px */
+            border-radius: 12px;
+            cursor: pointer; position: relative;
+            
+            /* 핵심 수정: overflow: hidden으로 내부 내용이 둥근 모서리를 넘지 않도록 함 */
+            overflow: hidden; 
+            transition: all 0.3s;
+        }
+        .paper-card:hover { 
+            border-color: var(--color-primary-light); 
+            transform: translateY(-2px);
+        }
+        .paper-card.active {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(157, 117, 255, 0.4);
+            z-index: 1;
+        }
+
+        /* 속지 패턴 스타일 수정 */
+        .paper-pattern {
+            width: 100%; height: 100%;
+            background-color: #f7f7fa; /* 눈이 편안한 미색 */
+        }
+        
+        /* 줄글 수정: margin-top 제거하고 위치 조정 */
+        .paper-card.line .paper-pattern {
+            background-image: linear-gradient(#ccc 1px, transparent 1px);
+            background-size: 100% 24px; /* 줄 간격 조정 */
+            background-position: 0 24px; /* 첫 줄 시작 위치 */
+        }
+        
+        /* 모눈 수정 */
+        .paper-card.grid .paper-pattern {
+            background-image: 
+                linear-gradient(#dcdcdc 1px, transparent 1px),
+                linear-gradient(90deg, #dcdcdc 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: center;
+        }
+        
+        /* 이름표 스타일 */
+        .paper-name {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(30, 30, 50, 0.85); /* 어두운 반투명 바 */
+            padding: 8px; font-size: 13px; text-align: center;
+            color: #fff; font-weight: 500;
+            backdrop-filter: blur(2px);
+        }
+
+        .create-actions {
+            display: flex; justify-content: flex-end;
+            margin-top: 20px; border-top: 1px solid var(--border-lighter);
+            padding-top: 20px;
+        }
+        .btn-submit {
+            background: var(--gradient-button-submit);
+            color: var(--color-text-primary);
+            border: none; padding: 14px 40px; border-radius: 12px;
+            font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 4px 15px var(--shadow-dark);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-primary);
+            filter: brightness(1.1);
+        }
+
+
+
     </style>
 </head>
 
@@ -1275,16 +1532,16 @@
     </svg>
 
     <div class="sidebar">
-        <div class="sidebar-icon-wrapper">
-            <a href="12_DMD_home.html"><img src="../content/12_DMD_Columns.svg" class="sidebar-icon active"></a>
+        <div class="sidebar-icon-wrapper" onclick="location.href='12_DMD_homepopup.html'">
+            <img src="../content/12_DMD_Columns.svg" class="sidebar-icon active"></a>
             <div class="sidebar-tooltip">책장</div>
         </div>
-        <div class="sidebar-icon-wrapper">
-            <a href="12_DMD_calender.html"><img src="../content/12_DMD_Calendar.svg" class="sidebar-icon"></a>
+        <div class="sidebar-icon-wrapper" onclick="location.href='12_DMD_calendar.html'">
+            <img src="../content/12_DMD_Calendar.svg" class="sidebar-icon"></a>
             <div class="sidebar-tooltip">캘린더</div>
         </div>
-        <div class="sidebar-icon-wrapper">
-            <a href="12_DMD_archive.html"><img src="../content/12_DMD_Layers.svg" class="sidebar-icon"></a>
+        <div class="sidebar-icon-wrapper" onclick="location.href='12_DMD_archive.html'">
+            <img src="../content/12_DMD_Layers.svg" class="sidebar-icon"></a>
             <div class="sidebar-tooltip">아카이브</div>
         </div>
     </div>
@@ -1319,9 +1576,7 @@
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                     </svg>
                 </button>
-
                 <div class="popup-email">smwu24asd@gmail.com</div>
-                
                 <div class="popup-avatar-wrapper">
                     <div class="popup-avatar">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
@@ -1608,6 +1863,95 @@
 
     <div class="toast-message" id="toastMessage">이동할 달을 선택해주세요</div>
 
+
+
+    <div class="create-modal-overlay" id="createModalOverlay">
+        <div class="create-modal-content">
+            <div class="create-header">
+                <h2 class="create-title">새 다이어리 만들기</h2>
+                <button class="close-create-btn" id="closeCreateBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="create-section">
+                <label class="section-label">다이어리 이름</label>
+                <input type="text" class="diary-name-input" placeholder="나만의 다이어리 이름을 입력해주세요 (예: 2025 일상기록)">
+            </div>
+
+            <div class="create-section">
+                <label class="section-label">커버 디자인 선택</label>
+                <div class="cover-custom-container">
+                    <div class="cover-preview">
+                        <svg class="book-svg" viewBox="0 0 490 490" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="previewInnerFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:rgb(255, 255, 255);stop-opacity:0.9" /> 
+                                    <stop offset="100%" style="stop-color:rgb(248, 249, 255);stop-opacity:0.9" /> 
+                                </linearGradient>
+                            </defs>
+                            
+                            <g id="previewCoverColor" fill="#CDBEFF"> 
+                                <rect x="369.587" y="412.128" width="19.993" height="38"/>
+                                <rect x="409.574" y="0" width="19.426" height="401.309"/>
+                                <path d="M103.666,430.25c0-15.983,12.98-28.941,28.991-28.941H389.58V0H119.255C87.082,0,61,26.037,61,58.154v373.692
+                                    C61,463.963,87.081,490,119.255,490H429v-30.809H132.657C116.646,459.191,103.666,446.233,103.666,430.25z"/>
+                            </g>
+                            
+                            <path fill="url(#previewInnerFill)" d="M154.663,95.645
+                                c0-7.568,6.145-13.703,13.726-13.703h170.475c7.583,0,13.728,6.135,13.728,13.703v49.329c0,7.568-6.146,13.703-13.728,13.703
+                                H168.389c-7.58,0-13.726-6.135-13.726-13.703V95.645z"/>
+                        </svg>
+                    </div>
+
+                    <div class="palette-grid" id="paletteGrid">
+                        <div class="color-btn" data-color="#EAEAEA" style="background: #EAEAEA;"></div>
+                        <div class="color-btn active" data-color="#D0C8FF" style="background: #D0C8FF;"></div>
+                        <div class="color-btn" data-color="#9D75FF" style="background: #9D75FF;"></div>
+                        <div class="color-btn" data-color="#5B3EA8" style="background: #5B3EA8;"></div>
+
+                        <div class="color-btn" data-color="#FFB7B2" style="background: #FFB7B2;"></div>
+                        <div class="color-btn" data-color="#A8FFB8" style="background: #A8FFB8;"></div>
+                        <div class="color-btn" data-color="#A6E5FA" style="background: #A6E5FA;"></div>
+                        <div class="color-btn" data-color="#FFE082" style="background: #FFE082;"></div>
+
+                        <div class="color-btn" data-color="url(#grad1)" style="background: linear-gradient(135deg, #9D75FF, #A6E5FA);"></div>
+                        <div class="color-btn" data-color="url(#grad2)" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF);"></div>
+                        <div class="color-btn" data-color="url(#grad3)" style="background: linear-gradient(135deg, #2E1C59, #5D3E98);"></div>
+                        <div class="color-btn" data-color="#3C3C3C" style="background: #3C3C3C;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-section">
+                <label class="section-label">속지 스타일</label>
+                <div class="paper-options">
+                    <div class="paper-card active" data-paper="blank">
+                        <div class="paper-pattern"></div>
+                        <div class="paper-name">백지</div>
+                    </div>
+                    <div class="paper-card line" data-paper="line">
+                        <div class="paper-pattern"></div>
+                        <div class="paper-name">배경밑줄</div>
+                    </div>
+                    <div class="paper-card grid" data-paper="grid">
+                        <div class="paper-pattern"></div>
+                        <div class="paper-name">모눈</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="create-actions">
+                <button class="btn-submit" id="finalCreateBtn">생성하기</button>
+            </div>
+        </div>
+    </div>
+
+
+
     <script>
         function createStars() {
             const starsContainer = document.getElementById('starsContainer');
@@ -1624,8 +1968,10 @@
         }
         createStars();
     </script>
+    <script src="../JS/12_DMD_dummy_data.js"></script>
     <script src="../JS/12_DMD_home.js"></script>
     <script src="../JS/12_DMD_common_background.js"></script>
     <script src="../JS/12_DMD_startpage.js"></script>
+    <script src="../JS/12_DMD_popup.js"></script>
 </body>
 </html>

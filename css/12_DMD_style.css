@@ -505,3 +505,25 @@ body {
     padding: 30px 235px;
     min-height: calc(100vh - 110px);
 }
+
+
+
+
+/* 다이어리 작성 화면 - 제목 입력창 스타일 */
+.diary-title-display {
+    padding: 8px 16px;
+    color: var(--color-text-primary);
+    font-size: 18px;
+    font-family: "Noto Sans KR", sans-serif;
+    min-width: 250px;
+    
+    /* Input 스타일 */
+    background: transparent;
+    border: none;
+    outline: none;
+    text-align: left;
+}
+
+.diary-title-display:focus {
+    border-bottom: 1px solid var(--color-primary-light);
+}

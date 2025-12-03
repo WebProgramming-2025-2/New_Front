@@ -138,7 +138,7 @@ function handleLogin(event) {
 
         alert(`${validUser.username}님 환영합니다!`);
         // 변경 예정!!
-        window.location.href = 'pages/12_DMD_home.html';
+        window.location.href = 'pages/12_DMD_homepopup.html';
     } else {
         alert('이메일 또는 비밀번호가 올바르지 않습니다.');
     }

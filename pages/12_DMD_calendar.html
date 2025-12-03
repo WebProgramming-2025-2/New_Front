@@ -10,12 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
-        
-        body::-webkit-scrollbar {
-            display: none;
+        :root{
+            --color-red: #ff7575;
+            --color-red-background: rgba(255, 117, 117, 0.2);
+            --color-yellow: #ffd983;
         }
-
         /* Main Content */
         .main-content {
             margin-left: 3.75rem;
@@ -33,15 +32,14 @@
 
         /* Mini Calendar */
         .mini-calendar-container {
-            left: -0.3rem;
             position: relative;
             width: 19.375rem;
-            background: rgba(26, 26, 62, 0.5);
+            background: var(--bg-dark-2);
             backdrop-filter: blur(0.625rem);
-            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border: 0.0625rem solid var(--border-secondary);
             border-radius: 1.25rem;
             padding: 1.5rem;
-            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
         }
 
         .mini-calendar-header {
@@ -71,7 +69,7 @@
         #miniYearLabel {
             font-size: 1.1em;
             font-weight: 300;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--border-white);
         }
 
         .mini-nav{
@@ -103,14 +101,14 @@
             text-align: center;
             font-size: 0.8em;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--border-white);
             padding-bottom: 0.75rem;
             margin-bottom: 0.5rem;
-            border-bottom: 0.0625rem solid rgba(157, 117, 255, 0.2);
+            border-bottom: 0.0625rem solid var(--color-accent-purple);
         }
 
         .mini-calendar-weekdays div:first-child { color: #ff7575; }
-        .mini-calendar-weekdays div:last-child { color: #9d75ff; }
+        .mini-calendar-weekdays div:last-child { color: var(--color-primary-dark); }
 
         .mini-calendar-days {
             display: grid;
@@ -133,17 +131,17 @@
         }
 
         .mini-day:hover {
-            background: rgba(157, 117, 255, 0.3);
+            background: var(--border-secondary);
         }
 
         .mini-prev-month, .mini-next-month {
-            color: rgba(255, 255, 255, 0.3);
+            color: var(--border-white);
         }
 
         .mini-today {
-            background: linear-gradient(156deg, #391989, #c9b7ff);
+            background: var(--gradient-button-submit);
             border-radius: 50%;
-            color: #ffffff;
+            color: var(--color-text-primary);
             font-weight: bold;
         }
 
@@ -162,21 +160,21 @@
         }
 
         .mini-day.mini-today.has-memo::after {
-            background: #ffffff;
-            box-shadow: 0 0 6px #ffffff;
+            background: var(--color-text-primary);
+            box-shadow: 0 0 6px var(--color-text-primary);
         }
 
         /* Main Calendar */
         .calendar-container {
             position: relative;
             flex: 1;
-            background: rgba(26, 26, 62, 0.5);
+            background: var(--bg-dark-2);
             backdrop-filter: blur(0.625rem);
-            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border: 0.0625rem solid var(--border-secondary);
             border-radius: 0.9375rem;
-            margin-left: 0.2rem;
+            margin-left: 0.9375rem;
             padding: 1.875rem;
-            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
             display: flex;
             gap: 1.25rem;
         }
@@ -193,7 +191,7 @@
 
         .year-label {
             font-size: 1.2em;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--border-white);
             font-weight: 500;
         }
 
@@ -231,14 +229,14 @@
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--border-white);
             padding: 0.9375rem 0;
-            border-bottom: 0.125rem solid rgba(157, 117, 255, 0.3);
+            border-bottom: 0.125rem solid var(--border-secondary);
             margin-bottom: 0.625rem;
         }
 
-        .calendar-weekdays div:first-child { color: #ff7575; }
-        .calendar-weekdays div:last-child { color: #9d75ff; }
+        .calendar-weekdays div:first-child { color: var(--color-red); }
+        .calendar-weekdays div:last-child { color: var(--color-primary-dark); }
 
         .calendar-days {
             display: grid;
@@ -250,8 +248,8 @@
             aspect-ratio: 1.15 / 1;
             padding: 0.625rem;
             text-align: left;
-            background: rgba(10, 10, 26, 0.3);
-            border: 0.0625rem solid rgba(157, 117, 255, 0.2);
+            background: var(--bg-dark-2);
+            border: 0.0625rem solid var(--color-accent-purple);
             border-radius: 0.75rem;
             font-size: 0.9em;
             color: var(--color-text-secondary);
@@ -269,35 +267,35 @@
         }
 
         .day:hover:not(.prev-month):not(.next-month) {
-            background: rgba(157, 117, 255, 0.2);
-            border-color: #9d75ff;
+            background: var(--color-accent-purple);
+            border-color: var(--color-primary);
             transform: translateY(-0.125rem);
         }
 
         .day:nth-child(7n+1) { 
-            color: #ff7575;
+            color: var(--color-red);
         }
 
         .day:nth-child(7n) {
-            color: #b8a8ff;
+            color: var(--color-primary-light);
         }
 
         .prev-month, .next-month {
-            color: rgba(255, 255, 255, 0.3);
-            background: rgba(10, 10, 26, 0.2);
+            color: var(--border-white);
+            background: var(--bg-dark-1);
         }
 
         .today {
-            background: rgba(157, 117, 255, 0.3);
-            border: 0.125rem solid #9d75ff;
+            background: var(--border-secondary);
+            border: 0.125rem solid var(--color-primary);
             font-weight: bold;
-            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
+            box-shadow: 0 0 1.25rem var(--border-secondary);
         }
 
         /* 날짜별 메모 미리보기 */
         .day-memo-preview {
             font-size: 1.1em;
-            color: rgba(255, 255, 255);
+            color: var(--color-text-primary);
             overflow: scroll;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -309,19 +307,19 @@
         }
 
         .day.has-memo {
-            color: white;
-            border-color: #ffd983;
+            color: var(--color-text-primary);
+            border-color: var(--color-yellow);
             box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
         }
 
         /* Memo Area */
         .memo-area {
-            background: rgba(26, 26, 62, 0.6);
+            background: var(--bg-dark-2);
             backdrop-filter: blur(0.625rem);
-            border: 0.0625rem solid rgba(157, 117, 255, 0.3);
+            border: 0.0625rem solid var(--border-secondary);
             border-radius: 1.25rem;
             padding: 1.875rem;
-            box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0.5rem 2rem var(--overlay-dark);
         }
 
         .memo-area label {
@@ -339,26 +337,26 @@
             width: 100%;
             min-height: 7.5rem;
             padding: 0.9375rem;
-            background: rgba(10, 10, 26, 0.4);
-            border: 0.0625rem solid rgba(157, 117, 255, 0.2);
+            background: var(--bg-dark-1);
+            border: 0.0625rem solid var(--color-accent-purple);
             border-radius: 0.75rem;
             font-size: 1rem;
             font-family: 'Noto Sans KR', sans-serif;
             line-height: 1.6;
             resize: vertical;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--color-text-secondary);
             transition: all 0.3s;
         }
 
         .memo-area textarea::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--color-text-muted);
         }
 
         .memo-area textarea:focus {
             outline: none;
-            border-color: #9d75ff;
-            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
-            background: rgba(10, 10, 26, 0.5);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 1.25rem var(--border-secondary);
+            background: var(--bg-dark-1);
         }
 
         /* 날짜별 메모 모달 */
@@ -369,7 +367,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: var(--overlay-dark);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -380,14 +378,14 @@
         }
 
         .memo-modal-content {
-            background: rgba(26, 26, 62, 0.95);
+            background: var(--bg-dark-2);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(157, 117, 255, 0.3);
+            border: 1px solid var(--border-secondary);
             border-radius: 1.25rem;
             padding: 2rem;
             max-width: 500px;
             width: 90%;
-            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1rem 3rem var(--overlay-dark);
         }
 
         .memo-modal-header {
@@ -409,35 +407,35 @@
         .memo-modal-close {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--border-white);
             font-size: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .memo-modal-close:hover {
-            color: #9d75ff;
+            color: var(--color-primary);
         }
 
         .memo-modal textarea {
             width: 100%;
             min-height: 150px;
             padding: 1rem;
-            background: rgba(10, 10, 26, 0.5);
-            border: 1px solid rgba(157, 117, 255, 0.2);
+            background: var(--bg-dark-1);
+            border: 1px solid var(--color-accent-purple);
             border-radius: 0.75rem;
             font-size: 1rem;
             font-family: 'Noto Sans KR', sans-serif;
             line-height: 1.6;
             resize: vertical;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--color-text-secondary);
             transition: all 0.3s;
         }
 
         .memo-modal textarea:focus {
             outline: none;
-            border-color: #9d75ff;
-            box-shadow: 0 0 1.25rem rgba(157, 117, 255, 0.3);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 1.25rem var(--border-secondary);
         }
 
         .memo-modal-buttons {
@@ -458,23 +456,23 @@
         }
 
         .memo-modal-btn.save {
-            background: linear-gradient(135deg, #9d75ff, #c9b7ff);
-            color: white;
+            background: var(--gradient-button-submit);
+            color: var(--color-text-primary);
         }
 
-        .memo-modal-btn.save:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(157, 117, 255, 0.4);
+        .memo-modal-btn.save {
+            background: var(--gradient-button-submit);
+            color: var(--color-text-primary);
         }
 
         .memo-modal-btn.delete {
-            background: rgba(255, 117, 117, 0.2);
-            color: #ff7575;
-            border: 1px solid #ff7575;
+            background: var(--color-red-background);
+            color: var(--color-red);
+            border: 1px solid var(--color-red);
         }
 
         .memo-modal-btn.delete:hover {
-            background: rgba(255, 117, 117, 0.3);
+            background: var(--color-red-background);
         }
 
         /* 반응형 미디어 쿼리 */
@@ -624,3 +622,4 @@
     <script src="../JS/12_DMD_startpage.js"></script>
     <script src="../JS/12_DMD_calendar.js"></script>
 </body>
+<html>

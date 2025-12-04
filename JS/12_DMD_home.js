@@ -1,13 +1,12 @@
 // ===== Diary Data Management =====
-let diaries = [
-    { id: 1, name: '✈️보라카이', date: '2025-01-15', pages: 24, month: 0 },
-    { id: 2, name: '🫧슬립오버', date: '2025-01-20', pages: 18, month: 0 },
-    { id: 3, name: '🎰생일 파티!', date: '2025-01-25', pages: 32, month: 0 },
-    { id: 4, name: '🚞경주 여행', date: '2025-02-10', pages: 28, month: 1 },
-    { id: 5, name: '🥖베이킹', date: '2025-03-30', pages: 15, month: 2 },
-    { id: 6, name: '🧶뜨개질', date: '2025-04-12', pages: 22, month: 3 },
-    { id: 7, name: '🛍️쇼핑', date: '2025-05-08', pages: 19, month: 4 }
-];
+// 1. 저장소에서 데이터 꺼내기 (없으면 빈 배열)
+let diaries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+// 2. 만약 데이터가 하나도 없다면? (첫 방문) -> 예시 데이터 집어넣기
+if (diaries.length === 0) {
+    diaries = initialData; // dummy_data.js에 있는 변수
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(diaries)); // 저장소에 저장
+}
 
 // ===== State Variables =====
 let moveMode = false;
@@ -40,12 +39,13 @@ function renderDiaries() {
     
     filteredDiaries.forEach((diary) => {
         const card = document.createElement('div');
+        const coverFill = diary.coverColor || '#9d75ff';
         card.dataset.diaryId = diary.id;
         if (isListView) {
             card.className = 'list-card'; 
             card.innerHTML = `
                 <svg class="book-svg" viewBox="0 0 490 490" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="url(#commonBookCover)"> 
+                    <g fill="${coverFill}"> 
                         <rect x="369.587" y="412.128" width="19.993" height="38"/>
                         <rect x="409.574" y="0" width="19.426" height="401.309"/>
                         <path d="M103.666,430.25c0-15.983,12.98-28.941,28.991-28.941H389.58V0H119.255C87.082,0,61,26.037,61,58.154v373.692 C61,463.963,87.081,490,119.255,490H429v-30.809H132.657C116.646,459.191,103.666,446.233,103.666,430.25z"/>
@@ -53,7 +53,7 @@ function renderDiaries() {
                     <path fill="url(#commonBookPaper)" d="M154.663,95.645 c0-7.568,6.145-13.703,13.726-13.703h170.475c7.583,0,13.728,6.135,13.728,13.703v49.329c0,7.568-6.146,13.703-13.728,13.703 H168.389c-7.58,0-13.726-6.135-13.726-13.703V95.645z"/>
                 </svg>
                 
-                <div class="list-title">${diary.name}</div>
+                <div class="list-title">${diary.title}</div>
                 <div class="list-info-content">
                     <div class="list-info-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -79,7 +79,7 @@ function renderDiaries() {
             card.className = 'grid-card'; 
             card.innerHTML = `
                 <svg class="book-svg" viewBox="0 0 490 490" xmlns="http://www.w3.org/2000/svg">
-                    <g fill="url(#commonBookCover)"> 
+                    <g fill="${coverFill}"> 
                         <rect x="369.587" y="412.128" width="19.993" height="38"/>
                         <rect x="409.574" y="0" width="19.426" height="401.309"/>
                         <path d="M103.666,430.25c0-15.983,12.98-28.941,28.991-28.941H389.58V0H119.255C87.082,0,61,26.037,61,58.154v373.692 C61,463.963,87.081,490,119.255,490H429v-30.809H132.657C116.646,459.191,103.666,446.233,103.666,430.25z"/>
@@ -87,10 +87,10 @@ function renderDiaries() {
                     <path fill="url(#commonBookPaper)" d="M154.663,95.645 c0-7.568,6.145-13.703,13.726-13.703h170.475c7.583,0,13.728,6.135,13.728,13.703v49.329c0,7.568-6.146,13.703-13.728,13.703 H168.389c-7.58,0-13.726-6.135-13.726-13.703V95.645z"/>
                 </svg>
                 
-                <p class="book-title">${diary.name}</p>
+                <p class="book-title">${diary.title}</p>
                 
                 <div class="diary-info-popup">
-                    <div class="diary-info-title">${diary.name}</div>
+                    <div class="diary-info-title">${diary.title}</div>
                     <div class="diary-info-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                         생성일: ${diary.date}
@@ -127,6 +127,10 @@ function renderDiaries() {
         
         card.addEventListener('click', (e) => {
         if (moveMode) e.stopPropagation();   
+        else {
+            localStorage.setItem('currentDiaryId', diary.id); // ID 저장
+            window.location.href = '12_DMD_Write_Diary.html';
+        }
         });
         
         grid.appendChild(card);
@@ -171,8 +175,8 @@ function confirmDeleteDiary(id) {
     const diary = diaries.find(d => d.id === id);
     showModal(
         '다이어리를 삭제하시겠습니까?',
-        `"${diary.name}"을(를) 삭제하면 복구할 수 없습니다.`,
-        () => deleteDiary(id, diary.name), 
+        `"${diary.title}"을(를) 삭제하면 복구할 수 없습니다.`,
+        () => deleteDiary(id, diary.title), 
         'delete'
     );
 }
@@ -210,7 +214,7 @@ function moveDiaryToMonth(monthIndex) {
         diary.month = monthIndex;
         currentMonthFilter = monthIndex;
         renderDiaries();
-        showToast(`"${diary.name}"이(가) 이동되었습니다`);
+        showToast(`"${diary.title}"이(가) 이동되었습니다`);
     }
     
     moveMode = false;
@@ -434,8 +438,8 @@ cards.forEach((card, index) => {
     });
 });
 
-// Initialize
-lastConfirmedCenterIndex = 0;
-currentCenterIndex = 0;
+lastConfirmedCenterIndex = 11; 
+currentCenterIndex = 11;
+
 updateMonthFilter(false);
 renderDiaries();

@@ -788,62 +788,144 @@
             gap: 16px; 
         }
         
-        /* 그리드 뷰 카드 */
-        .grid-card, .book-card { 
+        
+        /* 1. 그리드 카드 컨테이너 (.grid-card) */
+        .grid-card { 
             width: calc((100% - 40px * 4) / 5);
-            aspect-ratio: 3/4;
+            aspect-ratio: 3/4; 
+
+            /* 디자인: 은은한 글래스 효과 */
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.06) 0%, 
+                rgba(255, 255, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+
             position: relative;
             cursor: pointer;
-            overflow: visible;
-            transition: all 0.3s;
-            container-type: inline-size; 
-        }
-        
-        .book-card:hover .book-card-inner,
-        .grid-card:hover .book-card-inner {
-            border-color: rgba(157, 117, 255, 0.5);
-            background: linear-gradient(160deg, rgba(157, 117, 255, 0.15) 0%, rgba(157, 117, 255, 0.05) 100%);
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            container-type: inline-size;
+
+            /* 내부 정렬: 세로 배치 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 24px;
+
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
-        .book-card:hover .book-svg,
-        .grid-card:hover .book-svg {
-            filter: saturate(3.2) drop-shadow(0 15px 30px rgba(157, 117, 255, 0.3));
+        /* 2. 왼쪽 띠 디자인 */
+        .grid-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 5px;
+            background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-primary) 100%);
+            border-radius: 20px 0 0 20px;
+            box-shadow: 
+                2px 0 8px rgba(157, 117, 255, 0.4),
+                inset -1px 0 2px rgba(255, 255, 255, 0.3);
+            z-index: 1;
+            opacity: 0.85;
         }
+
+        /* 3. 그리드 뷰 아이콘 (SVG) */
+        .grid-card .book-svg {
+            width: 60%;  
+            height: auto;
+            max-height: 55%;
+            filter: 
+                drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))
+                drop-shadow(0 0 20px rgba(157, 117, 255, 0.15));
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        /* 4. 그리드 뷰 제목 */
+        .grid-card .book-title {
+            position: static; 
+            width: 100%;
+            height: 42px; 
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* 최대 2줄까지만 표시 */
+            display: flex;         
+            align-items: center;   /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
             
-        .book-svg, .grid-card .book-svg {
+            font-family: "Gowun Batang", serif;
+            font-size: 17px; 
+            font-weight: 600;
+            line-height: 1.3;       
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 
+                0 2px 8px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(157, 117, 255, 0.3);
+    
+            text-align: center;
+            white-space: normal;     
+            word-break: keep-all;    
+            
+            overflow: hidden;
+            text-overflow: ellipsis; /* 2줄 넘어가면 ... 처리 (브라우저 호환성에 따라 생략될 수 있음) */
+            
+            z-index: 2;
+            padding: 0 8px; /* 양옆 여백 */
+            margin-left: 6px; 
+        }
+
+        /* 5. 그리드 뷰 호버 효과 */
+        .grid-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(157, 117, 255, 0.4);
+            background: linear-gradient(135deg, 
+                rgba(157, 117, 255, 0.12) 0%, 
+                rgba(157, 117, 255, 0.06) 100%);
+            box-shadow: 
+                0 16px 48px rgba(157, 117, 255, 0.25),
+                0 0 0 1px rgba(157, 117, 255, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .grid-card:hover .book-svg {
+            filter: 
+                drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35))
+                drop-shadow(0 0 30px rgba(157, 117, 255, 0.4));
+        }
+
+        .grid-card:hover::before {
+            opacity: 1;
+            width: 6px;
+            box-shadow: 
+                3px 0 15px rgba(157, 117, 255, 0.6),
+                inset -1px 0 3px rgba(255, 255, 255, 0.4);
+        }
+
+        .grid-card:hover .book-title {
+            color: #ffffff;
+            text-shadow: 
+                0 2px 10px rgba(0, 0, 0, 0.6),
+                0 0 25px rgba(216, 151, 238, 0.5);
+        }
+
+        .book-svg {
             width: 100%; 
             height: 100%;
             filter: saturate(2.2) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
             transition: all 0.3s ease;
         }
 
-        .book-title, .grid-card .book-title {
-            position: absolute; 
-            top: 24%; 
-            left: 31.5%; 
-            width: 38%; 
-            height: 12.5%;
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-start;
-            color: #333333; 
-            font-size: 7cqw; 
-            font-weight: 600; 
-            line-height: 1.2;
-            z-index: 3; 
-            pointer-events: none; 
-            box-sizing: border-box; 
-            padding: 0 4px; 
-            overflow: hidden; 
-            white-space: nowrap; 
-            text-overflow: clip; 
-            text-align: left;
-        }
-        .book-title { 
-            font-size: 14px;
-        }
-
-        /* 리스트 뷰 카드 (list-view) */
+        /* 리스트 뷰 카드 */
         .list-card {
             width: 100%; 
             height: 100px;
@@ -897,7 +979,7 @@
         .list-card .diary-actions { 
             display: flex; 
             gap: 20px; 
-            margin-left: auto; 
+            margin-left: auto; /* 이 부분이 버튼을 오른쪽으로 밀어줍니다 */
             flex-shrink: 0; 
         }
         .list-card .diary-action-btn { 
@@ -907,53 +989,67 @@
             font-size: 13px; 
             white-space: nowrap; 
         }
-
         /* 다이어리 정보 팝업 (Hover/List) */
         .diary-info-popup {
             position: absolute; 
-            top: -10px; 
-            right: -10px;
-            background: linear-gradient(145deg, rgba(40, 30, 70, 0.9), rgba(20, 20, 40, 0.95));
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, rgba(40, 30, 70, 0.95), rgba(20, 20, 40, 0.98));
             backdrop-filter: blur(15px);
             border: 1px solid var(--shadow-glow); 
-            border-top: 1px solid var(--border-primary); 
-            border-radius: 16px; 
-            padding: 16px 18px; 
-            min-width: 180px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(157, 117, 255, 0.05);
-            z-index: 10; 
+            border-radius: 20px; 
+            padding: 24px 20px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(157, 117, 255, 0.08);
+            z-index: 100; 
             opacity: 0; 
             pointer-events: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            transform: translateY(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         /* 그리드 뷰 팝업 */
         .grid-card.show-popup .diary-info-popup,
         .book-card.show-popup .diary-info-popup { 
             opacity: 1; 
             pointer-events: auto; 
-            transform: translateY(0); 
         }
-        
+
+        .grid-card.show-popup .book-svg,
+        .grid-card.show-popup .book-title {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .diary-info-title {
-            font-size: 14px; 
+            font-size: 16px; 
             font-weight: 700; 
             color: var(--color-primary-light); 
-            margin-bottom: 10px; 
-            padding-bottom: 8px; 
+            margin-bottom: 16px; 
+            padding-bottom: 10px; 
             border-bottom: 1px solid var(--shadow-glow);
+            text-align: center;
+            width: 100%;
         }
+
         .diary-info-item { 
-            font-size: 12px; 
+            font-size: 13px; 
             color: var(--color-text-tertiary); 
-            margin-bottom: 6px; 
+            margin-bottom: 10px; 
             display: flex; 
             align-items: center; 
-            gap: 6px; 
+            justify-content: flex-start;
+            gap: 8px; 
+            width: 100%;
         }
+
         .diary-info-item svg { 
-            width: 12px; 
-            height: 12px; 
+            width: 14px; 
+            height: 14px; 
             color: var(--color-primary); 
             flex-shrink: 0; 
         }
@@ -1607,7 +1703,7 @@
         
         <div class="story-carousel" id="carousel">
             <div class="carousel-container">
-                <div class="story-card center" data-position="0" data-cover="1">
+                <div class="story-card right-1" data-position="1" data-cover="1">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">1월</div>
                     <div class="story-description">새해 목표를 세우고 새로운 시작을 계획하세요.</div>
@@ -1619,7 +1715,7 @@
                     </div>
                 </div>
 
-                <div class="story-card right-1" data-position="1" data-cover="2">
+                <div class="story-card right-2" data-position="2" data-cover="2">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">2월</div>
                     <div class="story-description">밸런타인 데이와 포근한 겨울날의 기록.</div>
@@ -1632,7 +1728,7 @@
                     </div>
                 </div>
 
-                <div class="story-card right-2" data-position="2" data-cover="3">
+                <div class="story-card" data-position="3" data-cover="3">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">3월</div>
                     <div class="story-description">봄의 시작, 새로운 활력을 기록해 보세요.</div>
@@ -1649,7 +1745,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="3" data-cover="4">
+                <div class="story-card" data-position="4" data-cover="4">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">4월</div>
                     <div class="story-description">벚꽃과 함께한 특별한 순간들을 담아보세요.</div>
@@ -1662,7 +1758,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="4" data-cover="5">
+                <div class="story-card" data-position="5" data-cover="5">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f315.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">5월</div>
                     <div class="story-description">가정의 달, 소중한 사람들과의 추억 기록.</div>
@@ -1674,7 +1770,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="5" data-cover="6">
+                <div class="story-card" data-position="6" data-cover="6">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f316.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">6월</div>
                     <div class="story-description">여름의 시작, 시원한 바람과 함께.</div>
@@ -1712,7 +1808,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="6" data-cover="7">
+                <div class="story-card" data-position="-5" data-cover="7">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f317.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">7월</div>
                     <div class="story-description">뜨거운 여름날, 시원한 추억들을 기록하세요.</div>
@@ -1725,7 +1821,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="-5" data-cover="8">
+                <div class="story-card" data-position="-4" data-cover="8">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f318.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">8월</div>
                     <div class="story-description">여름밤의 낭만, 빛나는 추억들.</div>
@@ -1740,7 +1836,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="-4" data-cover="9">
+                <div class="story-card" data-position="-3" data-cover="9">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f311.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">9월</div>
                     <div class="story-description">사색의 계절, 깊어가는 가을의 기록.</div>
@@ -1755,7 +1851,7 @@
                     </div>
                 </div>
 
-                <div class="story-card" data-position="-3" data-cover="10">
+                <div class="story-card left-2" data-position="-2" data-cover="10">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f312.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">10월</div>
                     <div class="story-description">달콤하고 오싹한 할로윈의 추억.</div>
@@ -1767,7 +1863,7 @@
                     </div>
                 </div>
 
-                <div class="story-card left-2" data-position="-2" data-cover="11">
+                <div class="story-card left-1" data-position="-1" data-cover="11">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f313.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">11월</div>
                     <div class="story-description">쌀쌀한 바람, 따뜻한 커피 한 잔의 여유.</div>
@@ -1784,7 +1880,7 @@
                     </div>
                 </div>
 
-                <div class="story-card left-1" data-position="-1" data-cover="12">
+                <div class="story-card center" data-position="0" data-cover="12">
                     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f314.svg" alt="Moon" class="moon-icon">
                     <div class="story-title">12월</div>
                     <div class="story-description">설레는 크리스마스, 선물 같은 하루.</div>
@@ -1951,23 +2047,6 @@
     </div>
 
 
-
-    <script>
-        function createStars() {
-            const starsContainer = document.getElementById('starsContainer');
-            const starCount = 100;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star'; 
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
-        createStars();
-    </script>
     <script src="../JS/12_DMD_dummy_data.js"></script>
     <script src="../JS/12_DMD_home.js"></script>
     <script src="../JS/12_DMD_common_background.js"></script>

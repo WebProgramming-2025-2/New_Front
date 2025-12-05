@@ -1,12 +1,15 @@
-// ===== Diary Data Management =====
-// 1. 저장소에서 데이터 꺼내기 (없으면 빈 배열)
-let diaries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+let diaries = [...dummyDiaries];
 
-// 2. 만약 데이터가 하나도 없다면? (첫 방문) -> 예시 데이터 집어넣기
-if (diaries.length === 0) {
-    diaries = initialData; // dummy_data.js에 있는 변수
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(diaries)); // 저장소에 저장
+const savedData = localStorage.getItem('diary_permanent_data');
+if (savedData) {
+    const savedList = JSON.parse(savedData);
+    const newDiaries = savedList.filter(saved => 
+        !diaries.some(dummy => dummy.id === saved.id)
+    );
+    diaries = [...diaries, ...newDiaries];
 }
+
+diaries.sort((a, b) => new Date(b.date) - new Date(a.date));
 
 // ===== State Variables =====
 let moveMode = false;

@@ -717,16 +717,17 @@ function saveDiaryPermanently() {
         pages: diaryPagesData
     };
 
-    const allDiaries = JSON.parse(localStorage.getItem(DIARY_STORAGE_KEY)) || [];
-    const existingIndex = allDiaries.findIndex(d => d.id == currentId);
+    const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
+    const savedDiaries = savedData ? JSON.parse(savedData) : [];
+    const existingIndex = savedDiaries.findIndex(d => d.id == currentId);
 
     if (existingIndex > -1) {
-        allDiaries[existingIndex] = diaryData;
+        savedDiaries[existingIndex] = diaryData;
     } else {
-        allDiaries.push(diaryData);
+        savedDiaries.push(diaryData);
     }
 
-    localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(allDiaries));
+    localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(savedDiaries));
     
     localStorage.removeItem('currentDiaryId');
     localStorage.removeItem('currentDiarySettings');

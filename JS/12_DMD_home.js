@@ -1,13 +1,11 @@
 let diaries = [];
 
-// 로컬 스토리지를 최우선으로 가져옵니다.
-// (dummy_data.js가 이미 실행되어 스토리지를 채워뒀을 것이므로 무조건 데이터가 있습니다)
+// 로컬 스토리지를 최우선으로 (dummy_data.js가 이미 실행되어 스토리지를 채워뒀을 것이므로 무조건 데이터가 있음)
 const savedData = localStorage.getItem('diary_permanent_data');
 
 if (savedData) {
     diaries = JSON.parse(savedData);
 } else {
-    // 만약(혹시나) 스토리지가 비어있다면 그때만 더미 변수를 사용
     diaries = [...dummyDiaries];
 }
 
@@ -23,7 +21,6 @@ let isInCarousel = false;
 let isInDiarySection = false;
 let lastConfirmedCenterIndex = 0;
 let isRotating = false;
-
 let isLatestFirst = true; 
 
 

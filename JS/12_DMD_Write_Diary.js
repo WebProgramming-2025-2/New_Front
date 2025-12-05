@@ -131,7 +131,6 @@ function insertListAtCursor(type) {
 
 
 // 다이어리 스타일
-// 🚨색 수정해야됨🚨
 const urlParams = new URLSearchParams(window.location.search);
 const coverStyle = urlParams.get('cover') || 'default';
 const pageStyle = urlParams.get('page') || 'default';
@@ -145,7 +144,6 @@ function applyCoverStyle(style) {
         'blue': 'linear-gradient(135deg, #5a7a9e 0%, #425a6b 100%)',
         'pink': 'linear-gradient(135deg, #d47a9e 0%, #b85a7a 100%)'
     };
-    // [핵심] || style 을 추가해서, 목록에 없는 색상 코드도 바로 적용되게 함
     if(cover) cover.style.background = coverStyles[style] || style;
 }
 
@@ -798,20 +796,18 @@ function showToast(message) {
 
 
 
-// [최종 수정] 페이지 로드 시 데이터 연결 로직
+//페이지 로드 시 데이터 연결 로직
 window.addEventListener('load', () => {
-    // 1. 방금 생성해서 들어온 경우 (Settings가 있음)
+    // 1. 방금 생성해서 들어온 경우
     const newSettings = localStorage.getItem('currentDiarySettings');
-    // 2. 홈에서 클릭해서 들어온 경우 (ID가 있음)
+    // 2. 홈에서 클릭해서 들어온 경우
     const targetId = localStorage.getItem('currentDiaryId');
     // 3. 전체 데이터 가져오기
     const allDiaries = JSON.parse(localStorage.getItem('diary_permanent_data')) || [];
 
     if (targetId) {
-        // [CASE A] 기존 다이어리 수정 모드
         const diary = allDiaries.find(d => d.id == targetId);
         if (diary) {
-            // 제목, 커버, 속지 적용
             document.getElementById('diaryTitle').value = diary.title;
             applyCoverStyle(diary.coverColor);
             
@@ -819,18 +815,12 @@ window.addEventListener('load', () => {
             if (diary.paperType === 'line') pStyle = 'lined';
             if (diary.paperType === 'grid') pStyle = 'grid';
             applyPageStyle(pStyle);
-
-            // 내용(Pages) 불러오기
             if (diary.pages) {
                 diaryPagesData = diary.pages;
-                loadPageData(0); // 1페이지 로드
+                loadPageData(0);
             }
         }
-        // 사용 후 ID 삭제 (새로고침 시 꼬임 방지하려면 남겨도 되지만, 일단 유지)
-        // localStorage.removeItem('currentDiaryId'); 
-        
     } else if (newSettings) {
-        // [CASE B] 새 다이어리 생성 모드
         diaryPagesData = {};
         const settings = JSON.parse(newSettings);
         
@@ -841,8 +831,6 @@ window.addEventListener('load', () => {
         if (settings.paperType === 'line') pStyle = 'lined';
         if (settings.paperType === 'grid') pStyle = 'grid';
         applyPageStyle(pStyle);
-        
-        // Settings는 한 번 쓰고 지움
         localStorage.removeItem('currentDiarySettings');
     }
     updatePageNum();

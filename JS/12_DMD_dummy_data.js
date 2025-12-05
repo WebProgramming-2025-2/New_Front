@@ -1,6 +1,6 @@
 const DIARY_KEY = 'diary_permanent_data';
 
-const dummyDiaries = [
+const dummyDiaries = [ // 웹페이지의 모든 기능을 활용한 예시 더미 데이터로 사이트 실행 시, 무조건 들어간 상태로 보이는게 정상
     {
         id: 1704067200000,
         title: "2025년 새해 다짐 ✨",
@@ -272,13 +272,18 @@ function initializeDummyData() {
     const userStr = localStorage.getItem('currentUser');
     const user = userStr ? JSON.parse(userStr) : null;
     const email = user ? user.email : 'guest';
-
     const dailyKey = `dailyCalendarMemos_${email}`;
     const monthlyKey = `monthlyCalendarNotes_${email}`;
 
-    localStorage.setItem(DIARY_KEY, JSON.stringify(dummyDiaries));
-    localStorage.setItem(dailyKey, JSON.stringify(dummyDaily));
-    localStorage.setItem(monthlyKey, JSON.stringify(dummyMonthly));
+    if (!localStorage.getItem(DIARY_KEY)) {
+        localStorage.setItem(DIARY_KEY, JSON.stringify(dummyDiaries));
+    }
+    if (!localStorage.getItem(dailyKey)) {
+        localStorage.setItem(dailyKey, JSON.stringify(dummyDaily));
+    }
+    if (!localStorage.getItem(monthlyKey)) {
+        localStorage.setItem(monthlyKey, JSON.stringify(dummyMonthly));
+    }
 }
 
 initializeDummyData();

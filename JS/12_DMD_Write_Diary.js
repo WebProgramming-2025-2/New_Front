@@ -762,7 +762,7 @@ function saveDiaryPermanently() {
     localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(savedDiaries));
     localStorage.removeItem('currentDiaryId');
     localStorage.removeItem('currentDiarySettings');
-    window.location.href = '12_DMD_homepopup.html';
+    window.location.href = '12_DMD_home.html';
 }
 
 // 페이지 넘김 버튼 함수

@@ -187,6 +187,7 @@ function confirmDeleteDiary(id) {
 
 function deleteDiary(id, diaryName) {
     diaries = diaries.filter(d => d.id !== id);
+    localStorage.setItem('diary_permanent_data', JSON.stringify(diaries));
     renderDiaries();
     hideModal();
     showToast(`"${diaryName}"이(가) 삭제되었습니다`);
@@ -217,6 +218,7 @@ function moveDiaryToMonth(monthIndex) {
     if (diary) {
         diary.month = monthIndex;
         currentMonthFilter = monthIndex;
+        localStorage.setItem('diary_permanent_data', JSON.stringify(diaries));
         renderDiaries();
         showToast(`"${diary.title}"이(가) 이동되었습니다`);
     }

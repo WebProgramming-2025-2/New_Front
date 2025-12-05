@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             localStorage.setItem('currentDiarySettings', JSON.stringify(diarySettings));
-
+            localStorage.removeItem('currentDiaryId');
             closeModal();
             window.location.href = '12_DMD_Write_Diary.html';
         });

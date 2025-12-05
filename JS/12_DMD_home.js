@@ -445,8 +445,8 @@ cards.forEach((card, index) => {
     });
 });
 
-// Initialize
-lastConfirmedCenterIndex = 0;
-currentCenterIndex = 0;
+lastConfirmedCenterIndex = 11; 
+currentCenterIndex = 11;
+
 updateMonthFilter(false);
 renderDiaries();

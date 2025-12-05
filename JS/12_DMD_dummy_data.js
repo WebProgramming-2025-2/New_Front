@@ -1,6 +1,4 @@
 const DIARY_KEY = 'diary_permanent_data';
-const DAILY_KEY = 'dailyCalendarMemos';
-const MONTHLY_KEY = 'monthlyCalendarNotes';
 
 const dummyDiaries = [
     {
@@ -271,17 +269,16 @@ const dummyMonthly = {
 };
 
 function initializeDummyData() {
-    if (!localStorage.getItem(DIARY_KEY)) {
-        localStorage.setItem(DIARY_KEY, JSON.stringify(dummyDiaries));
-    }
-    
-    if (!localStorage.getItem(DAILY_KEY)) {
-        localStorage.setItem(DAILY_KEY, JSON.stringify(dummyDaily));
-    }
-    
-    if (!localStorage.getItem(MONTHLY_KEY)) {
-        localStorage.setItem(MONTHLY_KEY, JSON.stringify(dummyMonthly));
-    }
+    const userStr = localStorage.getItem('currentUser');
+    const user = userStr ? JSON.parse(userStr) : null;
+    const email = user ? user.email : 'guest';
+
+    const dailyKey = `dailyCalendarMemos_${email}`;
+    const monthlyKey = `monthlyCalendarNotes_${email}`;
+
+    localStorage.setItem(DIARY_KEY, JSON.stringify(dummyDiaries));
+    localStorage.setItem(dailyKey, JSON.stringify(dummyDaily));
+    localStorage.setItem(monthlyKey, JSON.stringify(dummyMonthly));
 }
 
 initializeDummyData();

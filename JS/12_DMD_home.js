@@ -28,7 +28,7 @@ function renderDiaries() {
     grid.innerHTML = '';
     
     const displayMonth = previewMonthFilter !== null ? previewMonthFilter : currentMonthFilter;
-    
+    if (!diaries) diaries = [];
     let filteredDiaries = diaries.filter(d => d.month === displayMonth);
     
     filteredDiaries.sort((a, b) => {
@@ -40,6 +40,7 @@ function renderDiaries() {
     filteredDiaries.forEach((diary) => {
         const card = document.createElement('div');
         const coverFill = diary.coverColor || '#9d75ff';
+        const pageCount = diary.pages ? Object.keys(diary.pages).length : 1;
         card.dataset.diaryId = diary.id;
         if (isListView) {
             card.className = 'list-card'; 
@@ -61,7 +62,7 @@ function renderDiaries() {
                     </div>
                     <div class="list-info-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        <span>총 페이지: ${diary.pages}p</span>
+                        <span>총 페이지: ${pageCount}p</span>
                     </div>
                 </div>
                 <div class="diary-actions">
@@ -97,7 +98,7 @@ function renderDiaries() {
                     </div>
                     <div class="diary-info-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                        총 페이지: ${diary.pages}
+                        총 페이지: ${pageCount}p
                     </div>
                     <button class="diary-action-btn move" onclick="startMoveDiary(${diary.id}); event.stopPropagation();">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
@@ -126,16 +127,17 @@ function renderDiaries() {
         }
         
         card.addEventListener('click', (e) => {
-        if (moveMode) e.stopPropagation();   
-        else {
-            localStorage.setItem('currentDiaryId', diary.id); // ID 저장
-            window.location.href = '12_DMD_Write_Diary.html';
-        }
+            if (moveMode) {
+                e.stopPropagation();
+            } else {
+                localStorage.setItem('currentDiaryId', diary.id); // ID 저장
+                window.location.href = '12_DMD_Write_Diary.html';
+            }
         });
         
         grid.appendChild(card);
-        });
-    }
+    });
+}
 
 // ===== Control Buttons Logic =====
 document.addEventListener('DOMContentLoaded', () => {

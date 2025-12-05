@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => { 
                 localStorage.removeItem('currentUser');
+                alert("로그아웃 되었습니다.");
                 window.location.href = '../12_DMD_startpage.html';
             });
         }

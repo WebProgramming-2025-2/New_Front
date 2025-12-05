@@ -486,7 +486,7 @@
 
     <div class="header">
         <div class="logo">
-            <a href="#" style="display: inline-flex; align-items: center; text-decoration: none;">
+            <a href="12_DMD_homepopup.html" style="display: inline-flex; align-items: center; text-decoration: none;">
                 <img src="../content/12_DMD_logo.png" alt="Journey Logo" class="logo-icon">
                 <span>Day Month Diary</span>
             </a>
@@ -504,6 +504,39 @@
                     <polyline points="6 9 12 15 18 9"/>
                 </svg>
             </div>
+
+
+            <div class="user-info-popup" id="userInfoPopup">
+                <button class="popup-close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <div class="popup-email"></div>
+                <div class="popup-avatar-wrapper">
+                    <div class="popup-avatar">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="camera-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="popup-greeting"></div>
+                
+                <button class="logout-btn">로그아웃</button>
+            </div>
+
+
+
         </div>
     </div>
 
@@ -599,6 +632,7 @@
         <div id="toastMessage" class="toast-message"></div>
 
         <script src="../JS/12_DMD_Write_Diary.js"></script>
+        <script src="../JS/12_DMD_popup.js"></script>
         <script src="../JS/12_DMD_common_background.js"></script>
     </body>
 </html>

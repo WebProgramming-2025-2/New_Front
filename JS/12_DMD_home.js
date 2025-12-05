@@ -1,12 +1,14 @@
-let diaries = [...dummyDiaries];
+let diaries = [];
 
+// 로컬 스토리지를 최우선으로 가져옵니다.
+// (dummy_data.js가 이미 실행되어 스토리지를 채워뒀을 것이므로 무조건 데이터가 있습니다)
 const savedData = localStorage.getItem('diary_permanent_data');
+
 if (savedData) {
-    const savedList = JSON.parse(savedData);
-    const newDiaries = savedList.filter(saved => 
-        !diaries.some(dummy => dummy.id === saved.id)
-    );
-    diaries = [...diaries, ...newDiaries];
+    diaries = JSON.parse(savedData);
+} else {
+    // 만약(혹시나) 스토리지가 비어있다면 그때만 더미 변수를 사용
+    diaries = [...dummyDiaries];
 }
 
 diaries.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -43,7 +45,7 @@ function renderDiaries() {
     filteredDiaries.forEach((diary) => {
         const card = document.createElement('div');
         const coverFill = diary.coverColor || '#9d75ff';
-        const pageCount = diary.pages ? Object.keys(diary.pages).length : 1;
+        const pageCount = (diary.pages && Object.keys(diary.pages).length > 0) ? Object.keys(diary.pages).length : 1;
         card.dataset.diaryId = diary.id;
         if (isListView) {
             card.className = 'list-card'; 

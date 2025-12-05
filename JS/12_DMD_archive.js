@@ -107,7 +107,27 @@ function renderDiaries(filteredDiaries) {
             }
         }
         
-        const previewText = diary.preview || "내용이 없습니다.";
+        let previewText = "";
+        // 1. 첫 번째 페이지의 에디터 내용(HTML) 가져오기
+        if (diary.pages && diary.pages[0] && diary.pages[0].static) {
+            const leftContent = diary.pages[0].static.leftEditor || "";
+            const rightContent = diary.pages[0].static.rightEditor || "";
+            const fullHtml = leftContent + " " + rightContent;
+            // 2. HTML 태그 제거하고 순수 텍스트만 남기기 (임시 엘리먼트 사용)
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = fullHtml;
+            let textOnly = tempDiv.textContent || tempDiv.innerText || "";
+            // 3. 공백 정리
+            previewText = textOnly.trim();
+        }
+        // 4. 내용이 너무 길면 자르기 (예: 50자)
+        if (previewText.length > 40) {
+            previewText = previewText.substring(0, 50) + "...";
+        }
+        // 5. 만약 추출한 내용이 없으면 기존 더미의 preview나 기본 문구 사용
+        if (!previewText) {
+            previewText = diary.preview || "내용이 없습니다.";
+        }
 
         return `
         <div class="diary-card" onclick="openDiary(${diary.id})">

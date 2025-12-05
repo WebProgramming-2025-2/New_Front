@@ -10,7 +10,6 @@ const dummyDiaries = [
         year: 2025, month: 0,
         coverColor: "#9D75FF",
         paperType: "line",
-        preview: "올해는 진짜 갓생 산다. 학점 4.0 넘기, 운동하기, 영어 공부하기...",
         pages: {
             0: {
                 static: { 
@@ -28,7 +27,6 @@ const dummyDiaries = [
         year: 2025, month: 1,
         coverColor: "#5a7a9e",
         paperType: "grid",
-        preview: "PC방까지 갔는데 서버 터짐. 교양 꿀강의 다 놓쳤다...",
         pages: {
             0: {
                 static: { 
@@ -46,7 +44,6 @@ const dummyDiaries = [
         year: 2025, month: 2,
         coverColor: "#A8FFB8",
         paperType: "blank",
-        preview: "오랜만에 학교 가니까 동기들 얼굴 보고 좋네. 벚꽃은 언제 피려나.",
         pages: {
             0: {
                 static: { 
@@ -64,7 +61,6 @@ const dummyDiaries = [
         year: 2025, month: 3,
         coverColor: "#8b7355",
         paperType: "line",
-        preview: "도서관 자리 맡기 너무 힘들다. 카페인 중독될 듯.",
         pages: {
             0: {
                 static: { 
@@ -82,7 +78,6 @@ const dummyDiaries = [
         year: 2025, month: 4,
         coverColor: "#FFB7B2",
         paperType: "blank",
-        preview: "가수 라인업 대박. 주점에서 파전이랑 막걸리 엄청 먹었다.",
         pages: {
             0: {
                 static: { 
@@ -100,7 +95,6 @@ const dummyDiaries = [
         year: 2025, month: 5,
         coverColor: "#A6E5FA",
         paperType: "line",
-        preview: "드디어 해방이다! 이번 방학엔 꼭 여행 가야지.",
         pages: {
             0: {
                 static: { 
@@ -118,7 +112,6 @@ const dummyDiaries = [
         year: 2025, month: 6,
         coverColor: "#0288D1",
         paperType: "blank",
-        preview: "에메랄드빛 바다, 맛있는 흑돼지. 힐링 그 자체.",
         pages: {
             0: {
                 static: { 
@@ -136,7 +129,6 @@ const dummyDiaries = [
         year: 2025, month: 7,
         coverColor: "#FFA000",
         paperType: "grid",
-        preview: "컴활 1급 실기 너무 어렵다. 엑셀이랑 싸우는 중.",
         pages: {
             0: {
                 static: { 
@@ -154,7 +146,6 @@ const dummyDiaries = [
         year: 2025, month: 8,
         coverColor: "#D32F2F",
         paperType: "line",
-        preview: "날씨가 선선해졌다. 가을 옷 꺼내 입고 학교 가는 길.",
         pages: {
             0: {
                 static: { 
@@ -172,7 +163,6 @@ const dummyDiaries = [
         year: 2025, month: 9,
         coverColor: "#8b7355",
         paperType: "blank",
-        preview: "라면 먹고 돗자리 펴고 누워있으니 천국이 따로 없다.",
         pages: {
             0: {
                 static: { 
@@ -190,7 +180,6 @@ const dummyDiaries = [
         year: 2025, month: 10,
         coverColor: "#424242",
         paperType: "line",
-        preview: "팀플 3개, 개인 과제 2개. 잠은 언제 자나.",
         pages: {
             0: {
                 static: { 
@@ -208,7 +197,6 @@ const dummyDiaries = [
         year: 2025, month: 11,
         coverColor: "#5B3EA8",
         paperType: "grid",
-        preview: "한 해 동안 수고했다! 내년에도 잘 부탁해.",
         pages: {
             0: {
                 static: { 
@@ -227,7 +215,6 @@ const dummyDiaries = [
         year: 2024, month: 0,
         coverColor: "#A6E5FA",
         paperType: "blank",
-        preview: "강원도로 스키 타러 다녀왔다. 온몸이 쑤신다.",
         pages: { 0: { static: { leftEditor: "<p>눈이 엄청 많이 왔다.</p>", rightEditor: "" }, floating: [] } }
     },
     {
@@ -237,7 +224,6 @@ const dummyDiaries = [
         year: 2024, month: 2,
         coverColor: "#FFB7B2",
         paperType: "line",
-        preview: "후배들 챙기느라 정신 없었지만 재밌었다.",
         pages: { 0: { static: { leftEditor: "<p>장기자랑 준비하느라 고생했다.</p>", rightEditor: "" }, floating: [] } }
     },
     {
@@ -247,7 +233,6 @@ const dummyDiaries = [
         year: 2024, month: 4,
         coverColor: "#D32F2F",
         paperType: "blank",
-        preview: "장미꽃이랑 향수 받았다. 이제 진짜 어른인가?",
         pages: { 0: { static: { leftEditor: "<p>책임감이 느껴진다.</p>", rightEditor: "" }, floating: [] } }
     },
     {
@@ -257,7 +242,6 @@ const dummyDiaries = [
         year: 2024, month: 6,
         coverColor: "#8b7355",
         paperType: "grid",
-        preview: "카페 알바 첫 날. 레시피 외우기 너무 헷갈린다.",
         pages: { 0: { static: { leftEditor: "<p>아이스 아메리카노만 100잔 만든 듯.</p>", rightEditor: "" }, floating: [] } }
     },
     {
@@ -267,7 +251,6 @@ const dummyDiaries = [
         year: 2024, month: 8,
         coverColor: "#7c5cdb",
         paperType: "line",
-        preview: "공강 시간에 도서관에서 소설책을 읽었다.",
         pages: { 0: { static: { leftEditor: "<p>마음이 차분해지는 시간.</p>", rightEditor: "" }, floating: [] } }
     }
 ];

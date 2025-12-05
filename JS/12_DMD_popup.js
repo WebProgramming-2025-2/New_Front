@@ -135,35 +135,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     
     if (profileBtn && userInfoPopup) {
-        // [추가] 로그인 정보 확인 및 표시
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const avatarContainer = userInfoPopup.querySelector('.popup-avatar');
+        const headerAvatar = document.querySelector('.profile-btn .profile-avatar');
+        const cameraBadge = document.querySelector('.camera-badge');
+        const profileInput = document.getElementById('profileImageInput');
         
         if (currentUser) {
-            // 1. 이메일 변경
             const emailEl = document.querySelector('.popup-email');
             if (emailEl) emailEl.textContent = currentUser.email;
 
-            // 2. 이름 변경 ("안녕하세요, OOO님")
             const greetingEl = document.querySelector('.popup-greeting');
             if (greetingEl) greetingEl.textContent = `안녕하세요, ${currentUser.username}님`;
-        } else {
-            // (선택사항) 로그인 안 하고 들어왔으면 시작 페이지로 쫓아내기
-            // alert("로그인이 필요합니다.");
-            // window.location.href = '../12_DMD_startpage.html';
+
+            if (currentUser.profileImage) {
+                const imgTag = `<img src="${currentUser.profileImage}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                if (avatarContainer) avatarContainer.innerHTML = imgTag;
+                if (headerAvatar) headerAvatar.innerHTML = imgTag;
+            }
+        }
+
+        if (cameraBadge && profileInput) {
+            cameraBadge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileInput.click();
+            });
+        }
+
+        if (profileInput) {
+            profileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const newImageSrc = event.target.result;
+                        const newImgTag = `<img src="${newImageSrc}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+
+                        if (avatarContainer) avatarContainer.innerHTML = newImgTag;
+                        if (headerAvatar) headerAvatar.innerHTML = newImgTag;
+
+                        if (currentUser) {
+                            currentUser.profileImage = newImageSrc;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+                e.target.value = '';
+            });
         }
         
-        // 1) 프로필 버튼 클릭 시 토글
         profileBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             userInfoPopup.classList.toggle('active');
         });
 
-        // 2) 팝업 내부 클릭 시 닫힘 방지
         userInfoPopup.addEventListener('click', (e) => {
             e.stopPropagation();
         });
 
-        // 3) 닫기(X) 버튼 클릭 (오타 수정됨: closeBtn -> closeBtn2)
         if (closeBtn2) {
             closeBtn2.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -171,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 4) 화면 다른 곳 클릭 시 닫기
         document.addEventListener('click', () => {
             userInfoPopup.classList.remove('active');
         });

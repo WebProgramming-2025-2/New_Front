@@ -561,6 +561,7 @@ function saveCurrentPageData() {
 
 // 다이어리 페이지 로드
 function loadPageData(index) {
+    updatePageNum();
     document.querySelectorAll('.floating-object-container').forEach(el => el.remove());
     document.querySelectorAll('.editor-placeholder').forEach(el => {
         const qlEditor = el.querySelector('.ql-editor');
@@ -616,7 +617,6 @@ function loadPageData(index) {
             }
         }
     }
-    updatePageNum();
 }
 
 // 페이지 번호 안내
@@ -687,38 +687,72 @@ document.addEventListener('selectstart', (e) => {
     }
 });
 
-// 페이지 로드 시 저장된 데이터 불러오기
-window.addEventListener('load', () => {
-    loadPermanentData();
-    updatePageNum();
-});
-
 function saveDiaryPermanently() {
     saveCurrentPageData();
 
+    Object.keys(diaryPagesData).forEach(key => {
+        const page = diaryPagesData[key];
+        const hasFloating = page.floating && page.floating.length > 0;
+        let hasContent = false;
+
+        if (page.static) {
+            const left = page.static.leftEditor;
+            const right = page.static.rightEditor;
+            const emptyPattern = /^<p><br><\/p>$/;
+
+            const isLeftEmpty = !left || left.trim() === '' || emptyPattern.test(left);
+            const isRightEmpty = !right || right.trim() === '' || emptyPattern.test(right);
+
+            if (!isLeftEmpty || !isRightEmpty) {
+                hasContent = true;
+            }
+        }
+
+        if (!hasFloating && !hasContent) {
+            delete diaryPagesData[key];
+        }
+    });
+
     const titleInput = document.getElementById('diaryTitle');
     const diaryCover = document.getElementById('diaryCover');
-    
+    const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
+    const savedDiaries = savedData ? JSON.parse(savedData) : [];
+
     let currentId = localStorage.getItem('currentDiaryId');
-    if (!currentId) {
-        currentId = Date.now();
+    let existingDiary = null;
+
+    if (currentId) {
+        existingDiary = savedDiaries.find(d => d.id == currentId);
+    } else {
+        currentId = Date.now(); // 새 다이어리라면 ID 생성
     }
 
-    const today = new Date();
-    
+    let finalDate, finalYear, finalMonth, finalPaper;
+
+    if (existingDiary) {
+        finalDate = existingDiary.date;
+        finalYear = existingDiary.year;
+        finalMonth = existingDiary.month;
+        finalPaper = existingDiary.paperType; // 기존 속지 타입 유지
+    } else {
+        const today = new Date();
+        finalDate = today.toISOString().split('T')[0];
+        finalYear = today.getFullYear();
+        finalMonth = today.getMonth();
+        finalPaper = 'line'; // 새 글일 경우 기본값 (필요시 로직 추가 가능)
+    }
+
     const diaryData = {
         id: Number(currentId),
         title: titleInput.value || "제목 없음",
-        date: today.toISOString().split('T')[0],
-        year: today.getFullYear(),
-        month: today.getMonth(),
+        date: finalDate,   // 결정된 날짜 사용
+        year: finalYear,   // 결정된 연도 사용
+        month: finalMonth, // 결정된 월 사용
         coverColor: diaryCover.style.background || '#9D75FF',
-        paperType: 'line', 
+        paperType: finalPaper, 
         pages: diaryPagesData
     };
 
-    const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
-    const savedDiaries = savedData ? JSON.parse(savedData) : [];
     const existingIndex = savedDiaries.findIndex(d => d.id == currentId);
 
     if (existingIndex > -1) {
@@ -728,34 +762,9 @@ function saveDiaryPermanently() {
     }
 
     localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(savedDiaries));
-    
     localStorage.removeItem('currentDiaryId');
     localStorage.removeItem('currentDiarySettings');
-
     window.location.href = '12_DMD_homepopup.html';
-}
-
-// 영구 저장된 데이터 불러오기 함수 추가
-function loadPermanentData() {
-    try {
-        const titleDisplay = document.getElementById('diaryTitle');
-        if (titleDisplay) {
-            const savedTitle = localStorage.getItem(DIARY_TITLE_KEY) || diaryTitle;
-            titleDisplay.textContent = savedTitle;
-            if (urlParams.get('title')) {
-                localStorage.setItem(DIARY_TITLE_KEY, diaryTitle);
-            }
-        }
-
-        const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
-        if (savedData) {
-            diaryPagesData = JSON.parse(savedData);
-            loadPageData(0);
-        }
-        updatePageNum();
-    } catch (e) {
-        console.error('불러오기 실패:', e);
-    }
 }
 
 // 페이지 넘김 버튼 함수
@@ -822,6 +831,7 @@ window.addEventListener('load', () => {
         
     } else if (newSettings) {
         // [CASE B] 새 다이어리 생성 모드
+        diaryPagesData = {};
         const settings = JSON.parse(newSettings);
         
         document.getElementById('diaryTitle').value = settings.title;
@@ -835,4 +845,5 @@ window.addEventListener('load', () => {
         // Settings는 한 번 쓰고 지움
         localStorage.removeItem('currentDiarySettings');
     }
+    updatePageNum();
 });

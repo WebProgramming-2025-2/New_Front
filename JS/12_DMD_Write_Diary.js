@@ -131,7 +131,6 @@ function insertListAtCursor(type) {
 
 
 // 다이어리 스타일
-// 🚨색 수정해야됨🚨
 const urlParams = new URLSearchParams(window.location.search);
 const coverStyle = urlParams.get('cover') || 'default';
 const pageStyle = urlParams.get('page') || 'default';
@@ -145,7 +144,7 @@ function applyCoverStyle(style) {
         'blue': 'linear-gradient(135deg, #5a7a9e 0%, #425a6b 100%)',
         'pink': 'linear-gradient(135deg, #d47a9e 0%, #b85a7a 100%)'
     };
-    if(cover) cover.style.background = coverStyles[style] || coverStyles['default'];
+    if(cover) cover.style.background = coverStyles[style] || style;
 }
 
 function applyPageStyle(style) {
@@ -560,6 +559,7 @@ function saveCurrentPageData() {
 
 // 다이어리 페이지 로드
 function loadPageData(index) {
+    updatePageNum();
     document.querySelectorAll('.floating-object-container').forEach(el => el.remove());
     document.querySelectorAll('.editor-placeholder').forEach(el => {
         const qlEditor = el.querySelector('.ql-editor');
@@ -615,7 +615,6 @@ function loadPageData(index) {
             }
         }
     }
-    updatePageNum();
 }
 
 // 페이지 번호 안내
@@ -686,47 +685,84 @@ document.addEventListener('selectstart', (e) => {
     }
 });
 
-// 페이지 로드 시 저장된 데이터 불러오기
-window.addEventListener('load', () => {
-    loadPermanentData();
-    updatePageNum();
-});
-
-// 영구 저장 함수 추가
 function saveDiaryPermanently() {
     saveCurrentPageData();
-    
-    try {
-        localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(diaryPagesData));
-        showToast('저장했습니다.'); 
 
-    } catch (e) {
-        console.error('저장 실패:', e);
-        showToast('저장에 실패했습니다.'); 
-    }
-}
+    Object.keys(diaryPagesData).forEach(key => {
+        const page = diaryPagesData[key];
+        const hasFloating = page.floating && page.floating.length > 0;
+        let hasContent = false;
 
-// 영구 저장된 데이터 불러오기 함수 추가
-function loadPermanentData() {
-    try {
-        const titleDisplay = document.getElementById('diaryTitle');
-        if (titleDisplay) {
-            const savedTitle = localStorage.getItem(DIARY_TITLE_KEY) || diaryTitle;
-            titleDisplay.textContent = savedTitle;
-            if (urlParams.get('title')) {
-                localStorage.setItem(DIARY_TITLE_KEY, diaryTitle);
+        if (page.static) {
+            const left = page.static.leftEditor;
+            const right = page.static.rightEditor;
+            const emptyPattern = /^<p><br><\/p>$/;
+
+            const isLeftEmpty = !left || left.trim() === '' || emptyPattern.test(left);
+            const isRightEmpty = !right || right.trim() === '' || emptyPattern.test(right);
+
+            if (!isLeftEmpty || !isRightEmpty) {
+                hasContent = true;
             }
         }
 
-        const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
-        if (savedData) {
-            diaryPagesData = JSON.parse(savedData);
-            loadPageData(0);
+        if (!hasFloating && !hasContent) {
+            delete diaryPagesData[key];
         }
-        updatePageNum();
-    } catch (e) {
-        console.error('불러오기 실패:', e);
+    });
+
+    const titleInput = document.getElementById('diaryTitle');
+    const diaryCover = document.getElementById('diaryCover');
+    const savedData = localStorage.getItem(DIARY_STORAGE_KEY);
+    const savedDiaries = savedData ? JSON.parse(savedData) : [];
+
+    let currentId = localStorage.getItem('currentDiaryId');
+    let existingDiary = null;
+
+    if (currentId) {
+        existingDiary = savedDiaries.find(d => d.id == currentId);
+    } else {
+        currentId = Date.now(); // 새 다이어리라면 ID 생성
     }
+
+    let finalDate, finalYear, finalMonth, finalPaper;
+
+    if (existingDiary) {
+        finalDate = existingDiary.date;
+        finalYear = existingDiary.year;
+        finalMonth = existingDiary.month;
+        finalPaper = existingDiary.paperType; // 기존 속지 타입 유지
+    } else {
+        const today = new Date();
+        finalDate = today.toISOString().split('T')[0];
+        finalYear = today.getFullYear();
+        finalMonth = today.getMonth();
+        finalPaper = 'line'; // 새 글일 경우 기본값 (필요시 로직 추가 가능)
+    }
+
+    const diaryData = {
+        id: Number(currentId),
+        title: titleInput.value || "제목 없음",
+        date: finalDate,   // 결정된 날짜 사용
+        year: finalYear,   // 결정된 연도 사용
+        month: finalMonth, // 결정된 월 사용
+        coverColor: diaryCover.style.background || '#9D75FF',
+        paperType: finalPaper, 
+        pages: diaryPagesData
+    };
+
+    const existingIndex = savedDiaries.findIndex(d => d.id == currentId);
+
+    if (existingIndex > -1) {
+        savedDiaries[existingIndex] = diaryData;
+    } else {
+        savedDiaries.push(diaryData);
+    }
+
+    localStorage.setItem(DIARY_STORAGE_KEY, JSON.stringify(savedDiaries));
+    localStorage.removeItem('currentDiaryId');
+    localStorage.removeItem('currentDiarySettings');
+    window.location.href = '12_DMD_home.html';
 }
 
 // 페이지 넘김 버튼 함수
@@ -758,4 +794,44 @@ function showToast(message) {
     }, 3000);
 }
 
-// 스티커 드래그 앤 드롭
+
+
+//페이지 로드 시 데이터 연결 로직
+window.addEventListener('load', () => {
+    // 1. 방금 생성해서 들어온 경우
+    const newSettings = localStorage.getItem('currentDiarySettings');
+    // 2. 홈에서 클릭해서 들어온 경우
+    const targetId = localStorage.getItem('currentDiaryId');
+    // 3. 전체 데이터 가져오기
+    const allDiaries = JSON.parse(localStorage.getItem('diary_permanent_data')) || [];
+
+    if (targetId) {
+        const diary = allDiaries.find(d => d.id == targetId);
+        if (diary) {
+            document.getElementById('diaryTitle').value = diary.title;
+            applyCoverStyle(diary.coverColor);
+            
+            let pStyle = 'default';
+            if (diary.paperType === 'line') pStyle = 'lined';
+            if (diary.paperType === 'grid') pStyle = 'grid';
+            applyPageStyle(pStyle);
+            if (diary.pages) {
+                diaryPagesData = diary.pages;
+                loadPageData(0);
+            }
+        }
+    } else if (newSettings) {
+        diaryPagesData = {};
+        const settings = JSON.parse(newSettings);
+        
+        document.getElementById('diaryTitle').value = settings.title;
+        applyCoverStyle(settings.coverColor);
+        
+        let pStyle = 'default';
+        if (settings.paperType === 'line') pStyle = 'lined';
+        if (settings.paperType === 'grid') pStyle = 'grid';
+        applyPageStyle(pStyle);
+        localStorage.removeItem('currentDiarySettings');
+    }
+    updatePageNum();
+});
